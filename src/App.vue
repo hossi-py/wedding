@@ -5,13 +5,13 @@
       <p class="main-title">결혼합니다</p>
       <page-separator></page-separator>
       <div class="names">
-        <p class="name">유라</p>
+        <p class="name">태환</p>
         <div class="date">
           MM
           <hr class="hr" />
           DD
         </div>
-        <p class="name">태환</p>
+        <p class="name">유라</p>
       </div>
     </div>
   </div>
