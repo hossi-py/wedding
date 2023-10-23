@@ -1,18 +1,17 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+  <falling-leaf></falling-leaf>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component'
-import HelloWorld from './components/HelloWorld.vue'
+import { defineComponent } from 'vue';
+import { FallingLeaf } from '@/components';
 
-@Options({
+export default defineComponent({
+  name: 'App',
   components: {
-    HelloWorld,
+    FallingLeaf,
   },
-})
-export default class App extends Vue {}
+});
 </script>
 
 <style>
@@ -24,4 +23,8 @@ export default class App extends Vue {}
   color: #2c3e50;
   margin-top: 60px;
 }
+</style>
+
+<style scoped>
+@import '@/assets/styles/base.css';
 </style>

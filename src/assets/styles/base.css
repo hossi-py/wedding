@@ -1,0 +1,18 @@
+/* Mobile styles */
+body {
+  font-size: 16px;
+}
+
+/* Tablet styles */
+@media (min-width: 768px) {
+  body {
+    font-size: 18px;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  body {
+    font-size: 20px;
+  }
+}
