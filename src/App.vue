@@ -34,16 +34,39 @@ export default defineComponent({
 </script>
 
 <style>
+@font-face {
+  font-family: 'KCCChassam';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/KCCChassam.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'yg-jalnan';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HakgyoansimWoojuR';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/HakgyoansimWoojuR.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body,
 html {
   height: 100%;
+  background-color: #fffaf0;
   margin: 0;
 }
 #app {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  background-color: #fffaf0;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -54,14 +77,6 @@ html {
 
 <style scoped>
 @import '@/assets/styles/base.css';
-
-@font-face {
-  font-family: 'KCCChassam';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/KCCChassam.woff2')
-    format('woff2');
-  font-weight: normal;
-  font-style: normal;
-}
 
 .introduce {
   display: flex;

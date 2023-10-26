@@ -165,14 +165,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-@font-face {
-  font-family: 'HakgyoansimWoojuR';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/HakgyoansimWoojuR.woff2')
-    format('woff2');
-  font-weight: normal;
-  font-style: normal;
-}
-
 .select-box {
   max-width: 180px;
   position: relative;
