@@ -2,10 +2,10 @@
   <div id="app">
     <falling-leaf></falling-leaf>
     <div class="introduce">
-      <p class="main-title"></p>
+      <p class="main-title">결혼합니다</p>
       <page-separator></page-separator>
       <!-- TODO 컴포넌트 화 -->
-      <!-- <div class="names">
+      <div class="names">
         <p class="name">태환</p>
         <div class="date">
           MM
@@ -13,8 +13,9 @@
           DD
         </div>
         <p class="name">유라</p>
-      </div> -->
+      </div>
     </div>
+    <page-separator></page-separator>
     <photo-gallery></photo-gallery>
   </div>
 </template>
@@ -61,7 +62,7 @@ export default defineComponent({
 body,
 html {
   height: 100%;
-  background-color: #fffaf0;
+  background-color: #fffdf9;
   margin: 0;
 }
 #app {
@@ -96,6 +97,7 @@ html {
   display: flex;
   gap: 4rem;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .date {

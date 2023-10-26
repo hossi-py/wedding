@@ -34,7 +34,7 @@
             :key="imgName"
           >
             <div class="image">
-              <img :src="`/wedding/gallery/${imgName}.png`" alt="Image" />
+              <img v-lazy="`/wedding/gallery/${imgName}.png`" alt="Image" />
             </div>
             <div class="arch"></div>
           </div>
@@ -165,7 +165,6 @@ p {
           content: '';
           width: 2px;
           height: 360px;
-          background-color: #fffaf0;
           z-index: 11;
         }
         &:after {
@@ -176,7 +175,6 @@ p {
           content: '';
           width: 2px;
           height: 360px;
-          background-color: #fffaf0;
           z-index: 11;
         }
 
