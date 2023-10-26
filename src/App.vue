@@ -1,27 +1,31 @@
 <template>
-  <div id="app">
-    <falling-leaf></falling-leaf>
-    <div class="introduce">
-      <p class="main-title">결혼합니다</p>
-      <page-separator></page-separator>
-      <!-- TODO 컴포넌트 화 -->
-      <div class="names">
-        <p class="name">태환</p>
-        <div class="date">
-          MM
-          <hr class="hr" />
-          DD
+  <transition name="fade" mode="out-in">
+    <div v-if="loaded">
+      <div id="app">
+        <falling-leaf></falling-leaf>
+        <div class="introduce">
+          <p class="main-title">결혼합니다</p>
+          <page-separator></page-separator>
+          <!-- TODO 컴포넌트 화 -->
+          <div class="names">
+            <p class="name">태환</p>
+            <div class="date">
+              MM
+              <hr class="hr" />
+              DD
+            </div>
+            <p class="name">유라</p>
+          </div>
         </div>
-        <p class="name">유라</p>
+        <page-separator></page-separator>
+        <photo-gallery></photo-gallery>
       </div>
     </div>
-    <page-separator></page-separator>
-    <photo-gallery></photo-gallery>
-  </div>
+  </transition>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import { FallingLeaf, PageSeparator, PhotoGallery } from '@/components';
 
 export default defineComponent({
@@ -30,6 +34,19 @@ export default defineComponent({
     FallingLeaf,
     PageSeparator,
     PhotoGallery,
+  },
+  setup() {
+    const loaded = ref(false);
+
+    onMounted(() => {
+      setTimeout(() => {
+        loaded.value = true;
+      }, 100);
+    });
+
+    return {
+      loaded,
+    };
   },
 });
 </script>
@@ -78,6 +95,19 @@ html {
 
 <style scoped>
 @import '@/assets/styles/base.css';
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 3s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 3;
+}
 
 .introduce {
   display: flex;
