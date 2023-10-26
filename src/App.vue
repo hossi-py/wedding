@@ -2,9 +2,10 @@
   <div id="app">
     <falling-leaf></falling-leaf>
     <div class="introduce">
-      <p class="main-title">결혼합니다</p>
+      <p class="main-title"></p>
       <page-separator></page-separator>
-      <div class="names">
+      <!-- TODO 컴포넌트 화 -->
+      <!-- <div class="names">
         <p class="name">태환</p>
         <div class="date">
           MM
@@ -12,20 +13,22 @@
           DD
         </div>
         <p class="name">유라</p>
-      </div>
+      </div> -->
     </div>
+    <photo-gallery></photo-gallery>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { FallingLeaf, PageSeparator } from '@/components';
+import { FallingLeaf, PageSeparator, PhotoGallery } from '@/components';
 
 export default defineComponent({
   name: 'App',
   components: {
-    PageSeparator,
     FallingLeaf,
+    PageSeparator,
+    PhotoGallery,
   },
 });
 </script>
@@ -46,7 +49,6 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
 
