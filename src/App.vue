@@ -1,57 +1,86 @@
 <template>
-  <transition name="fade" mode="out-in">
-    <div v-if="loaded">
-      <div id="app">
-        <falling-leaf></falling-leaf>
-        <div class="introduce">
-          <p class="main-title">결혼합니다</p>
-          <page-separator></page-separator>
-          <!-- TODO 컴포넌트 화 -->
-          <div class="names">
-            <p class="name">태환</p>
-            <div class="date">
-              MM
-              <hr class="hr" />
-              DD
-            </div>
-            <p class="name">유라</p>
-          </div>
-        </div>
-        <page-separator></page-separator>
-        <photo-gallery></photo-gallery>
-      </div>
-    </div>
-  </transition>
+  <falling-leaf></falling-leaf>
+  <div id="app" :class="{ 'fade-enter': !isLoaded }">
+    <main-contents></main-contents>
+    <main-introduce></main-introduce>
+    <!-- <photo-gallery></photo-gallery> -->
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import { FallingLeaf, PageSeparator, PhotoGallery } from '@/components';
+import {
+  FallingLeaf,
+  // PhotoGallery,
+  MainContents,
+  MainIntroduce,
+} from '@/components';
 
 export default defineComponent({
   name: 'App',
   components: {
     FallingLeaf,
-    PageSeparator,
-    PhotoGallery,
+    // PhotoGallery,
+    MainContents,
+    MainIntroduce,
   },
   setup() {
-    const loaded = ref(false);
+    const isLoaded = ref(false);
 
     onMounted(() => {
       setTimeout(() => {
-        loaded.value = true;
-      }, 100);
+        isLoaded.value = true;
+      }, 2000);
     });
 
-    return {
-      loaded,
-    };
+    return { isLoaded };
   },
 });
 </script>
 
 <style>
+@import '@/assets/styles/base.css';
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fillFromLeft {
+  from {
+    background-size: 0% 100%;
+  }
+  to {
+    background-size: 100% 100%;
+  }
+}
+
+@keyframes fillFromRight {
+  from {
+    background-size: 100% 100%;
+  }
+  to {
+    background-size: 0% 100%;
+  }
+}
+
+.fade-enter {
+  animation: fadeIn 3s forwards;
+}
+
 @font-face {
   font-family: 'KCCChassam';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/KCCChassam.woff2')
@@ -76,70 +105,29 @@ export default defineComponent({
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'SUIT-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body,
 html {
   height: 100%;
   background-color: #fffdf9;
   margin: 0;
+  margin-bottom: 16px;
 }
 #app {
   display: flex;
   flex-direction: column;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'SUIT-Regular';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-</style>
-
-<style scoped>
-@import '@/assets/styles/base.css';
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 3s;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-.fade-enter-to,
-.fade-leave-from {
-  opacity: 3;
-}
-
-.introduce {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.introduce .main-title {
-  font-family: 'KCCChassam';
-  font-size: 38px;
-  margin-bottom: 1rem;
-  letter-spacing: 5px;
-}
-
-.names {
-  font-family: 'KCCChassam';
-  display: flex;
-  gap: 4rem;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.date {
-  font-size: 25px;
-}
-
-.name {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  text-align: center;
-  font-size: 26px;
+  margin-bottom: 36px;
 }
 </style>
