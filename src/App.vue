@@ -111,6 +111,30 @@ export default defineComponent({
   }
 }
 
+@keyframes flipIn {
+  0% {
+    transform: rotateX(-90deg);
+  }
+  50% {
+    transform: rotateX(-45deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes flipOut {
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(45deg);
+  }
+  100% {
+    transform: rotateX(90deg);
+  }
+}
+
 .fade-enter {
   animation: fadeIn 3s forwards;
 }

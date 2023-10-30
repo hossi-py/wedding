@@ -60,7 +60,7 @@ export default defineComponent({
 
       .groom,
       .bride {
-        font-size: 1.2rem;
+        font-size: 1rem;
         font-weight: 600;
         letter-spacing: 5px;
       }
@@ -81,7 +81,7 @@ export default defineComponent({
 
       .wedding-time,
       .wedding-place {
-        font-size: 0.85rem;
+        font-size: 0.75rem;
         font-weight: 600;
         letter-spacing: 2px;
       }

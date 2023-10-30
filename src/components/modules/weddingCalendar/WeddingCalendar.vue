@@ -57,61 +57,28 @@
 
     <div class="footer">예식까지 시간 남은 시간</div>
 
-    <div class="countdown">
-      <div class="time-unit">
-        <span class="label">DAY</span>
-        <div
-          class="number"
-          v-for="(digit, index) in splitNumber(daysLeft)"
-          :key="index"
-        >
-          <transition :name="'flip-transition-' + index" mode="out-in">
-            <div class="digit" :key="digit">
-              {{ digit }}
-            </div>
-          </transition>
+    <div class="countdown-wrapper">
+      <div class="wedding-countdown">
+        <div class="countdown-label">
+          <div class="label">DAY</div>
+          <div class="label">HOUR</div>
+          <div class="label">MIN</div>
+          <div class="label">SEC</div>
         </div>
-      </div>
-      <div class="time-unit">
-        <span class="label">HOUR</span>
-        <div
-          class="number"
-          v-for="(digit, index) in splitNumber(hoursLeft)"
-          :key="index"
-        >
-          <transition :name="'flip-transition-' + index" mode="out-in">
-            <div class="digit" :key="digit">
-              {{ digit }}
+        <div class="countdown-number">
+          <div
+            class="time-unit"
+            v-for="(timeUnit, timeKey) in timeUnits"
+            :key="timeKey"
+          >
+            <div v-for="(digit, index) in splitNumber(timeUnit)" :key="index">
+              <transition :name="'flip-transition-' + index" mode="out-in">
+                <div class="digit" :key="digit">
+                  {{ digit }}
+                </div>
+              </transition>
             </div>
-          </transition>
-        </div>
-      </div>
-      <div class="time-unit">
-        <span class="label">MIN</span>
-        <div
-          class="number"
-          v-for="(digit, index) in splitNumber(minutesLeft)"
-          :key="index"
-        >
-          <transition :name="'flip-transition-' + index" mode="out-in">
-            <div class="digit" :key="digit">
-              {{ digit }}
-            </div>
-          </transition>
-        </div>
-      </div>
-      <div class="time-unit">
-        <span class="label">SEC</span>
-        <div
-          class="number"
-          v-for="(digit, index) in splitNumber(secondsLeft)"
-          :key="index"
-        >
-          <transition :name="'flip-transition-' + index" mode="out-in">
-            <div class="digit" :key="digit">
-              {{ digit }}
-            </div>
-          </transition>
+          </div>
         </div>
       </div>
     </div>
@@ -119,7 +86,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
+import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue';
 
 export default defineComponent({
   name: 'WeddingCountdown',
@@ -133,8 +100,21 @@ export default defineComponent({
     const targetDate = new Date(2024, 1, 3, 18, 0, 0);
 
     const splitNumber = (number: number) => {
-      return Array.from(String(number)).map(Number);
+      let str = String(number);
+      if (number < 10) {
+        str = '0' + str;
+      }
+      return Array.from(str).map(Number);
     };
+
+    const timeUnits = computed(() => {
+      return {
+        days: daysLeft.value,
+        hours: hoursLeft.value,
+        minutes: minutesLeft.value,
+        seconds: secondsLeft.value,
+      };
+    });
 
     const updateCountdown = () => {
       const now = new Date();
@@ -168,6 +148,7 @@ export default defineComponent({
       minutesLeft,
       secondsLeft,
       splitNumber,
+      timeUnits,
     };
   },
 });
@@ -178,7 +159,7 @@ export default defineComponent({
   margin-top: 80px;
 
   .header {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 600;
     margin-bottom: 20px;
   }
@@ -210,13 +191,13 @@ export default defineComponent({
 
   .full-date {
     margin: 20px 0;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     line-height: 25px;
     font-weight: 600;
   }
 
   .calendar {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     padding: 20px;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -237,7 +218,7 @@ export default defineComponent({
     position: relative;
     display: inline-block;
     text-align: center;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 800;
     z-index: 2;
   }
@@ -258,27 +239,42 @@ export default defineComponent({
     color: #ff6b6b;
   }
 
-  .countdown {
+  .countdown-wrapper {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    align-items: center;
 
-    .time-unit {
-      display: -webkit-box;
-      flex-direction: column;
-      align-items: center;
+    .wedding-countdown {
+      width: 50%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
 
-      .number {
-        font-size: 1rem;
-        font-weight: bold;
-        margin-bottom: 5px;
+      .countdown-label,
+      .countdown-number {
+        display: contents;
       }
 
-      .label {
-        padding-top: 20px;
-        padding-bottom: 5px;
-        font-size: 0.6rem;
-        font-weight: 600;
+      .countdown-label {
+        .label {
+          padding-top: 20px;
+          padding-bottom: 5px;
+          font-size: 0.5rem;
+          font-weight: 600;
+        }
+      }
+
+      .countdown-number {
+        .time-unit {
+          display: flex;
+          justify-content: center;
+
+          .digit {
+            color: #4e4c4b;
+            font-size: 0.9rem;
+            font-weight: 600;
+            min-width: 12.5px;
+          }
+        }
       }
     }
   }
@@ -290,22 +286,6 @@ export default defineComponent({
   }
 }
 
-.number {
-  display: flex;
-  perspective: 400px;
-  overflow: hidden;
-  position: relative;
-
-  .digit {
-    display: block;
-    transform-origin: 50% 100%;
-    position: relative;
-    backface-visibility: hidden;
-    transform-style: preserve-3d;
-    margin: 0;
-  }
-}
-
 .flip-transition-0-enter-active,
 .flip-transition-1-enter-active,
 .flip-transition-0-leave-active,
@@ -313,6 +293,7 @@ export default defineComponent({
   animation-duration: 0.6s;
   transform-origin: 50% 100%;
   backface-visibility: hidden;
+  animation-timing-function: ease-in-out;
 }
 
 .flip-transition-0-enter,
@@ -325,23 +306,5 @@ export default defineComponent({
 .flip-transition-1-leave-to {
   animation-name: flipOut;
   animation-timing-function: ease-in;
-}
-
-@keyframes flipIn {
-  from {
-    transform: rotateX(-90deg);
-  }
-  to {
-    transform: rotateX(0deg);
-  }
-}
-
-@keyframes flipOut {
-  from {
-    transform: rotateX(0deg);
-  }
-  to {
-    transform: rotateX(90deg);
-  }
 }
 </style>

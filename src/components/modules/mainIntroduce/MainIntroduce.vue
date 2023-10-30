@@ -48,6 +48,8 @@
           <div
             class="call-book"
             :class="{ fadeIn: showCallBook, fadeOut: !showCallBook }"
+            ref="callBookRef"
+            @click.stop
           >
             <div class="call-book-contents">
               <div class="title">연락하기</div>
@@ -71,7 +73,11 @@
               </div>
             </div>
           </div>
-          <div class="call" @click="handleOnClick" :data-active="showCallBook">
+          <div
+            class="call"
+            @click="handleOnClick($event)"
+            :data-active="showCallBook"
+          >
             <div v-if="!showCallBook" class="call-contents">
               <span><img src="~@/assets/images/phone.png" /></span>
               <span class="text">연락하기</span>
@@ -88,7 +94,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs } from 'vue';
+import {
+  defineComponent,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
+  toRefs,
+} from 'vue';
 
 export default defineComponent({
   setup() {
@@ -112,14 +125,34 @@ export default defineComponent({
     });
 
     const showCallBook = ref(false);
+    const callBookRef = ref<HTMLElement | null>(null);
 
-    const handleOnClick = () => {
+    const handleOnClick = (event: Event) => {
+      event.stopPropagation();
       showCallBook.value = !showCallBook.value;
     };
+
+    const handleOutsideClick = (event: Event) => {
+      if (
+        callBookRef.value &&
+        !callBookRef.value.contains(event.target as Node)
+      ) {
+        showCallBook.value = false;
+      }
+    };
+
+    onMounted(() => {
+      document.addEventListener('click', handleOutsideClick);
+    });
+
+    onBeforeUnmount(() => {
+      document.removeEventListener('click', handleOutsideClick);
+    });
 
     return {
       ...toRefs(state),
       showCallBook,
+      callBookRef,
       handleOnClick,
     };
   },
@@ -151,13 +184,13 @@ export default defineComponent({
 
   .introduce-wrapper {
     p {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
     font-weight: 500;
     .section {
       margin-top: 50px;
       .family {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         padding-top: 10px;
         display: flex;
         justify-content: center;
@@ -175,7 +208,7 @@ export default defineComponent({
 
       .sub {
         margin-left: 5px;
-        font-size: 0.8rem;
+        font-size: 0.7rem;
       }
 
       .couple-info {
@@ -221,7 +254,7 @@ export default defineComponent({
             border-bottom-left-radius: 5px;
             border-bottom-right-radius: 5px;
             padding-top: 20px;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
 
             .content-items {
               display: flex;
@@ -287,7 +320,7 @@ export default defineComponent({
         }
 
         .text {
-          font-size: 0.9rem;
+          font-size: 0.8rem;
         }
         .back {
           // color: #fff;
