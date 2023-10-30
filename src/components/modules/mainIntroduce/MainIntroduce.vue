@@ -46,7 +46,6 @@
       <div>
         <div class="section call-wrapper">
           <div
-            v-if="showCallBook"
             class="call-book"
             :class="{ fadeIn: showCallBook, fadeOut: !showCallBook }"
           >
@@ -92,7 +91,7 @@
 import { defineComponent, reactive, ref, toRefs } from 'vue';
 
 export default defineComponent({
-  setup(props, { emit }) {
+  setup() {
     const state = reactive({
       callBookItems: [
         {
@@ -116,12 +115,6 @@ export default defineComponent({
 
     const handleOnClick = () => {
       showCallBook.value = !showCallBook.value;
-
-      if (showCallBook.value) {
-        emit('change-bg-color', 'rgba(0, 0, 0, 0.7)');
-      } else {
-        emit('change-bg-color', '#fffdf9');
-      }
     };
 
     return {
@@ -133,7 +126,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .fadeIn {
   animation: fadeIn 1s forwards;
 }
@@ -141,9 +134,7 @@ export default defineComponent({
 .fadeOut {
   animation: fadeOut 1s forwards;
 }
-</style>
 
-<style lang="scss" scoped>
 .main-introduce-container {
   .introduce-title {
     font-family: 'KCCChassam';
@@ -199,8 +190,82 @@ export default defineComponent({
           height: 35px;
         }
       }
+    }
+    .call-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
 
+      .call-book {
+        z-index: 100;
+        position: absolute;
+        width: 90%;
+        bottom: 80px;
+
+        .call-book-contents {
+          height: 420px;
+          border-radius: 5px;
+          background-color: #fffdf9;
+
+          .title {
+            padding: 10px 0;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            background-color: rgba(255, 165, 0, 0.5);
+          }
+
+          .content {
+            border-left: 1px solid rgba(255, 165, 0, 0.5);
+            border-right: 1px solid rgba(255, 165, 0, 0.5);
+            border-bottom: 1px solid rgba(255, 165, 0, 0.5);
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            padding-top: 20px;
+            font-size: 1.1rem;
+
+            .content-items {
+              display: flex;
+              align-items: center;
+              margin-bottom: 25px;
+
+              .role {
+                flex: 1 1 0%;
+              }
+
+              .name {
+                flex: 0.5 1 0%;
+              }
+
+              .image {
+                z-index: 100;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex: 0.8 1 0%;
+
+                .img-wrapper {
+                  margin-left: 20px;
+                  width: 30px;
+                  height: 30px;
+                  border-radius: 15px;
+                  background-color: rgba(255, 165, 0, 0.5);
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+
+                  img {
+                    width: 15px;
+                    height: 15px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
       .call {
+        position: relative;
+        z-index: 100;
         background-image: linear-gradient(
           to right,
           rgba(255, 165, 0, 0.5),
@@ -241,77 +306,6 @@ export default defineComponent({
       .call[data-active='false'] {
         animation: fillFromRight 1s forwards;
       }
-    }
-    .call-book {
-      position: absolute;
-      width: 90%;
-      bottom: 80px;
-
-      .call-book-contents {
-        z-index: 10;
-        height: 420px;
-        border-radius: 5px;
-        background-color: #fffdf9;
-
-        .title {
-          padding: 10px 0;
-          border-top-left-radius: 5px;
-          border-top-right-radius: 5px;
-          background-color: rgba(255, 165, 0, 0.5);
-        }
-
-        .content {
-          border-left: 1px solid rgba(255, 165, 0, 0.5);
-          border-right: 1px solid rgba(255, 165, 0, 0.5);
-          border-bottom: 1px solid rgba(255, 165, 0, 0.5);
-          border-bottom-left-radius: 5px;
-          border-bottom-right-radius: 5px;
-          padding-top: 20px;
-          font-size: 1.1rem;
-
-          .content-items {
-            display: flex;
-            align-items: center;
-            margin-bottom: 25px;
-
-            .role {
-              flex: 1 1 0%;
-            }
-
-            .name {
-              flex: 0.5 1 0%;
-            }
-
-            .image {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              flex: 0.8 1 0%;
-
-              .img-wrapper {
-                margin-left: 20px;
-                width: 30px;
-                height: 30px;
-                border-radius: 15px;
-                background-color: rgba(255, 165, 0, 0.5);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                img {
-                  width: 15px;
-                  height: 15px;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    .call-wrapper {
-      position: relative;
-      display: flex;
-      justify-content: center;
     }
   }
 }

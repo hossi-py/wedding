@@ -45,7 +45,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .flower-leaf {
-  z-index: 1000;
+  z-index: 10;
   left: var(--left-position);
   -webkit-animation-delay: var(--fall-delay), var(--shake-delay);
   animation-delay: var(--fall-delay), var(--shake-delay);

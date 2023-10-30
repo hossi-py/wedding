@@ -245,7 +245,6 @@ p {
   font-family: 'HakgyoansimWoojuR';
   font-weight: bolder;
   font-size: 15px;
-  animation: fadeInOut 1.5s infinite;
   text-align: end;
   margin-right: 15px;
 }
