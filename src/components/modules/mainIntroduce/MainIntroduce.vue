@@ -262,7 +262,7 @@ export default defineComponent({
               margin-bottom: 25px;
 
               .role {
-                flex: 1 1 0%;
+                flex: 0.6 1 0%;
               }
 
               .name {

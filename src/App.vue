@@ -30,7 +30,7 @@ export default defineComponent({
     onMounted(() => {
       setTimeout(() => {
         isLoaded.value = true;
-      }, 2000);
+      }, 3000);
     });
 
     return { isLoaded };
@@ -114,12 +114,39 @@ export default defineComponent({
 @keyframes flipIn {
   0% {
     transform: rotateX(-90deg);
+    opacity: 0;
+  }
+  10% {
+    transform: rotateX(-80deg);
+    opacity: 0.2;
+  }
+  20% {
+    transform: rotateX(-70deg);
+    opacity: 0.3;
+  }
+  30% {
+    transform: rotateX(-60deg);
+    opacity: 0.7;
+  }
+  40% {
+    transform: rotateX(-50deg);
+    opacity: 0.8;
   }
   50% {
     transform: rotateX(-45deg);
+    opacity: 0.9;
+  }
+  60% {
+    transform: rotateX(-30deg);
+    opacity: 0.95;
+  }
+  70% {
+    transform: rotateX(-15deg);
+    opacity: 0.98;
   }
   100% {
     transform: rotateX(0deg);
+    opacity: 1;
   }
 }
 
@@ -127,11 +154,28 @@ export default defineComponent({
   0% {
     transform: rotateX(0deg);
   }
-  50% {
-    transform: rotateX(45deg);
+  10% {
+    transform: rotateX(10deg);
   }
-  100% {
-    transform: rotateX(90deg);
+  20% {
+    transform: rotateX(20deg);
+  }
+  30% {
+    transform: rotateX(30deg);
+  }
+  40% {
+    transform: rotateX(40deg);
+  }
+  50% {
+    transform: rotateX(50deg);
+  }
+  60% {
+    transform: rotateX(60deg);
+    opacity: 0.3;
+  }
+  70% {
+    transform: rotateX(75deg);
+    opacity: 0.2;
   }
 }
 

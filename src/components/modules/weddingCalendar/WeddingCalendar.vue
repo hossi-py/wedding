@@ -298,7 +298,7 @@ export default defineComponent({
 
 .flip-transition-0-enter,
 .flip-transition-1-enter {
-  animation-name: flipIn;
+  animation: flipIn 1s;
   animation-timing-function: ease-out;
 }
 
