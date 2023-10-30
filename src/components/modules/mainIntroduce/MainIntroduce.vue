@@ -10,7 +10,7 @@
         <p>함께하실 여러분께 감사의 말씀을 전합니다.</p>
       </div>
       <div class="section">
-        <p>그 동안 함께해주신 마음에 깊은 감사를 느끼며,</p>
+        <p>그동안 함께해주신 마음에 깊은 감사를 느끼며,</p>
         <p>저희의 새로운 시작을 여러분과 함께 기뻐하고 싶습니다.</p>
       </div>
       <div class="section">
@@ -46,18 +46,40 @@
       <div>
         <div class="section call-wrapper">
           <div
+            v-if="showCallBook"
             class="call-book"
             :class="{ fadeIn: showCallBook, fadeOut: !showCallBook }"
           >
-            <div class="call-book-contents"></div>
+            <div class="call-book-contents">
+              <div class="title">연락하기</div>
+              <div class="content">
+                <div
+                  class="content-items"
+                  v-for="(item, index) in callBookItems"
+                  :key="`item-${index}`"
+                >
+                  <span class="role">{{ item.role }}</span>
+                  <span class="name">{{ item.name }}</span>
+                  <div v-if="item.role" class="image">
+                    <a class="img-wrapper" :href="`tel:${item.call}`"
+                      ><img :src="callImage" alt="Image"
+                    /></a>
+                    <a class="img-wrapper" :href="`sms:${item.message}`"
+                      ><img :src="messageImage" alt="Image"
+                    /></a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="call" @click="handleOnClick" :data-active="showCallBook">
-            <div v-if="!showCallBook">
+            <div v-if="!showCallBook" class="call-contents">
               <span><img src="~@/assets/images/phone.png" /></span>
               <span class="text">연락하기</span>
             </div>
-            <div v-else>
-              <span class="text back">돌아가기</span>
+            <div v-else class="call-contents">
+              <span><img src="~@/assets/images/back.png" /></span>
+              <span class="text back">뒤로가기</span>
             </div>
           </div>
         </div>
@@ -67,17 +89,43 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, reactive, ref, toRefs } from 'vue';
 
 export default defineComponent({
-  setup() {
+  setup(props, { emit }) {
+    const state = reactive({
+      callBookItems: [
+        {
+          role: '신랑',
+          name: '황태환',
+          call: '01062318996',
+          message: '01062318996',
+        },
+        { role: '신랑 아버지', name: '황남현', call: '', message: '' },
+        { role: '신랑 어머니', name: '박경화', call: '', message: '' },
+        { role: '', name: '' },
+        { role: '신부', name: '김유라', call: '', message: '' },
+        { role: '신부 아버지', name: '김한광', call: '', message: '' },
+        { role: '신부 어머니', name: '이미혜', call: '', message: '' },
+      ],
+      callImage: require('@/assets/images/phone.png'),
+      messageImage: require('@/assets/images/message.png'),
+    });
+
     const showCallBook = ref(false);
 
     const handleOnClick = () => {
       showCallBook.value = !showCallBook.value;
+
+      if (showCallBook.value) {
+        emit('change-bg-color', 'rgba(0, 0, 0, 0.7)');
+      } else {
+        emit('change-bg-color', '#fffdf9');
+      }
     };
 
     return {
+      ...toRefs(state),
       showCallBook,
       handleOnClick,
     };
@@ -153,7 +201,12 @@ export default defineComponent({
       }
 
       .call {
-        background-image: linear-gradient(to right, #ffbc00, #ffbc00);
+        background-image: linear-gradient(
+          to right,
+          rgba(255, 165, 0, 0.5),
+          rgba(255, 165, 0, 0.5)
+        );
+
         background-repeat: no-repeat;
         display: flex;
         justify-content: center;
@@ -164,9 +217,12 @@ export default defineComponent({
         border: 1px solid #ccc;
         border-radius: 6px;
 
+        .call-contents {
+          display: flex;
+        }
+
         .text {
           font-size: 0.9rem;
-          padding-bottom: 2px;
         }
         .back {
           // color: #fff;
@@ -188,15 +244,68 @@ export default defineComponent({
     }
     .call-book {
       position: absolute;
-      width: 95%;
+      width: 90%;
       bottom: 80px;
 
       .call-book-contents {
         z-index: 10;
         height: 420px;
-        border: 1px solid #b8b8b8;
-        border-radius: 6px;
+        border-radius: 5px;
         background-color: #fffdf9;
+
+        .title {
+          padding: 10px 0;
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+          background-color: rgba(255, 165, 0, 0.5);
+        }
+
+        .content {
+          border-left: 1px solid rgba(255, 165, 0, 0.5);
+          border-right: 1px solid rgba(255, 165, 0, 0.5);
+          border-bottom: 1px solid rgba(255, 165, 0, 0.5);
+          border-bottom-left-radius: 5px;
+          border-bottom-right-radius: 5px;
+          padding-top: 20px;
+          font-size: 1.1rem;
+
+          .content-items {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+
+            .role {
+              flex: 1 1 0%;
+            }
+
+            .name {
+              flex: 0.5 1 0%;
+            }
+
+            .image {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex: 0.8 1 0%;
+
+              .img-wrapper {
+                margin-left: 20px;
+                width: 30px;
+                height: 30px;
+                border-radius: 15px;
+                background-color: rgba(255, 165, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                img {
+                  width: 15px;
+                  height: 15px;
+                }
+              }
+            }
+          }
+        }
       }
     }
     .call-wrapper {

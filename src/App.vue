@@ -3,24 +3,17 @@
   <div id="app" :class="{ 'fade-enter': !isLoaded }">
     <main-contents></main-contents>
     <main-introduce></main-introduce>
-    <!-- <photo-gallery></photo-gallery> -->
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import {
-  FallingLeaf,
-  // PhotoGallery,
-  MainContents,
-  MainIntroduce,
-} from '@/components';
+import { FallingLeaf, MainContents, MainIntroduce } from '@/components';
 
 export default defineComponent({
   name: 'App',
   components: {
     FallingLeaf,
-    // PhotoGallery,
     MainContents,
     MainIntroduce,
   },
@@ -121,13 +114,13 @@ html {
   margin-bottom: 16px;
 }
 #app {
+  background-color: #fffdf9;
   display: flex;
   flex-direction: column;
   font-family: 'SUIT-Regular';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   margin-bottom: 36px;
 }
 </style>
