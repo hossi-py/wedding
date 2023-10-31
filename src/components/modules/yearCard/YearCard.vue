@@ -1,6 +1,10 @@
 <template>
   <div class="year-card-container">
-    <div class="year-card" :class="{ active: isActive }" @click="selectYear">
+    <div
+      class="year-card"
+      :class="{ active: isActive, bounce: isBounce && bounce }"
+      @click="selectYear"
+    >
       <img class="thumbnail" v-lazy="yearImageMap[year]" alt="Year Thumbnail" />
       <div class="year-label">{{ year }}</div>
     </div>
@@ -17,9 +21,14 @@ export default defineComponent({
       type: Number,
       require: true,
     },
+    bounce: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, { emit }) {
     const isActive = ref(false);
+    const isBounce = ref(false);
 
     // TODO 실제 이미지로 변경
     const yearImageMap = ref({
@@ -38,15 +47,19 @@ export default defineComponent({
     const selectYear = (e: Event) => {
       e.stopPropagation();
 
+      // isBounce라는 객체를 생성하여 애니메이션 겹침을 방지한다.
       isActive.value = true;
+      isBounce.value = false;
+
       setTimeout(() => {
         isActive.value = false;
+        isBounce.value = true;
       }, 600);
 
       emit('click', props.year);
     };
 
-    return { isActive, yearImageMap, selectYear };
+    return { isActive, isBounce, yearImageMap, selectYear };
   },
 });
 </script>
@@ -112,6 +125,10 @@ export default defineComponent({
   .year-card.active {
     animation: jelly 600ms;
     transform: rotateX(10deg);
+  }
+
+  .year-card.bounce {
+    animation: bounce 400ms;
   }
 }
 </style>

@@ -6,6 +6,7 @@
         v-for="year in years"
         :key="`gallery-${year}`"
         :year="year"
+        :bounce="!showYearImagesPopup && year === selectedYear"
         @click="handleYearClick"
       ></year-card>
     </div>

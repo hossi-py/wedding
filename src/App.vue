@@ -200,7 +200,7 @@ export default defineComponent({
     transform: translateY(0);
   }
   40% {
-    transform: translateY(-20px);
+    transform: translateY(-15px);
   }
   60% {
     transform: translateY(-10px);
