@@ -1,7 +1,7 @@
 <template>
   <div class="year-images-container" @scroll="handleScroll">
     <span class="title">{{ year }}년, 우리</span>
-    <button @click="closePopup">X</button>
+    <button v-if="!showingCarousel" @click="closePopup">X</button>
     <div
       class="images-container"
       v-for="(item, index) in imageOptions"
@@ -10,8 +10,9 @@
       <div class="images-wrapper">
         <div
           class="image-item"
-          v-for="imgName in item.images"
+          v-for="(imgName, imgIndex) in item.images"
           :key="`item-${imgName}`"
+          @click="showCarousel(imgIndex)"
         >
           <div class="image">
             <img v-lazy="`/wedding/gallery/${year}/${imgName}`" alt="Image" />
@@ -19,17 +20,27 @@
         </div>
       </div>
     </div>
+
+    <!-- 캐러셀 -->
+    <image-carousel
+      :images="carouselImages"
+      :visible="showingCarousel"
+      :index="selectedIndex"
+      @update:visible="closeCarousel"
+    ></image-carousel>
   </div>
 </template>
 
 <script lang="ts">
 import {
+  computed,
   defineComponent,
   onBeforeUnmount,
   onMounted,
   reactive,
   toRefs,
 } from 'vue';
+import ImageCarousel from '../imageCarousel/ImageCarousel.vue';
 
 type ImageOptionsType = {
   value: string;
@@ -43,7 +54,7 @@ export default defineComponent({
       required: true,
     },
   },
-
+  components: { ImageCarousel },
   setup(props, { emit }) {
     const state = reactive({
       imageOptions: [] as ImageOptionsType[],
@@ -62,29 +73,8 @@ export default defineComponent({
         2022: 16,
         2023: 16,
       } as Record<number, number>,
-      // imageOptions: [
-      //   {
-      //     value: '2014',
-      //     images: [
-      //       '2014-0.jpg',
-      //       '2014-0.jpg',
-      //       '2014-0.jpg',
-      //       '2014-0.jpg',
-      //       '2014-0.jpg',
-      //       '2014-0.jpg',
-      //       '2014-0.jpg',
-      //       '2014-0.jpg',
-      //       '2014-0.jpg',
-      //       '2014-0.jpg',
-      //       '2014-0.jpg',
-      //       '2014-0.jpg',
-      //       '2014-0.jpg',
-      //       '2014-0.jpg',
-      //       '2014-0.jpg',
-      //       '2014-0.jpg',
-      //     ],
-      //   },
-      // ],
+      showingCarousel: false,
+      selectedIndex: 0,
     });
 
     const loadMoreImages = () => {
@@ -128,6 +118,29 @@ export default defineComponent({
       document.body.classList.remove('no-scroll');
     };
 
+    const carouselImages = computed(() => {
+      // reduce 함수를 사용하여 imageOptions 배열의 각 항목에 있는 images 배열을 새로운 배열로 변환.
+      // => imageOptions의 value 값이 필요 없기 떄문
+      return state.imageOptions.reduce<string[]>((accumulator, option) => {
+        // 각 이미지 항목의 경로를 구성합니다.
+        const imagesWithFullPath = option.images.map(
+          (img) => `/wedding/gallery/${props.year}/${img}`,
+        );
+
+        // accumulator 배열에 현재 option의 imagesWithFullPath 배열을 병합합니다.
+        return accumulator.concat(imagesWithFullPath);
+      }, []);
+    });
+
+    const showCarousel = (index: number) => {
+      state.showingCarousel = true;
+      state.selectedIndex = index;
+    };
+
+    const closeCarousel = () => {
+      state.showingCarousel = false;
+    };
+
     // 컴포넌트가 마운트 될 때 스크롤 잠금
     onMounted(() => {
       document.body.classList.add('no-scroll');
@@ -140,7 +153,14 @@ export default defineComponent({
       document.body.classList.remove('no-scroll');
     });
 
-    return { ...toRefs(state), handleScroll, closePopup };
+    return {
+      ...toRefs(state),
+      carouselImages,
+      handleScroll,
+      closePopup,
+      showCarousel,
+      closeCarousel,
+    };
   },
 });
 </script>
