@@ -52,19 +52,49 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .year-card-container {
+  perspective: 1000px;
   .year-card {
     position: relative;
     width: 170px;
     height: 230px;
     margin: 10px;
-    border-radius: 10px;
-    overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform-style: preserve-3d;
+    transform: rotateX(0deg);
+    transition: transform 0.5s;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      right: 5px;
+      bottom: 5px;
+      border-radius: 10px;
+      background: #f2f2f2;
+      z-index: -1;
+      border: 1px solid #c7c7c7;
+    }
+
+    &::before {
+      transform: rotate(1deg) translateY(7px) translateZ(-1px);
+      right: -6px;
+      // bottom: -0.1px;
+    }
+
+    &::after {
+      transform: rotate(2deg) translateY(12px) translateZ(-2px);
+      right: -12px;
+      // bottom: -0.6px;
+    }
 
     .thumbnail {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      border-radius: 10px;
+      // border: 1px solid #c7c7c7;
     }
 
     .year-label {
@@ -79,8 +109,8 @@ export default defineComponent({
   }
 
   .year-card.active {
-    // animation: bounce 400ms;
     animation: jelly 600ms;
+    transform: rotateX(10deg);
   }
 }
 </style>

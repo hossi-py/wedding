@@ -44,6 +44,10 @@ export default defineComponent({
 <style>
 @import '@/assets/styles/base.css';
 
+.fade-enter {
+  animation: fadeIn 3s forwards;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;
@@ -220,10 +224,6 @@ export default defineComponent({
   100% {
     transform: scale(1, 1) translateZ(0);
   }
-}
-
-.fade-enter {
-  animation: fadeIn 3s forwards;
 }
 
 @font-face {
