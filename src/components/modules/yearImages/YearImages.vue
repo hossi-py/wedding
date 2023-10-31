@@ -172,6 +172,11 @@ export default defineComponent({
     box-sizing: border-box; // 전체 너비가 줄어도 padding 유지
 
     .images-wrapper {
+      // 이미지 홀수개 => 공간 2개 차지
+      .image-item:nth-last-child(odd):last-child {
+        grid-column: span 2;
+      }
+
       grid-template-columns: repeat(2, 1fr);
       display: grid;
       gap: 10px;
