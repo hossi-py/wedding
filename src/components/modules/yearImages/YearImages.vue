@@ -1,5 +1,6 @@
 <template>
   <div class="year-images-container">
+    <span class="title">{{ year }}년, 우리</span>
     <button @click="closePopup">X</button>
     <div
       class="images-container"
@@ -96,12 +97,19 @@ export default defineComponent({
   z-index: 100;
   overflow: auto;
 
+  .title {
+    position: absolute;
+    color: #fff;
+    right: 150px;
+    top: 15px;
+  }
+
   .images-container {
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 100;
-    padding: 50px 20px 0 20px;
+    padding: 50px 20px 20px 20px;
     box-sizing: border-box; // 전체 너비가 줄어도 padding 유지
 
     .images-wrapper {
