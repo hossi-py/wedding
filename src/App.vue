@@ -48,6 +48,11 @@ export default defineComponent({
   animation: fadeIn 3s forwards;
 }
 
+.no-scroll {
+  overflow: hidden;
+  height: 100%;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

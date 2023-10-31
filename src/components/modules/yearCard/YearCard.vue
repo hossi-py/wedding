@@ -55,7 +55,7 @@ export default defineComponent({
   perspective: 1000px;
   .year-card {
     position: relative;
-    width: 170px;
+    flex: 1 1 calc(50% - 20%); // width에 따른 동적 반응
     height: 230px;
     margin: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

@@ -63,9 +63,12 @@ export default defineComponent({
   }
 
   .year-gallery {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     justify-content: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    width: 100%;
   }
 }
 </style>

@@ -1,12 +1,34 @@
 <template>
   <div class="year-images-container">
     <button @click="closePopup">X</button>
-    <div class="images-container">이미지 들어감</div>
+    <div
+      class="images-container"
+      v-for="(item, index) in imageOptions"
+      :key="`image-${index}`"
+    >
+      <div class="images-wrapper">
+        <div
+          class="image-item"
+          v-for="imgName in item.images"
+          :key="`item-${imgName}`"
+        >
+          <div class="image">
+            <img v-lazy="`/wedding/gallery/${year}/${imgName}`" alt="Image" />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import {
+  defineComponent,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  toRefs,
+} from 'vue';
 
 export default defineComponent({
   props: {
@@ -17,14 +39,48 @@ export default defineComponent({
   },
 
   setup(props, { emit }) {
-    const selectedYear = computed(() => {
-      return props.year;
+    const state = reactive({
+      imageOptions: [
+        {
+          value: '2014',
+          images: [
+            '2014-0.jpg',
+            '2014-0.jpg',
+            '2014-0.jpg',
+            '2014-0.jpg',
+            '2014-0.jpg',
+            '2014-0.jpg',
+            '2014-0.jpg',
+            '2014-0.jpg',
+            '2014-0.jpg',
+            '2014-0.jpg',
+            '2014-0.jpg',
+            '2014-0.jpg',
+            '2014-0.jpg',
+            '2014-0.jpg',
+            '2014-0.jpg',
+            '2014-0.jpg',
+          ],
+        },
+      ],
     });
 
     const closePopup = () => {
       emit('close');
+      document.body.classList.remove('no-scroll');
     };
-    return { selectedYear, closePopup };
+
+    // 컴포넌트가 마운트 될 때 스크롤 잠금
+    onMounted(() => {
+      document.body.classList.add('no-scroll');
+    });
+
+    // 컴포넌트가 언마운트될 떄 스크롤 잠금 해제
+    onBeforeUnmount(() => {
+      document.body.classList.remove('no-scroll');
+    });
+
+    return { ...toRefs(state), closePopup };
   },
 });
 </script>
@@ -37,37 +93,46 @@ export default defineComponent({
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  z-index: 100;
+  overflow: auto;
 
   .images-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 80vw;
-    max-height: 80vh;
-    overflow: auto;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px; // 이미지 간 간격
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 50px 20px 0 20px;
+    box-sizing: border-box; // 전체 너비가 줄어도 padding 유지
 
-    .year-image {
-      max-width: 100px; // 이미지 최대 너비, 필요에 따라 조절하세요.
-      border-radius: 5px;
+    .images-wrapper {
+      grid-template-columns: repeat(2, 1fr);
+      display: grid;
+      gap: 10px;
+
+      .image-item {
+        .image {
+          width: auto;
+          height: 270px;
+          overflow: hidden;
+          img {
+            width: 100%;
+            height: 100%;
+            border-radius: 6px;
+            object-fit: cover;
+          }
+        }
+      }
     }
   }
 
   button {
-    position: absolute;
+    position: fixed;
     background-color: transparent;
     font-size: 25px;
     color: #fff;
     top: 10px;
-    right: 10px;
+    right: 25px;
     border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
   }
 }
 </style>
