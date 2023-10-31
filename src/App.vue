@@ -270,6 +270,9 @@ html {
   margin: 0;
   margin-bottom: 16px;
 }
+html {
+  scroll-behavior: smooth;
+}
 #app {
   background-color: #fffdf9;
   display: flex;

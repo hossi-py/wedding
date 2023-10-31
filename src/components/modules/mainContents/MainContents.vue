@@ -2,7 +2,7 @@
   <div class="main-contents-container">
     <div class="main-contents">
       <div class="image">
-        <img v-lazy="'/wedding/gallery/main-image.jpg'" alt="Image" />
+        <img :src="'/wedding/gallery/main-image.jpg'" alt="Image" />
       </div>
       <div class="wedding-info">
         <div class="married-couple">

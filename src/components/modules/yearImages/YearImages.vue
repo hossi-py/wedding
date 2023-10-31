@@ -193,6 +193,7 @@ export default defineComponent({
   }
 
   button {
+    z-index: 100;
     position: fixed;
     background-color: transparent;
     font-size: 25px;

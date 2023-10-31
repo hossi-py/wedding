@@ -1,7 +1,7 @@
 <template>
   <div class="year-card-container">
     <div class="year-card" :class="{ active: isActive }" @click="selectYear">
-      <img class="thumbnail" :src="yearImageMap[year]" alt="Year Thumbnail" />
+      <img class="thumbnail" v-lazy="yearImageMap[year]" alt="Year Thumbnail" />
       <div class="year-label">{{ year }}</div>
     </div>
   </div>
@@ -21,6 +21,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const isActive = ref(false);
 
+    // TODO 실제 이미지로 변경
     const yearImageMap = ref({
       2014: '/wedding/gallery/thumbnail/thumbnail-2014.jpg',
       2015: '/wedding/gallery/thumbnail/thumbnail-2015.jpg',
