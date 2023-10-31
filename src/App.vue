@@ -4,6 +4,7 @@
     <main-contents></main-contents>
     <main-introduce></main-introduce>
     <wedding-calendar></wedding-calendar>
+    <year-gallery></year-gallery>
   </div>
 </template>
 
@@ -14,6 +15,7 @@ import {
   MainContents,
   MainIntroduce,
   WeddingCalendar,
+  YearGallery,
 } from '@/components';
 
 export default defineComponent({
@@ -23,6 +25,7 @@ export default defineComponent({
     MainContents,
     MainIntroduce,
     WeddingCalendar,
+    YearGallery,
   },
   setup() {
     const isLoaded = ref(false);
@@ -176,6 +179,46 @@ export default defineComponent({
   70% {
     transform: rotateX(75deg);
     opacity: 0.2;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes jelly {
+  0% {
+    transform: scale(1, 1) translateZ(0);
+  }
+  30% {
+    transform: scale(1.175, 0.825) translateZ(-17.5px);
+  }
+  40% {
+    transform: scale(0.825, 1.175) translateZ(15px);
+  }
+  50% {
+    transform: scale(1.1, 0.9) translateZ(-12.5px);
+  }
+  65% {
+    transform: scale(0.935, 1.065) translateZ(11px);
+  }
+  75% {
+    transform: scale(1.035, 0.965) translateZ(-7.5px);
+  }
+  100% {
+    transform: scale(1, 1) translateZ(0);
   }
 }
 
