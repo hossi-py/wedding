@@ -48,6 +48,14 @@ export default defineComponent({
   animation: fadeIn 3s forwards;
 }
 
+.fade-carousel {
+  animation: fadeIn 0.7s forwards;
+}
+
+.fade-image {
+  animation: fadeIn 1s forwards;
+}
+
 .no-scroll {
   overflow: hidden;
   height: 100%;

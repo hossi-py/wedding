@@ -1,5 +1,10 @@
 <template>
-  <div v-if="visible" class="carousel-overlay" @click="hide">
+  <div
+    v-if="visible"
+    class="carousel-overlay"
+    :class="{ 'fade-carousel': !isLoaded }"
+    @click="hide"
+  >
     <div
       class="carousel-container"
       @click.stop
@@ -13,9 +18,10 @@
       ></button>
 
       <img
-        :src="images[activeImageIndex]"
+        v-lazy="images[activeImageIndex]"
         alt="Carousel Image"
         :key="activeImageIndex"
+        :class="{ 'fade-image': !isImageLoaded }"
       />
 
       <button
@@ -49,13 +55,43 @@ export default defineComponent({
   setup(props, { emit }) {
     const state = reactive({
       activeImageIndex: props.index,
+      isLoaded: false,
+      isImageLoaded: false,
     });
 
     // props의 index가 항상 0으로 오기 때문에 watch로 감지
     watch(
       () => props.index,
-      (updatedIndex) => (state.activeImageIndex = updatedIndex),
+      (updatedIndex) => {
+        state.activeImageIndex = updatedIndex;
+      },
     );
+
+    // 클릭 시 페이드 효과
+    watch(
+      () => props.visible,
+      (newVal) => {
+        if (newVal) {
+          state.isLoaded = false;
+          setTimeout(() => {
+            state.isLoaded = true;
+          }, 700);
+        } else {
+          state.isLoaded = false;
+        }
+      },
+    );
+
+    const fadeEffect = () => {
+      if (state.isImageLoaded) {
+        state.isImageLoaded = false;
+        setTimeout(() => {
+          state.isImageLoaded = true;
+        }, 1000);
+      } else {
+        state.isImageLoaded = false;
+      }
+    };
 
     const hide = () => {
       emit('update:visible', false);
@@ -64,12 +100,14 @@ export default defineComponent({
     const prevImage = () => {
       if (state.activeImageIndex > 0) {
         state.activeImageIndex--;
+        fadeEffect();
       }
     };
 
     const nextImage = () => {
       if (state.activeImageIndex < props.images.length - 1) {
         state.activeImageIndex++;
+        fadeEffect();
       }
     };
 
