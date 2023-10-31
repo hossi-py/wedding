@@ -1,12 +1,23 @@
 <template>
   <div v-if="visible" class="carousel-overlay" @click="hide">
-    <div class="carousel-container" @click.stop>
+    <div
+      class="carousel-container"
+      @click.stop
+      @touchstart="handleTouchStart"
+      @touchend="handleTouchEnd"
+    >
       <button
         class="prev"
         :class="{ firstImage: activeImageIndex === 0 }"
         @click="prevImage"
       ></button>
-      <img :src="images[activeImageIndex]" alt="Carousel Image" />
+
+      <img
+        :src="images[activeImageIndex]"
+        alt="Carousel Image"
+        :key="activeImageIndex"
+      />
+
       <button
         class="next"
         :class="{ lastImage: activeImageIndex === images.length - 1 }"
@@ -62,11 +73,31 @@ export default defineComponent({
       }
     };
 
+    // 터치 슬라이드로 이미지 이동
+    let startX = 0;
+    let endX = 0;
+
+    const handleTouchStart = (event: TouchEvent) => {
+      startX = event.touches[0].clientX;
+    };
+
+    const handleTouchEnd = (event: TouchEvent) => {
+      endX = event.changedTouches[0].clientX;
+      // 이동 거리에 따른 제어
+      if (startX - endX > 100) {
+        nextImage();
+      } else if (startX - endX < -100) {
+        prevImage();
+      }
+    };
+
     return {
       ...toRefs(state),
       hide,
       prevImage,
       nextImage,
+      handleTouchStart,
+      handleTouchEnd,
     };
   },
 });
