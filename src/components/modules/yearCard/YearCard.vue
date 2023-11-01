@@ -5,7 +5,7 @@
       :class="{ active: isActive, bounce: isBounce && bounce }"
       @click="selectYear"
     >
-      <img class="thumbnail" v-lazy="yearImageMap[year]" alt="Year Thumbnail" />
+      <img class="thumbnail" :src="yearImageMap[year]" alt="Year Thumbnail" />
       <div class="year-label">{{ year }}</div>
     </div>
   </div>
@@ -76,6 +76,7 @@ export default defineComponent({
     transform-style: preserve-3d;
     transform: rotateX(0deg);
     transition: transform 0.5s;
+    border-radius: 10px;
 
     &::before,
     &::after {
@@ -124,11 +125,12 @@ export default defineComponent({
 
   .year-card.active {
     animation: jelly 600ms;
+    transform: translate3d(0, 0, 0);
     transform: rotateX(10deg);
   }
 
   .year-card.bounce {
-    animation: bounce 400ms;
+    animation: bounce 600ms;
   }
 }
 </style>
