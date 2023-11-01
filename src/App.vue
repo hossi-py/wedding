@@ -484,10 +484,9 @@ html {
   height: 100%;
   background-color: #fffdf9;
   margin: 0;
-}
-html {
   scroll-behavior: smooth;
 }
+
 #app {
   background-color: #fffdf9;
   display: flex;
