@@ -394,56 +394,56 @@ export default defineComponent({
 
 @-webkit-keyframes jelly {
   0% {
-    -webkit-transform: scale(1, 1) translateZ(0);
-    transform: scale(1, 1) translateZ(0);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
   }
   30% {
-    -webkit-transform: scale(1.175, 0.825) translateZ(-17.5px);
-    transform: scale(1.175, 0.825) translateZ(-17.5px);
+    -webkit-transform: scale(1.175, 0.825);
+    transform: scale(1.175, 0.825);
   }
   40% {
-    -webkit-transform: scale(0.825, 1.175) translateZ(15px);
-    transform: scale(0.825, 1.175) translateZ(15px);
+    -webkit-transform: scale(0.825, 1.175);
+    transform: scale(0.825, 1.175);
   }
   50% {
-    -webkit-transform: scale(1.1, 0.9) translateZ(-12.5px);
-    transform: scale(1.1, 0.9) translateZ(-12.5px);
+    -webkit-transform: scale(1.1, 0.9);
+    transform: scale(1.1, 0.9);
   }
   65% {
-    -webkit-transform: scale(0.935, 1.065) translateZ(11px);
-    transform: scale(0.935, 1.065) translateZ(11px);
+    -webkit-transform: scale(0.935, 1.065);
+    transform: scale(0.935, 1.065);
   }
   75% {
-    -webkit-transform: scale(1.035, 0.965) translateZ(-7.5px);
-    transform: scale(1.035, 0.965) translateZ(-7.5px);
+    -webkit-transform: scale(1.035, 0.965);
+    transform: scale(1.035, 0.965);
   }
   100% {
-    -webkit-transform: scale(1, 1) translateZ(0);
-    transform: scale(1, 1) translateZ(0);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
   }
 }
 
 @keyframes jelly {
   0% {
-    transform: scale(1, 1) translateZ(0);
+    transform: scale(1, 1);
   }
   30% {
-    transform: scale(1.175, 0.825) translateZ(-17.5px);
+    transform: scale(1.175, 0.825);
   }
   40% {
-    transform: scale(0.825, 1.175) translateZ(15px);
+    transform: scale(0.825, 1.175);
   }
   50% {
-    transform: scale(1.1, 0.9) translateZ(-12.5px);
+    transform: scale(1.1, 0.9);
   }
   65% {
-    transform: scale(0.935, 1.065) translateZ(11px);
+    transform: scale(0.935, 1.065);
   }
   75% {
-    transform: scale(1.035, 0.965) translateZ(-7.5px);
+    transform: scale(1.035, 0.965);
   }
   100% {
-    transform: scale(1, 1) translateZ(0);
+    transform: scale(1, 1);
   }
 }
 
