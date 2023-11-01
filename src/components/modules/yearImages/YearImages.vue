@@ -141,32 +141,16 @@ export default defineComponent({
       state.showingCarousel = false;
     };
 
-    const handlePopstate = (event: any) => {
-      if (event.state?.modalOpen) {
-        emit('close');
-        document.body.classList.remove('no-scroll');
-      }
-    };
-
     // 컴포넌트가 마운트 될 때 스크롤 잠금
     onMounted(() => {
       document.body.classList.add('no-scroll');
       // 인피니티 스크롤 적용
       loadMoreImages();
-
-      // pushState를 통해 현재 상태를 히스토리 스택에 추가
-      window.history.pushState({ modalOpen: true }, '');
-
-      // popstate 이벤트 리스너 추가
-      window.addEventListener('popstate', handlePopstate);
     });
 
     // 컴포넌트가 언마운트될 떄 스크롤 잠금 해제
     onBeforeUnmount(() => {
       document.body.classList.remove('no-scroll');
-
-      // 컴포넌트 제거 될 때 이벤트 리스너 삭제
-      window.removeEventListener('popstate', handlePopstate);
     });
 
     return {
