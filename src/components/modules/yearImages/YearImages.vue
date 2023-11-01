@@ -157,8 +157,6 @@ export default defineComponent({
       // 인피니티 스크롤 적용
       loadMoreImages();
 
-      // pushState를 통해 현재 상태를 히스토리 스택에 추가
-      window.history.pushState({ modalOpen: true }, '');
       // popstate 이벤트 리스너 추가
       window.addEventListener('popstate', handlePopstate);
     });
