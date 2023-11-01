@@ -33,9 +33,6 @@ export default defineComponent({
     const handleYearClick = (year: number) => {
       selectedYear.value = year;
 
-      // pushState를 통해 현재 상태를 히스토리 스택에 추가
-      window.history.pushState({ modalOpen: true }, '');
-
       setTimeout(() => {
         showYearImagesPopup.value = true;
       }, 700); // 애니메이션을 좀 더 보기 위한 시간

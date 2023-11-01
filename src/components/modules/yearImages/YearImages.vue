@@ -116,9 +116,6 @@ export default defineComponent({
     const closePopup = () => {
       emit('close');
       document.body.classList.remove('no-scroll');
-
-      // 뒤로가기 버튼 클릭 시 히스토리 스택에서 상태 제거
-      window.history.back();
     };
 
     const carouselImages = computed(() => {
@@ -144,10 +141,10 @@ export default defineComponent({
       state.showingCarousel = false;
     };
 
-    const handlePopstate = (event: PopStateEvent) => {
-      // state가 존재하고 modalOpen이 true면 모달 닫기
-      if (event.state && event.state.modalOpen) {
-        closePopup();
+    const handlePopstate = (event: any) => {
+      if (event.state?.modalOpen) {
+        emit('close');
+        document.body.classList.remove('no-scroll');
       }
     };
 
@@ -156,6 +153,9 @@ export default defineComponent({
       document.body.classList.add('no-scroll');
       // 인피니티 스크롤 적용
       loadMoreImages();
+
+      // pushState를 통해 현재 상태를 히스토리 스택에 추가
+      window.history.pushState({ modalOpen: true }, '');
 
       // popstate 이벤트 리스너 추가
       window.addEventListener('popstate', handlePopstate);
