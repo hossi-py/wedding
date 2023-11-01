@@ -484,7 +484,6 @@ html {
   height: 100%;
   background-color: #fffdf9;
   margin: 0;
-  margin-bottom: 16px;
 }
 html {
   scroll-behavior: smooth;
@@ -497,6 +496,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  margin-bottom: 36px;
+  max-width: 460px;
+  margin: 0 auto;
+  padding-bottom: 20px;
 }
 </style>
