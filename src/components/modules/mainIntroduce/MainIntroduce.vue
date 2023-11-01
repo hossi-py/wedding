@@ -161,10 +161,12 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .fadeIn {
+  -webkit-animation: fadeIn 1s forwards;
   animation: fadeIn 1s forwards;
 }
 
 .fadeOut {
+  -webkit-animation: fadeOut 1s forwards;
   animation: fadeOut 1s forwards;
 }
 
@@ -333,10 +335,12 @@ export default defineComponent({
         }
       }
       .call[data-active='true'] {
+        -webkit-animation: fillFromLeft 1s forwards;
         animation: fillFromLeft 1s forwards;
       }
 
       .call[data-active='false'] {
+        -webkit-animation: fillFromRight 1s forwards;
         animation: fillFromRight 1s forwards;
       }
     }

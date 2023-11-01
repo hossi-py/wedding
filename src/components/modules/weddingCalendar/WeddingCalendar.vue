@@ -229,8 +229,10 @@ export default defineComponent({
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
     font-size: 24px;
     color: rgba(255, 165, 0, 0.6);
+    -webkit-animation: fadeInOut 2s infinite;
     animation: fadeInOut 2s infinite;
     z-index: 1;
   }
@@ -290,21 +292,28 @@ export default defineComponent({
 .flip-transition-1-enter-active,
 .flip-transition-0-leave-active,
 .flip-transition-1-leave-active {
+  -webkit-animation-duration: 0.6s;
   animation-duration: 0.6s;
+  -webkit-transform-origin: 50% 100%;
   transform-origin: 50% 100%;
   backface-visibility: hidden;
+  -webkit-animation-timing-function: ease-in-out;
   animation-timing-function: ease-in-out;
 }
 
 .flip-transition-0-enter,
 .flip-transition-1-enter {
+  -webkit-animation: flipIn 1s;
   animation: flipIn 1s;
+  -webkit-animation-timing-function: ease-out;
   animation-timing-function: ease-out;
 }
 
 .flip-transition-0-leave-to,
 .flip-transition-1-leave-to {
+  -webkit-animation-name: flipOut;
   animation-name: flipOut;
+  -webkit-animation-timing-function: ease-in;
   animation-timing-function: ease-in;
 }
 </style>

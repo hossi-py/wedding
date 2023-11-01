@@ -73,8 +73,11 @@ export default defineComponent({
     height: 230px;
     margin: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
+    -webkit-transform: rotateX(0deg);
     transform: rotateX(0deg);
+    -webkit-transition: transform 0.5s;
     transition: transform 0.5s;
     border-radius: 10px;
 
@@ -93,12 +96,14 @@ export default defineComponent({
     }
 
     &::before {
+      -webkit-transform: rotate(1deg) translateY(7px) translateZ(-1px);
       transform: rotate(1deg) translateY(7px) translateZ(-1px);
       right: -6px;
       // bottom: -0.1px;
     }
 
     &::after {
+      -webkit-transform: rotate(2deg) translateY(12px) translateZ(-2px);
       transform: rotate(2deg) translateY(12px) translateZ(-2px);
       right: -12px;
       // bottom: -0.6px;
@@ -127,10 +132,12 @@ export default defineComponent({
     animation: jelly 600ms;
     -webkit-animation: jelly 600ms;
     transform: rotateX(10deg);
+    -webkit-transform: rotateX(10deg);
   }
 
   .year-card.bounce {
     animation: bounce 600ms;
+    -webkit-animation: bounce 600ms;
   }
 }
 </style>

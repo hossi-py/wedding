@@ -58,7 +58,7 @@ export default defineComponent({
   z-index: 1000;
 }
 
-@keyframes fall {
+/* @keyframes fall {
   0% {
     transform: translateY(-100%);
   }
@@ -77,7 +77,7 @@ export default defineComponent({
   to {
     transform: translateX(-50px);
   }
-}
+} */
 
 .firecracker-container {
   position: relative;

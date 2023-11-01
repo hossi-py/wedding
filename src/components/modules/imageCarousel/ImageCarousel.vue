@@ -173,6 +173,7 @@ export default defineComponent({
       z-index: 10;
       position: absolute;
       top: 50%;
+      -webkit-transform: translateY(-50%);
       transform: translateY(-50%);
       width: 40px;
       height: 80px;
@@ -190,6 +191,7 @@ export default defineComponent({
         position: absolute;
         top: 50%;
         left: 50%;
+        -webkit-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
       }
     }
@@ -201,6 +203,7 @@ export default defineComponent({
         position: absolute;
         top: 50%;
         left: 50%;
+        -webkit-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
       }
     }

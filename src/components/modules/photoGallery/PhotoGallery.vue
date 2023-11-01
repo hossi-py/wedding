@@ -207,40 +207,6 @@ p {
   }
 }
 
-@keyframes fadeInOut {
-  0%,
-  100% {
-    opacity: 0.3;
-  }
-  10% {
-    opacity: 0.4;
-  }
-  20% {
-    opacity: 0.5;
-  }
-  30% {
-    opacity: 0.6;
-  }
-  40% {
-    opacity: 0.7;
-  }
-  50% {
-    opacity: 0.8;
-  }
-  60% {
-    opacity: 0.85;
-  }
-  70% {
-    opacity: 0.9;
-  }
-  80% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 0.9;
-  }
-}
-
 #promptMessage {
   font-family: 'HakgyoansimWoojuR';
   font-weight: bolder;

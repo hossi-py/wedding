@@ -45,14 +45,17 @@ export default defineComponent({
 @import '@/assets/styles/base.css';
 
 .fade-enter {
+  -webkit-animation: fadeIn 3s forwards;
   animation: fadeIn 3s forwards;
 }
 
 .fade-carousel {
+  -webkit-animation: fadeIn 0.7s forwards;
   animation: fadeIn 0.7s forwards;
 }
 
 .fade-image {
+  -webkit-animation: fadeIn 1s forwards;
   animation: fadeIn 1s forwards;
 }
 
@@ -61,12 +64,30 @@ export default defineComponent({
   height: 100%;
 }
 
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;
   }
   100% {
     opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 
@@ -79,6 +100,15 @@ export default defineComponent({
   }
 }
 
+@-webkit-keyframes fillFromLeft {
+  from {
+    background-size: 0% 100%;
+  }
+  to {
+    background-size: 100% 100%;
+  }
+}
+
 @keyframes fillFromLeft {
   from {
     background-size: 0% 100%;
@@ -88,12 +118,55 @@ export default defineComponent({
   }
 }
 
+@-webkit-keyframes fillFromRight {
+  from {
+    background-size: 100% 100%;
+  }
+  to {
+    background-size: 0% 100%;
+  }
+}
+
 @keyframes fillFromRight {
   from {
     background-size: 100% 100%;
   }
   to {
     background-size: 0% 100%;
+  }
+}
+
+@-webkit-keyframes fadeInOut {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  10% {
+    opacity: 0.4;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  30% {
+    opacity: 0.6;
+  }
+  40% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 0.85;
+  }
+  70% {
+    opacity: 0.9;
+  }
+  80% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.9;
   }
 }
 
@@ -128,6 +201,54 @@ export default defineComponent({
   }
   90% {
     opacity: 0.9;
+  }
+}
+
+@-webkit-keyframes flipIn {
+  0% {
+    -webkit-transform: rotateX(-90deg);
+    transform: rotateX(-90deg);
+    opacity: 0;
+  }
+  10% {
+    -webkit-transform: rotateX(-80deg);
+    transform: rotateX(-80deg);
+    opacity: 0.2;
+  }
+  20% {
+    -webkit-transform: rotateX(-70deg);
+    transform: rotateX(-70deg);
+    opacity: 0.3;
+  }
+  30% {
+    -webkit-transform: rotateX(-60deg);
+    transform: rotateX(-60deg);
+    opacity: 0.7;
+  }
+  40% {
+    -webkit-transform: rotateX(-50deg);
+    transform: rotateX(-50deg);
+    opacity: 0.8;
+  }
+  50% {
+    -webkit-transform: rotateX(-45deg);
+    transform: rotateX(-45deg);
+    opacity: 0.9;
+  }
+  60% {
+    -webkit-transform: rotateX(-30deg);
+    transform: rotateX(-30deg);
+    opacity: 0.95;
+  }
+  70% {
+    -webkit-transform: rotateX(-15deg);
+    transform: rotateX(-15deg);
+    opacity: 0.98;
+  }
+  100% {
+    -webkit-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+    opacity: 1;
   }
 }
 
@@ -170,6 +291,43 @@ export default defineComponent({
   }
 }
 
+@-webkit-keyframes flipOut {
+  0% {
+    -webkit-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+  }
+  10% {
+    -webkit-transform: rotateX(10deg);
+    transform: rotateX(10deg);
+  }
+  20% {
+    -webkit-transform: rotateX(20deg);
+    transform: rotateX(20deg);
+  }
+  30% {
+    -webkit-transform: rotateX(30deg);
+    transform: rotateX(30deg);
+  }
+  40% {
+    -webkit-transform: rotateX(40deg);
+    transform: rotateX(40deg);
+  }
+  50% {
+    -webkit-transform: rotateX(50deg);
+    transform: rotateX(50deg);
+  }
+  60% {
+    -webkit-transform: rotateX(60deg);
+    transform: rotateX(60deg);
+    opacity: 0.3;
+  }
+  70% {
+    -webkit-transform: rotateX(75deg);
+    transform: rotateX(75deg);
+    opacity: 0.2;
+  }
+}
+
 @keyframes flipOut {
   0% {
     transform: rotateX(0deg);
@@ -199,6 +357,25 @@ export default defineComponent({
   }
 }
 
+@-webkit-keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  40% {
+    -webkit-transform: translateY(-15px);
+    transform: translateY(-15px);
+  }
+  60% {
+    -webkit-transform: translateY(-10px);
+    transform: translateY(-10px);
+  }
+}
+
 @keyframes bounce {
   0%,
   20%,
@@ -212,6 +389,37 @@ export default defineComponent({
   }
   60% {
     transform: translateY(-10px);
+  }
+}
+
+@-webkit-keyframes jelly {
+  0% {
+    -webkit-transform: scale(1, 1) translateZ(0);
+    transform: scale(1, 1) translateZ(0);
+  }
+  30% {
+    -webkit-transform: scale(1.175, 0.825) translateZ(-17.5px);
+    transform: scale(1.175, 0.825) translateZ(-17.5px);
+  }
+  40% {
+    -webkit-transform: scale(0.825, 1.175) translateZ(15px);
+    transform: scale(0.825, 1.175) translateZ(15px);
+  }
+  50% {
+    -webkit-transform: scale(1.1, 0.9) translateZ(-12.5px);
+    transform: scale(1.1, 0.9) translateZ(-12.5px);
+  }
+  65% {
+    -webkit-transform: scale(0.935, 1.065) translateZ(11px);
+    transform: scale(0.935, 1.065) translateZ(11px);
+  }
+  75% {
+    -webkit-transform: scale(1.035, 0.965) translateZ(-7.5px);
+    transform: scale(1.035, 0.965) translateZ(-7.5px);
+  }
+  100% {
+    -webkit-transform: scale(1, 1) translateZ(0);
+    transform: scale(1, 1) translateZ(0);
   }
 }
 
@@ -236,30 +444,6 @@ export default defineComponent({
   }
   100% {
     transform: scale(1, 1) translateZ(0);
-  }
-}
-
-@-webkit-keyframes jelly {
-  0% {
-    -webkit-transform: scale(1, 1) translateZ(0);
-  }
-  30% {
-    -webkit-transform: scale(1.175, 0.825) translateZ(-17.5px);
-  }
-  40% {
-    -webkit-transform: scale(0.825, 1.175) translateZ(15px);
-  }
-  50% {
-    -webkit-transform: scale(1.1, 0.9) translateZ(-12.5px);
-  }
-  65% {
-    -webkit-transform: scale(0.935, 1.065) translateZ(11px);
-  }
-  75% {
-    -webkit-transform: scale(1.035, 0.965) translateZ(-7.5px);
-  }
-  100% {
-    -webkit-transform: scale(1, 1) translateZ(0);
   }
 }
 
