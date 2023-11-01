@@ -59,7 +59,7 @@ export default defineComponent({
     const state = reactive({
       imageOptions: [] as ImageOptionsType[],
       lastLoadedIndex: 0,
-      imagesToLoad: 0, // 로드할 이미지 개수
+      imagesToLoad: 30, // 로드할 이미지 개수
       // TODO 실제로 바꿔야 함
       maxImagesPerYear: {
         2014: 13,
@@ -80,7 +80,7 @@ export default defineComponent({
     const loadMoreImages = () => {
       const maxImages = state.maxImagesPerYear[props.year] || 0;
 
-      state.imagesToLoad = state.maxImagesPerYear[props.year];
+      // state.imagesToLoad = state.maxImagesPerYear[props.year];
       // 모든 이미지 로드하면 함수 종료
       if (state.lastLoadedIndex >= maxImages) {
         return;
