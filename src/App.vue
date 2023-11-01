@@ -239,6 +239,30 @@ export default defineComponent({
   }
 }
 
+@-webkit-keyframes jelly {
+  0% {
+    transform: scale(1, 1) translateZ(0);
+  }
+  30% {
+    transform: scale(1.175, 0.825) translateZ(-17.5px);
+  }
+  40% {
+    transform: scale(0.825, 1.175) translateZ(15px);
+  }
+  50% {
+    transform: scale(1.1, 0.9) translateZ(-12.5px);
+  }
+  65% {
+    transform: scale(0.935, 1.065) translateZ(11px);
+  }
+  75% {
+    transform: scale(1.035, 0.965) translateZ(-7.5px);
+  }
+  100% {
+    transform: scale(1, 1) translateZ(0);
+  }
+}
+
 @font-face {
   font-family: 'KCCChassam';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/KCCChassam.woff2')
