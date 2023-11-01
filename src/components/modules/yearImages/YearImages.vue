@@ -15,7 +15,11 @@
           @click="showCarousel(imgIndex)"
         >
           <div class="image">
-            <img v-lazy="`/wedding/gallery/${year}/${imgName}`" alt="Image" />
+            <img
+              :src="`/wedding/gallery/${year}/${imgName}`"
+              alt="Image"
+              class="fade-in"
+            />
           </div>
         </div>
       </div>
@@ -166,6 +170,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.fade-in {
+  -webkit-animation: fadeIn 1s forwards;
+  animation: fadeIn 1s forwards;
+}
+
 .year-images-container {
   position: fixed;
   top: 0;
