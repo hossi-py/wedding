@@ -114,17 +114,27 @@ export default defineComponent({
     // 터치 슬라이드로 이미지 이동
     let startX = 0;
     let endX = 0;
+    let isPinching = false; // 확대 축소 감지
 
     const handleTouchStart = (event: TouchEvent) => {
+      if (event.touches.length > 1) {
+        isPinching = true;
+        return;
+      }
       startX = event.touches[0].clientX;
     };
 
     const handleTouchEnd = (event: TouchEvent) => {
+      if (isPinching) {
+        isPinching = false;
+        return;
+      }
+
       endX = event.changedTouches[0].clientX;
       // 이동 거리에 따른 제어
-      if (startX - endX > 100) {
+      if (startX - endX > 50) {
         nextImage();
-      } else if (startX - endX < -100) {
+      } else if (startX - endX < -50) {
         prevImage();
       }
     };

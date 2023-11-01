@@ -126,7 +126,6 @@ export default defineComponent({
   .year-card.active {
     animation: jelly 600ms;
     -webkit-animation: jelly 600ms;
-    transform: translate3d(0, 0, 0);
     transform: rotateX(10deg);
   }
 
