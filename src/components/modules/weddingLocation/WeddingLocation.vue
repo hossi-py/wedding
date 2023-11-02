@@ -6,27 +6,25 @@
       <p class="road-name">서울특별시 서대문구 연세로 50 (신촌동)</p>
     </div>
     <div id="map" class="map"></div>
-    <div style="padding: 6px 1rem 0">
-      <div class="map-wrapper">
-        <a :href="naverMapURL">
-          <div class="image">
-            <img src="~@/assets/images/naver.png" alt="" />
-          </div>
-          <div class="map-name">네이버지도</div>
-        </a>
-        <a :href="kakaoMapURL">
-          <div class="image">
-            <img src="~@/assets/images/kakao.png" alt="" />
-          </div>
-          <div class="map-name">카카오맵</div>
-        </a>
-        <a :href="TMapURL">
-          <div class="image">
-            <img src="~@/assets/images/tmap.svg" alt="" />
-          </div>
-          <div class="map-name">티맵</div>
-        </a>
-      </div>
+    <div class="map-wrapper">
+      <a :href="naverMapURL">
+        <div class="image">
+          <img src="~@/assets/images/naver.png" alt="" />
+        </div>
+        <div class="map-name">네이버지도</div>
+      </a>
+      <a :href="kakaoMapURL">
+        <div class="image">
+          <img src="~@/assets/images/kakao.png" alt="" />
+        </div>
+        <div class="map-name">카카오맵</div>
+      </a>
+      <a :href="TMapURL">
+        <div class="image">
+          <img src="~@/assets/images/tmap.svg" alt="" />
+        </div>
+        <div class="map-name">티맵</div>
+      </a>
     </div>
   </div>
 </template>
@@ -126,12 +124,11 @@ export default defineComponent({
   .map-wrapper {
     margin-top: 20px;
     display: flex;
-    padding: 0 20px;
+    padding: 6px 2rem 0;
     box-sizing: border-box;
+    justify-content: space-between;
 
     a {
-      margin-left: 5px;
-      margin-right: 5px;
       flex: 1;
       height: 45px;
       display: flex;
@@ -141,8 +138,12 @@ export default defineComponent({
       border: 1px solid #ccc;
       border-radius: 10px;
       box-shadow: 0px 0px 16px rgb(0 0 0 / 6%);
+      margin: 0 5px;
 
       .image {
+        display: flex;
+        align-items: center;
+
         img {
           width: 20px;
           height: 20px;
@@ -154,6 +155,14 @@ export default defineComponent({
         font-size: 0.8rem;
         color: #000000;
       }
+    }
+
+    a:first-child {
+      margin-left: 0; // 첫번째 a 태그의 왼쪽 마진 제거
+    }
+
+    a:last-child {
+      margin-right: 0; // 마지막 a 태그의 오른쪽 마진 제거
     }
   }
 }
