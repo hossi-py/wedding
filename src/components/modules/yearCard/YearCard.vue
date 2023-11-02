@@ -42,6 +42,7 @@ export default defineComponent({
       2021: '/wedding/gallery/thumbnail/thumbnail-2014.jpg',
       2022: '/wedding/gallery/thumbnail/thumbnail-2015.jpg',
       2023: '/wedding/gallery/thumbnail/thumbnail-2016.jpg',
+      2024: '/wedding/gallery/thumbnail/thumbnail-2019.jpg',
     });
 
     const selectYear = (e: Event) => {
@@ -114,7 +115,6 @@ export default defineComponent({
       height: 100%;
       object-fit: cover;
       border-radius: 10px;
-      // border: 1px solid #c7c7c7;
     }
 
     .year-label {

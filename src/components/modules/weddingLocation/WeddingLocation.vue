@@ -6,19 +6,27 @@
       <p class="road-name">서울특별시 서대문구 연세로 50 (신촌동)</p>
     </div>
     <div id="map" class="map"></div>
-    <div class="map-wrapper">
-      <a :href="naverMapURL">
-        <div class="image"><img src="~@/assets/images/naver.png" alt="" /></div>
-        <div class="map-name">네이버지도</div>
-      </a>
-      <a :href="kakaoMapURL">
-        <div class="image"><img src="~@/assets/images/kakao.png" alt="" /></div>
-        <div class="map-name">카카오맵</div>
-      </a>
-      <a :href="TMapURL">
-        <div class="image"><img src="~@/assets/images/tmap.svg" alt="" /></div>
-        <div class="map-name">티맵</div>
-      </a>
+    <div style="padding: 6px 1rem 0">
+      <div class="map-wrapper">
+        <a :href="naverMapURL">
+          <div class="image">
+            <img src="~@/assets/images/naver.png" alt="" />
+          </div>
+          <div class="map-name">네이버지도</div>
+        </a>
+        <a :href="kakaoMapURL">
+          <div class="image">
+            <img src="~@/assets/images/kakao.png" alt="" />
+          </div>
+          <div class="map-name">카카오맵</div>
+        </a>
+        <a :href="TMapURL">
+          <div class="image">
+            <img src="~@/assets/images/tmap.svg" alt="" />
+          </div>
+          <div class="map-name">티맵</div>
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -118,19 +126,21 @@ export default defineComponent({
   .map-wrapper {
     margin-top: 20px;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
 
     a {
-      width: 100px;
+      margin-left: 5px;
+      margin-right: 5px;
+      flex: 1;
       height: 45px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0 10px;
       text-decoration: none;
       border: 1px solid #ccc;
       border-radius: 10px;
+      box-shadow: 0px 0px 16px rgb(0 0 0 / 6%);
 
       .image {
         img {
@@ -141,7 +151,7 @@ export default defineComponent({
       }
 
       .map-name {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         color: #000000;
       }
     }

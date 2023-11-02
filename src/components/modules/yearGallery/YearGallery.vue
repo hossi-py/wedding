@@ -26,7 +26,7 @@ import YearImages from '../yearImages/YearImages.vue';
 export default defineComponent({
   components: { YearCard, YearImages },
   setup() {
-    const years = ref(Array.from({ length: 10 }, (_, i) => 2014 + i));
+    const years = ref(Array.from({ length: 11 }, (_, i) => 2014 + i));
     const showYearImagesPopup = ref(false);
     const selectedYear = ref<number | null>(null);
 
@@ -70,6 +70,10 @@ export default defineComponent({
     padding: 0 20px;
     box-sizing: border-box;
     width: 100%;
+
+    .year-card-container:nth-last-child(odd):last-child {
+      grid-column: span 2;
+    }
   }
 }
 </style>
