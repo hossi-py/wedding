@@ -75,6 +75,7 @@ export default defineComponent({
     // const naverMapUrl = `https://map.naver.com/v5/search/${locationName}`;
     //  const kakaoMapUrl = `https://map.kakao.com/link/search/${locationName}`;
     // window.open(, '_blank');
+
     const naverMapURL =
       'nmap://search?query=' +
       locationName +
@@ -139,6 +140,9 @@ export default defineComponent({
       border-radius: 10px;
       box-shadow: 0px 0px 16px rgb(0 0 0 / 6%);
       margin: 0 5px;
+      // a 태그의 탭 컬러를 없앨 수 있다.
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
 
       .image {
         display: flex;
@@ -158,11 +162,29 @@ export default defineComponent({
     }
 
     a:first-child {
-      margin-left: 0; // 첫번째 a 태그의 왼쪽 마진 제거
+      margin-left: 0;
     }
 
     a:last-child {
-      margin-right: 0; // 마지막 a 태그의 오른쪽 마진 제거
+      margin-right: 0;
+    }
+
+    a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(255, 165, 0, 0.5);
+      border-radius: 10px;
+      opacity: 0;
+      -webkit-transition: opacity 0.3s;
+      transition: opacity 0.3s;
+    }
+
+    a:active::before {
+      opacity: 1;
     }
   }
 }
