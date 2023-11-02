@@ -2,24 +2,16 @@
   <div class="year-images-container" @scroll="handleScroll">
     <span class="title">{{ year }}년, 우리</span>
     <button v-if="!showingCarousel" @click="closePopup">X</button>
-    <div
-      class="images-container"
-      v-for="(item, index) in imageOptions"
-      :key="`image-${index}`"
-    >
-      <div class="images-wrapper">
+    <div class="image-container">
+      <div class="image-wrapper">
         <div
+          v-for="(imageSrc, imageIdx) in imageOptions"
+          :key="`image-${imageIdx}`"
           class="image-item"
-          v-for="(imgName, imgIndex) in item.images"
-          :key="`item-${imgName}`"
-          @click="showCarousel(imgIndex)"
+          @click="showCarousel(imageIdx)"
         >
           <div class="image">
-            <img
-              :src="`/wedding/gallery/${year}/${imgName}`"
-              alt="Image"
-              class="fade-in"
-            />
+            <img :src="imageSrc" />
           </div>
         </div>
       </div>
@@ -27,17 +19,16 @@
 
     <!-- 캐러셀 -->
     <image-carousel
-      :images="carouselImages"
-      :visible="showingCarousel"
-      :index="selectedIndex"
-      @update:visible="closeCarousel"
-    ></image-carousel>
+      v-if="showingCarousel"
+      :selectedIndex="currentIndex"
+      :images="imageOptions"
+    >
+    </image-carousel>
   </div>
 </template>
 
 <script lang="ts">
 import {
-  computed,
   defineComponent,
   onBeforeUnmount,
   onMounted,
@@ -45,11 +36,6 @@ import {
   toRefs,
 } from 'vue';
 import ImageCarousel from '../imageCarousel/ImageCarousel.vue';
-
-type ImageOptionsType = {
-  value: string;
-  images: string[];
-};
 
 export default defineComponent({
   props: {
@@ -61,60 +47,20 @@ export default defineComponent({
   components: { ImageCarousel },
   setup(props, { emit }) {
     const state = reactive({
-      imageOptions: [] as ImageOptionsType[],
-      lastLoadedIndex: 0,
-      imagesToLoad: 30, // 로드할 이미지 개수
-      // TODO 실제로 바꿔야 함
-      maxImagesPerYear: {
-        2014: 13,
-        2015: 16,
-        2016: 16,
-        2017: 16,
-        2018: 16,
-        2019: 16,
-        2020: 16,
-        2021: 16,
-        2022: 16,
-        2023: 16,
-      } as Record<number, number>,
+      imageOptions: [] as string[],
       showingCarousel: false,
-      selectedIndex: 0,
+      currentIndex: 0,
     });
 
-    const loadMoreImages = () => {
-      const maxImages = state.maxImagesPerYear[props.year] || 0;
+    const generateImagePathsForYear = (year: number, count: number) => {
+      const baseImagePath = `/wedding/gallery`;
 
-      // state.imagesToLoad = state.maxImagesPerYear[props.year];
-      // 모든 이미지 로드하면 함수 종료
-      if (state.lastLoadedIndex >= maxImages) {
-        return;
+      const settingImages = [];
+      for (let i = 0; i < count; i++) {
+        // TODO jpg가 아니라면?
+        settingImages.push(`${baseImagePath}/${year}/${year}-${i}.jpg`);
       }
-
-      const newImages = [];
-      for (let i = 0; i < state.imagesToLoad; i++) {
-        const imageIndex = state.lastLoadedIndex + i;
-        if (imageIndex >= maxImages) {
-          break; // 이미지 최대 개수 초가화면 반복문 종료
-        }
-        // TODO jpg가 아니라 png라면?
-        newImages.push(`${props.year}-${imageIndex}.jpg`);
-      }
-
-      state.imageOptions.push({
-        value: props.year.toString(),
-        images: newImages,
-      });
-
-      // 다음 루프때는 이전꺼를 검사하면 안되기 때문
-      state.lastLoadedIndex += newImages.length;
-    };
-
-    const handleScroll = (event: Event) => {
-      const target = event.target as HTMLElement;
-
-      if (target.scrollHeight - target.scrollTop <= target.clientHeight + 500) {
-        loadMoreImages();
-      }
+      return settingImages;
     };
 
     const closePopup = () => {
@@ -122,34 +68,42 @@ export default defineComponent({
       document.body.classList.remove('no-scroll');
     };
 
-    const carouselImages = computed(() => {
-      // reduce 함수를 사용하여 imageOptions 배열의 각 항목에 있는 images 배열을 새로운 배열로 변환.
-      // => imageOptions의 value 값이 필요 없기 떄문
-      return state.imageOptions.reduce<string[]>((accumulator, option) => {
-        // 각 이미지 항목의 경로를 구성합니다.
-        const imagesWithFullPath = option.images.map(
-          (img) => `/wedding/gallery/${props.year}/${img}`,
-        );
-
-        // accumulator 배열에 현재 option의 imagesWithFullPath 배열을 병합합니다.
-        return accumulator.concat(imagesWithFullPath);
-      }, []);
-    });
-
     const showCarousel = (index: number) => {
       state.showingCarousel = true;
-      state.selectedIndex = index;
+      state.currentIndex = index;
     };
 
     const closeCarousel = () => {
       state.showingCarousel = false;
     };
 
-    // 컴포넌트가 마운트 될 때 스크롤 잠금
+    // 컴포넌트가 마운트 될 때 스크롤 잠금 (뒷 이미지가 깨지기 때문)
     onMounted(() => {
       document.body.classList.add('no-scroll');
-      // 인피니티 스크롤 적용
-      loadMoreImages();
+
+      // TODO 해당하는 연도 이미지 불러오기
+      const years = [
+        { year: 2014, count: 13 },
+        { year: 2015, count: 0 },
+        { year: 2016, count: 0 },
+        { year: 2017, count: 0 },
+        { year: 2018, count: 0 },
+        { year: 2019, count: 0 },
+        { year: 2020, count: 0 },
+        { year: 2021, count: 0 },
+        { year: 2022, count: 0 },
+        { year: 2023, count: 0 },
+        { year: 2024, count: 0 },
+      ];
+
+      const targetYear = years.find((y) => y.year === props.year);
+
+      if (targetYear) {
+        state.imageOptions = generateImagePathsForYear(
+          targetYear.year,
+          targetYear.count,
+        );
+      }
     });
 
     // 컴포넌트가 언마운트될 떄 스크롤 잠금 해제
@@ -159,8 +113,6 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
-      carouselImages,
-      handleScroll,
       closePopup,
       showCarousel,
       closeCarousel,
@@ -170,11 +122,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.fade-in {
-  -webkit-animation: fadeIn 1s forwards;
-  animation: fadeIn 1s forwards;
-}
-
 .year-images-container {
   position: fixed;
   top: 0;
@@ -196,7 +143,7 @@ export default defineComponent({
     -webkit-transform: translate(-50%, -50%);
   }
 
-  .images-container {
+  .image-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -204,21 +151,22 @@ export default defineComponent({
     padding: 50px 20px 20px 20px;
     box-sizing: border-box; // 전체 너비가 줄어도 padding 유지
 
-    .images-wrapper {
+    .image-wrapper {
+      grid-template-columns: repeat(2, 1fr);
+      display: grid;
+      gap: 10px;
+
       // 이미지 홀수개 => 공간 2개 차지
       .image-item:nth-last-child(odd):last-child {
         grid-column: span 2;
       }
-
-      grid-template-columns: repeat(2, 1fr);
-      display: grid;
-      gap: 10px;
 
       .image-item {
         .image {
           width: auto;
           height: 270px;
           overflow: hidden;
+
           img {
             width: 100%;
             height: 100%;

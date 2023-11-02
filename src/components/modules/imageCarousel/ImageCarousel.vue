@@ -1,116 +1,75 @@
 <template>
-  <div
-    v-if="visible"
-    class="carousel-overlay"
-    :class="{ 'fade-carousel': !isLoaded }"
-    @click="hide"
-  >
-    <div class="carousel-container" @click.stop>
-      <button
-        class="prev"
-        :class="{ firstImage: activeImageIndex === 0 }"
-        @click="prevImage"
-      ></button>
-
-      <img
-        v-lazy="images[activeImageIndex]"
-        alt="Carousel Image"
-        :key="activeImageIndex"
-        :class="{ 'fade-image': !isImageLoaded }"
-      />
-
-      <button
-        class="next"
-        :class="{ lastImage: activeImageIndex === images.length - 1 }"
-        @click="nextImage"
-      ></button>
+  <div class="carousel-overlay">
+    <div
+      class="carousel-container"
+      @touchstart="handleTouchStart"
+      @touchmove="handleTouchMove"
+      @touchend="handleTouchEnd"
+    >
+      <img :src="images[0]" alt="" />
+      <div v-for="(image, index) in images" :key="`carousel-${index}`">
+        <img
+          :src="image"
+          :style="{
+            transform: `translateX(${
+              (index - currentSelectedIndex.value) * 100 + offset
+            }%`,
+          }"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, watch } from 'vue';
+import { ref, defineComponent, watch } from 'vue';
 
 export default defineComponent({
   props: {
+    selectedIndex: {
+      type: Number,
+    },
     images: {
       type: Array,
-      required: true,
-    },
-    visible: {
-      type: Boolean,
-      default: false,
-    },
-    index: {
-      type: Number,
-      required: true,
     },
   },
+  setup(props) {
+    const offset = ref(0);
+    const currentSelectedIndex = ref(props.selectedIndex);
 
-  setup(props, { emit }) {
-    const state = reactive({
-      activeImageIndex: props.index,
-      isLoaded: false,
-      isImageLoaded: false,
-    });
-
-    // props의 index가 항상 0으로 오기 때문에 watch로 감지
     watch(
-      () => props.index,
-      (updatedIndex) => {
-        state.activeImageIndex = updatedIndex;
+      () => props.selectedIndex,
+      (newValue) => {
+        currentSelectedIndex.value = newValue;
       },
     );
 
-    // 클릭 시 페이드 효과
-    watch(
-      () => props.visible,
-      (newVal) => {
-        if (newVal) {
-          state.isLoaded = false;
-          setTimeout(() => {
-            state.isLoaded = true;
-          }, 700);
-        } else {
-          state.isLoaded = false;
+    let startX = 0;
+
+    const handleTouchStart = (event: TouchEvent) => {
+      startX = event.touches[0].clientX;
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      const deltaX = event.touches[0].clientX - startX;
+      offset.value = (deltaX / window.innerWidth) * 100;
+    };
+
+    const handleTouchEnd = () => {
+      if (Math.abs(offset.value) > 50) {
+        if (currentSelectedIndex.value) {
+          currentSelectedIndex.value += offset.value > 0 ? -1 : 1;
         }
-      },
-    );
-
-    const fadeEffect = () => {
-      if (state.isImageLoaded) {
-        state.isImageLoaded = false;
-        setTimeout(() => {
-          state.isImageLoaded = true;
-        }, 1000);
-      } else {
-        state.isImageLoaded = false;
       }
-    };
-
-    const hide = () => {
-      emit('update:visible', false);
-    };
-
-    const prevImage = () => {
-      if (state.activeImageIndex > 0) {
-        state.activeImageIndex--;
-        fadeEffect();
-      }
-    };
-
-    const nextImage = () => {
-      if (state.activeImageIndex < props.images.length - 1) {
-        state.activeImageIndex++;
-        fadeEffect();
-      }
+      offset.value = 0;
     };
 
     return {
-      ...toRefs(state),
-      hide,
-      prevImage,
-      nextImage,
+      offset,
+      currentSelectedIndex,
+      handleTouchStart,
+      handleTouchMove,
+      handleTouchEnd,
     };
   },
 });
@@ -130,58 +89,13 @@ export default defineComponent({
   justify-content: center;
 
   .carousel-container {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-
-    button {
-      z-index: 10;
-      position: absolute;
-      top: 50%;
-      -webkit-transform: translateY(-50%);
-      transform: translateY(-50%);
-      width: 40px;
-      height: 80px;
-      background-color: transparent;
-      border: none;
-      outline: none;
-      font-size: 1.5rem;
-      color: white;
-    }
-
-    .prev {
-      left: 2%; // Adjusted as per your requirement
-      &:before {
-        content: '<';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-      }
-    }
-
-    .next {
-      right: 2%; // Adjusted as per your requirement
-      &:before {
-        content: '>';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-      }
-    }
-
-    .firstImage,
-    .lastImage {
-      display: none;
-    }
+    display: flex;
+    overflow: hidden;
 
     img {
-      z-index: 1;
-      max-width: 100vw;
-      max-height: 100vh;
+      width: 100vw;
+      height: auto;
+      transition: transform 0.3s ease;
     }
   }
 }
