@@ -12,7 +12,7 @@
         </div>
         <div class="wedding-info-detail">
           <p class="wedding-time">2024.02.03 Sat 6:00PM</p>
-          <p class="wedding-place">연세대학교 동문회관</p>
+          <p class="wedding-place">연세대학교 동문회관 예식장</p>
         </div>
       </div>
     </div>

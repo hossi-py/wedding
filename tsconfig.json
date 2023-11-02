@@ -25,7 +25,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "types/**/*.d.ts" // 프로젝트 최상위 types 폴더 포함
   ],
   "exclude": ["node_modules"]
 }

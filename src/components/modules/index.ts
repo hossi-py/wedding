@@ -8,6 +8,7 @@ export * from './pageSeparator';
 export * from './photoGallery';
 export * from './selectBox';
 export * from './weddingCalendar';
+export * from './weddingLocation';
 export * from './yearCard';
 export * from './yearGallery';
 export * from './yearImages';

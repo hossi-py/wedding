@@ -5,6 +5,7 @@
     <main-introduce></main-introduce>
     <wedding-calendar></wedding-calendar>
     <year-gallery></year-gallery>
+    <wedding-location></wedding-location>
   </div>
 </template>
 
@@ -16,6 +17,7 @@ import {
   MainIntroduce,
   WeddingCalendar,
   YearGallery,
+  WeddingLocation,
 } from '@/components';
 
 export default defineComponent({
@@ -26,6 +28,7 @@ export default defineComponent({
     MainIntroduce,
     WeddingCalendar,
     YearGallery,
+    WeddingLocation,
   },
   setup() {
     const isLoaded = ref(false);
