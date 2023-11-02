@@ -6,6 +6,20 @@
       <p class="road-name">서울특별시 서대문구 연세로 50 (신촌동)</p>
     </div>
     <div id="map" class="map"></div>
+    <div class="map-wrapper">
+      <a :href="naverMapURL">
+        <div class="image"><img src="~@/assets/images/naver.png" alt="" /></div>
+        <div class="map-name">네이버지도</div>
+      </a>
+      <a :href="kakaoMapURL">
+        <div class="image"><img src="~@/assets/images/kakao.png" alt="" /></div>
+        <div class="map-name">카카오맵</div>
+      </a>
+      <a :href="TMapURL">
+        <div class="image"><img src="~@/assets/images/tmap.svg" alt="" /></div>
+        <div class="map-name">티맵</div>
+      </a>
+    </div>
   </div>
 </template>
 
@@ -43,7 +57,28 @@ export default defineComponent({
       };
     });
 
-    return;
+    const locationName = encodeURIComponent('연세대학교 동문회관 예식장');
+    const TMAPLocationName = encodeURIComponent('연세동문회관');
+
+    // 유저 에이전트
+    // const isiOS =
+    //   /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    // const isAndroid = /Android/.test(navigator.userAgent);
+
+    // 모웹으로 열 때
+    // const naverMapUrl = `https://map.naver.com/v5/search/${locationName}`;
+    //  const kakaoMapUrl = `https://map.kakao.com/link/search/${locationName}`;
+    // window.open(, '_blank');
+    const naverMapURL =
+      'nmap://search?query=' +
+      locationName +
+      '&appname=hossi-py.github.io/wedding';
+
+    const kakaoMapURL = 'kakaomap://search?q=' + locationName;
+
+    const TMapURL = 'tmap://search?name=' + TMAPLocationName;
+
+    return { naverMapURL, kakaoMapURL, TMapURL };
   },
 });
 </script>
@@ -59,6 +94,8 @@ export default defineComponent({
   }
 
   .location-wrapper {
+    margin-bottom: 50px;
+
     .location {
       font-size: 0.85rem;
       font-weight: 600;
@@ -76,6 +113,38 @@ export default defineComponent({
     width: 100%;
     height: 325px;
     overflow: hidden;
+  }
+
+  .map-wrapper {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    a {
+      width: 100px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
+      text-decoration: none;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+
+      .image {
+        img {
+          width: 20px;
+          height: 20px;
+          margin-right: 5px;
+        }
+      }
+
+      .map-name {
+        font-size: 0.9rem;
+        color: #000000;
+      }
+    }
   }
 }
 </style>
