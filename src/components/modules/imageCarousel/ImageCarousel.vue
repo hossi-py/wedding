@@ -75,6 +75,7 @@ export default defineComponent({
     };
 
     const onTouchStart = (event: TouchEvent) => {
+      if (state.isAnimating) return;
       state.touchStartX = event.touches[0].clientX;
       state.scrollStart = carousel.value ? carousel.value.scrollLeft : 0;
     };
@@ -88,6 +89,7 @@ export default defineComponent({
     };
 
     const onTouchEnd = () => {
+      if (state.isAnimating) return;
       const dx = state.touchStartX - state.touchCurrentX;
 
       if (Math.abs(dx) > 30) {
@@ -105,6 +107,7 @@ export default defineComponent({
 
     // carousel-wrapper 영역 바깥 클릭하면 화면 닫기
     const handleOutsideClick = (event: Event) => {
+      if (state.isAnimating) return;
       event.stopPropagation();
 
       if (carousel.value && !carousel.value.contains(event.target as Node)) {
