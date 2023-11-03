@@ -1,7 +1,9 @@
 <template>
   <div class="year-images-container" @scroll="handleScroll">
     <span class="title">{{ year }}년, 우리</span>
-    <button v-if="!showingCarousel" @click="closePopup">X</button>
+    <button class="close-button" v-if="!showingCarousel" @click="closePopup">
+      X
+    </button>
     <div class="image-container">
       <div class="image-wrapper">
         <div
@@ -20,12 +22,19 @@
     <swiper
       v-if="showingCarousel"
       navigation
+      zoom
       :initialSlide="currentIndex"
       :modules="modules"
       :speed="speed"
       @swiper="onSwiper"
     >
-      <button v-if="showingCarousel" @click="closeCarousel">X</button>
+      <button
+        class="close-button"
+        v-if="showingCarousel"
+        @click="closeCarousel"
+      >
+        X
+      </button>
       <swiper-slide
         v-for="(imageSrc, index) in imageOptions"
         :key="`image-${index}`"
@@ -98,8 +107,26 @@ export default defineComponent({
       state.showingCarousel = false;
     };
 
+    const addClickAnimation = (element: any) => {
+      element.classList.add('animate-click');
+      element.addEventListener(
+        'animationend',
+        () => {
+          element.classList.remove('animate-click');
+        },
+        { once: true },
+      );
+    };
+
     const onSwiper = (swiper: SwiperClass) => {
       swiperInstance.value = swiper;
+
+      // 네비게이션 버튼에 클릭 이벤트 리스너 추가
+      const nextButton = swiper.navigation.nextEl;
+      const prevButton = swiper.navigation.prevEl;
+
+      nextButton.addEventListener('click', () => addClickAnimation(nextButton));
+      prevButton.addEventListener('click', () => addClickAnimation(prevButton));
     };
 
     // 컴포넌트가 마운트 될 때 스크롤 잠금 (뒷 이미지가 깨지기 때문)
@@ -251,5 +278,23 @@ export default defineComponent({
     right: 25px;
     border: none;
   }
+}
+</style>
+
+<style scoped>
+/* 애니메이션 클래스 */
+::v-deep .animate-click {
+  animation: clickAnimation 0.3s ease;
+  -webkit-animation: clickAnimation 0.3s ease;
+}
+
+::v-deep .swiper-button-prev::after,
+::v-deep .swiper-button-next::after {
+  color: rgb(255, 255, 255);
+}
+
+::v-deep .swiper-button-prev,
+::v-deep .swiper-button-next {
+  -webkit-tap-highlight-color: transparent;
 }
 </style>
