@@ -25,6 +25,7 @@
       :speed="speed"
       @swiper="onSwiper"
     >
+      <button v-if="showingCarousel" @click="closeCarousel">X</button>
       <swiper-slide
         v-for="(imageSrc, index) in imageOptions"
         :key="`image-${index}`"
@@ -158,6 +159,15 @@ export default defineComponent({
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 100;
   overflow: auto;
+
+  // 스크롤바 숨기기 위한 스타일
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 
   .title {
     display: flex;
