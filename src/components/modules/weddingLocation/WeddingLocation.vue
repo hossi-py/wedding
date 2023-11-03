@@ -7,19 +7,19 @@
     </div>
     <div id="map" class="map"></div>
     <div class="map-wrapper">
-      <a :href="naverMapURL">
+      <a :href="naverMapURL" @click.prevent="checkUserAgent">
         <div class="image">
           <img src="~@/assets/images/naver.png" alt="" />
         </div>
         <div class="map-name">네이버지도</div>
       </a>
-      <a :href="kakaoMapURL">
+      <a :href="kakaoMapURL" @click.prevent="checkUserAgent">
         <div class="image">
           <img src="~@/assets/images/kakao.png" alt="" />
         </div>
         <div class="map-name">카카오맵</div>
       </a>
-      <a :href="TMapURL">
+      <a :href="TMapURL" @click.prevent="checkUserAgent">
         <div class="image">
           <img src="~@/assets/images/tmap.svg" alt="" />
         </div>
@@ -31,6 +31,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
+import { isiOS, isAndroid } from '@/utils';
 
 export default defineComponent({
   setup() {
@@ -66,11 +67,6 @@ export default defineComponent({
     const locationName = encodeURIComponent('연세대학교 동문회관 예식장');
     const TMAPLocationName = encodeURIComponent('연세동문회관');
 
-    // 유저 에이전트
-    // const isiOS =
-    //   /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
-    // const isAndroid = /Android/.test(navigator.userAgent);
-
     // 모웹으로 열 때
     // const naverMapUrl = `https://map.naver.com/v5/search/${locationName}`;
     //  const kakaoMapUrl = `https://map.kakao.com/link/search/${locationName}`;
@@ -85,7 +81,15 @@ export default defineComponent({
 
     const TMapURL = 'tmap://search?name=' + TMAPLocationName;
 
-    return { naverMapURL, kakaoMapURL, TMapURL };
+    const checkUserAgent = () => {
+      if (!isiOS && !isAndroid) {
+        alert('이 기능은 모바일 장치에서만 사용할 수 있습니다.');
+      } else {
+        //
+      }
+    };
+
+    return { naverMapURL, kakaoMapURL, TMapURL, checkUserAgent };
   },
 });
 </script>

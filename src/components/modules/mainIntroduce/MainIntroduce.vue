@@ -62,10 +62,16 @@
                   <span class="role">{{ item.role }}</span>
                   <span class="name">{{ item.name }}</span>
                   <div v-if="item.role" class="image">
-                    <a class="img-wrapper" :href="`tel:${item.call}`"
+                    <a
+                      class="img-wrapper"
+                      :href="`tel:${item.call}`"
+                      @click.prevent="checkUserAgent"
                       ><img :src="callImage" alt="Image"
                     /></a>
-                    <a class="img-wrapper" :href="`sms:${item.message}`"
+                    <a
+                      class="img-wrapper"
+                      :href="`sms:${item.message}`"
+                      @click.prevent="checkUserAgent"
                       ><img :src="messageImage" alt="Image"
                     /></a>
                   </div>
@@ -102,6 +108,8 @@ import {
   ref,
   toRefs,
 } from 'vue';
+
+import { isiOS, isAndroid } from '@/utils';
 
 export default defineComponent({
   setup() {
@@ -141,6 +149,14 @@ export default defineComponent({
       }
     };
 
+    const checkUserAgent = () => {
+      if (!isiOS && !isAndroid) {
+        alert('이 기능은 모바일 장치에서만 사용할 수 있습니다.');
+      } else {
+        //
+      }
+    };
+
     onMounted(() => {
       document.addEventListener('click', handleOutsideClick);
     });
@@ -154,6 +170,7 @@ export default defineComponent({
       showCallBook,
       callBookRef,
       handleOnClick,
+      checkUserAgent,
     };
   },
 });
@@ -299,6 +316,7 @@ export default defineComponent({
         }
       }
       .call {
+        cursor: pointer;
         position: relative;
         z-index: 100;
         background-image: linear-gradient(

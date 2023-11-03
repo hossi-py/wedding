@@ -241,6 +241,7 @@ export default defineComponent({
   }
 
   button {
+    cursor: pointer;
     z-index: 100;
     position: fixed;
     background-color: transparent;
