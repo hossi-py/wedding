@@ -6,7 +6,7 @@ const intersectDirective: Directive = {
     const options = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.15,
+      threshold: 0.12,
     };
 
     const callback = (

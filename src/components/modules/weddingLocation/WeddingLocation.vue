@@ -3,7 +3,17 @@
     <div class="header">오시는 길</div>
     <div class="location-wrapper">
       <p class="location">연세대학교 동문회관 예식장</p>
-      <p class="road-name">서울특별시 서대문구 연세로 50 (신촌동)</p>
+      <p class="road-name-wrapper">
+        <span class="road-name">서울특별시 서대문구 연세로 50 (신촌동)</span>
+        <span
+          class="reset-area"
+          :class="{ active: isClick }"
+          @click="resetLocation"
+        >
+          <img src="~@/assets/images/marker.png" />
+          <!-- <span class="reset">마커로 이동</span> -->
+        </span>
+      </p>
     </div>
     <div id="map" class="map"></div>
     <div class="map-wrapper">
@@ -30,11 +40,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue';
 import { isiOS, isAndroid } from '@/utils';
 
 export default defineComponent({
   setup() {
+    const state = reactive({
+      latitude: 37.56298958928777,
+      longitude: 126.94236631907835,
+      isClick: false,
+    });
+
+    const mapRef = ref(null) as any;
+
     onMounted(() => {
       const script = document.createElement('script');
       script.type = 'text/javascript';
@@ -43,20 +61,17 @@ export default defineComponent({
       document.head.appendChild(script);
 
       script.onload = () => {
-        const map = new window.naver.maps.Map('map', {
-          center: new window.naver.maps.LatLng(
-            37.56298958928777,
-            126.94236631907835,
-          ),
+        mapRef.value = new window.naver.maps.Map('map', {
+          center: new window.naver.maps.LatLng(state.latitude, state.longitude),
           zoom: 17,
         });
 
         const markerOptions = {
           position: new window.naver.maps.LatLng(
-            37.56298958928777,
-            126.94236631907835,
+            state.latitude,
+            state.longitude,
           ),
-          map: map,
+          map: mapRef.value,
           icon: require('@/assets/images/marker.png'),
         };
 
@@ -90,7 +105,30 @@ export default defineComponent({
       }
     };
 
-    return { naverMapURL, kakaoMapURL, TMapURL, checkUserAgent };
+    // 마커로 이동
+    const resetLocation = () => {
+      state.isClick = true;
+
+      setTimeout(() => {
+        state.isClick = false;
+      }, 500);
+
+      if (mapRef.value) {
+        mapRef.value.setOptions({
+          center: new window.naver.maps.LatLng(state.latitude, state.longitude),
+          zoom: 17, // 원하는 줌 레벨로 설정
+        });
+      }
+    };
+
+    return {
+      ...toRefs(state),
+      naverMapURL,
+      kakaoMapURL,
+      TMapURL,
+      checkUserAgent,
+      resetLocation,
+    };
   },
 });
 </script>
@@ -106,17 +144,44 @@ export default defineComponent({
   }
 
   .location-wrapper {
-    margin-bottom: 50px;
-
     .location {
       font-size: 0.85rem;
       font-weight: 600;
       line-height: 0.5rem;
     }
-    .road-name {
-      font-size: 0.7rem;
-      font-weight: 600;
-      opacity: 0.7;
+    .road-name-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .road-name {
+        position: relative;
+        font-size: 0.7rem;
+        font-weight: 600;
+        opacity: 0.7;
+      }
+      .reset-area {
+        display: flex;
+        position: absolute;
+        right: 5%;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+
+        img {
+          width: 25px;
+          height: 25px;
+          margin-bottom: 13px;
+        }
+
+        .reset {
+          font-size: 0.7rem;
+          font-weight: 600;
+        }
+      }
+      .reset-area.active {
+        animation: jelly 500ms;
+        -webkit-animation: jelly 500ms;
+      }
     }
   }
 
