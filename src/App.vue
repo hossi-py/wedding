@@ -1,16 +1,16 @@
 <template>
   <falling-leaf></falling-leaf>
-  <div id="app" :class="{ 'fade-enter': !isLoaded }">
-    <main-contents></main-contents>
-    <main-introduce></main-introduce>
-    <wedding-calendar></wedding-calendar>
-    <year-gallery></year-gallery>
-    <wedding-location></wedding-location>
+  <div id="app">
+    <main-contents v-intersect class="fade-enter"></main-contents>
+    <main-introduce v-intersect class="fade-enter"></main-introduce>
+    <wedding-calendar v-intersect class="fade-enter"></wedding-calendar>
+    <year-gallery v-intersect class="fade-enter"></year-gallery>
+    <wedding-location v-intersect class="fade-enter"></wedding-location>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent } from 'vue';
 import {
   FallingLeaf,
   MainContents,
@@ -31,25 +31,23 @@ export default defineComponent({
     WeddingLocation,
   },
   setup() {
-    const isLoaded = ref(false);
-
-    onMounted(() => {
-      setTimeout(() => {
-        isLoaded.value = true;
-      }, 3000);
-    });
-
-    return { isLoaded };
+    return {};
   },
 });
 </script>
 
 <style>
 @import '@/assets/styles/base.css';
-
 .fade-enter {
-  -webkit-animation: fadeIn 3s forwards;
-  animation: fadeIn 3s forwards;
+  opacity: 0;
+  -webkit-transition: opacity 1s ease;
+  transition: opacity 1s ease;
+}
+
+.fade-enter-active {
+  -webkit-animation: fadeIn 1s ease-in-out;
+  animation: fadeIn 1s ease-in-out;
+  opacity: 1;
 }
 
 .fade-carousel {
