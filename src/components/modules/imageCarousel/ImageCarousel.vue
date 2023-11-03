@@ -1,81 +1,165 @@
 <template>
-  <div class="carousel-overlay">
+  <div class="carousel-overlay" @click="handleOutsideClick">
     <div
-      class="carousel-container"
-      @touchstart="handleTouchStart"
-      @touchmove="handleTouchMove"
-      @touchend="handleTouchEnd"
+      class="carousel-wrapper"
+      ref="carousel"
+      :class="{ 'fade-in': visible }"
     >
-      <img :src="images[0]" alt="" />
-      <div v-for="(image, index) in images" :key="`carousel-${index}`">
-        <img
-          :src="image"
-          :style="{
-            transform: `translateX(${
-              (index - currentSelectedIndex.value) * 100 + offset
-            }%`,
-          }"
-        />
+      <div
+        class="image-wrapper"
+        v-for="(src, idx) in images"
+        :key="`image-${idx}`"
+      >
+        <img :src="src" />
       </div>
+      <button class="prev" @click="move(-1)" :disabled="isAnimating">
+        prev
+      </button>
+      <button class="next" @click="move(1)" :disabled="isAnimating">
+        next
+      </button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, watch } from 'vue';
+import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue';
 
 export default defineComponent({
   props: {
     selectedIndex: {
       type: Number,
+      default: 0,
     },
     images: {
       type: Array,
+      default: () => [],
+    },
+    visible: {
+      type: Boolean,
+      defalut: false,
     },
   },
-  setup(props) {
-    const offset = ref(0);
-    const currentSelectedIndex = ref(props.selectedIndex);
+  setup(props, { emit }) {
+    const state = reactive({
+      scrollPosition: 0,
+      isAnimating: false,
+    });
+    const carousel = ref<HTMLElement | null>(null);
 
-    watch(
-      () => props.selectedIndex,
-      (newValue) => {
-        currentSelectedIndex.value = newValue;
-      },
-    );
+    onMounted(() => {
+      moveToSelectedImage();
+    });
 
-    let startX = 0;
+    // carousel-wrapper 영역 바깥 클릭하면 화면 닫기
+    const handleOutsideClick = (event: Event) => {
+      event.stopPropagation();
 
-    const handleTouchStart = (event: TouchEvent) => {
-      startX = event.touches[0].clientX;
-    };
-
-    const handleTouchMove = (event: TouchEvent) => {
-      const deltaX = event.touches[0].clientX - startX;
-      offset.value = (deltaX / window.innerWidth) * 100;
-    };
-
-    const handleTouchEnd = () => {
-      if (Math.abs(offset.value) > 50) {
-        if (currentSelectedIndex.value) {
-          currentSelectedIndex.value += offset.value > 0 ? -1 : 1;
-        }
+      if (carousel.value && !carousel.value.contains(event.target as Node)) {
+        emit('outside-click');
       }
-      offset.value = 0;
+    };
+
+    const moveToSelectedImage = () => {
+      if (carousel.value) {
+        const imageWidth = carousel.value.offsetWidth; // carousel-wrapper의 width
+        state.scrollPosition = imageWidth * props.selectedIndex; // 선택된 이미지 까지 이동할 거리
+        carousel.value.scrollLeft = state.scrollPosition;
+      }
+    };
+
+    // overflow-x 가 있다는 전제
+    const move = (direction: number) => {
+      if (carousel.value) {
+        state.isAnimating = true;
+        const imageWidth = carousel.value.offsetWidth; // carousel-wrapper의 width
+        // 현재 스크롤 위치에 direction을 곱한 imageWidth 값을 더하여 이동할 위치를 정한다.
+        const newScrollPosition =
+          carousel.value.scrollLeft + imageWidth * direction;
+
+        customScrollBehavior(carousel.value, newScrollPosition, 850);
+      }
+    };
+
+    // [scroll-behavior: smooth] 가 duration을 줄 수 없어서 커스텀 함수 만듦
+    const customScrollBehavior = (
+      element: HTMLElement,
+      endPosition: number,
+      duration: number,
+    ) => {
+      // 애니메이션 시작 시간
+      let startTime: number | null = null;
+
+      // 초기 스크롤 위치
+      const startScrollLeft = element.scrollLeft;
+      // 스크롤해야 할 총 거리
+      const distanceToScroll = endPosition - startScrollLeft;
+
+      // Easing 함수: 현재 시간, 시작 값, 변화량, 지속시간을 기반으로 다음 스크롤 위치를 계산
+      const easeInOutQuad = (
+        currentTime: number,
+        startValue: number,
+        changeInValue: number,
+        duration: number,
+      ) => {
+        // 애니메이션 경과 시간을 두 부분으로 나눈다. (가속 구간 / 감속 구간)
+        currentTime /= duration / 2;
+
+        // 가속 구간
+        if (currentTime < 1)
+          /*
+          changeInValue / 2 => 총 변화량의 절반. 애니메이션이 중간 지점까지만 가속하여 이동하기 때문
+          currentTime * currentTime => 시간에 따라 가속량을 제어
+        */
+          return (changeInValue / 2) * currentTime * currentTime + startValue;
+
+        // 감속 구간
+        currentTime--;
+        return (
+          (-changeInValue / 2) * (currentTime * (currentTime - 2) - 1) +
+          startValue
+        );
+      };
+
+      const animation = (currentTime: number) => {
+        if (!startTime) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        const newScrollPosition = easeInOutQuad(
+          timeElapsed,
+          startScrollLeft,
+          distanceToScroll,
+          duration,
+        );
+        element.scrollLeft = newScrollPosition;
+
+        // duration 임계에 도달할 때까지 애니메이션 지속
+        if (timeElapsed < duration) {
+          requestAnimationFrame(animation);
+        } else {
+          element.scrollLeft = endPosition; // 애니메이션의 종료 지점 설정
+          state.isAnimating = false;
+        }
+      };
+
+      requestAnimationFrame(animation);
     };
 
     return {
-      offset,
-      currentSelectedIndex,
-      handleTouchStart,
-      handleTouchMove,
-      handleTouchEnd,
+      ...toRefs(state),
+      carousel,
+      handleOutsideClick,
+      move,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+.fade-in {
+  animation: fadeIn 1s forwards;
+  -webkit-animation: fadeIn 1s forwards;
+}
+
 .carousel-overlay {
   overflow: hidden;
   position: fixed;
@@ -88,14 +172,30 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
 
-  .carousel-container {
+  .carousel-wrapper {
+    position: relative;
     display: flex;
-    overflow: hidden;
+    align-items: center;
+    overflow-x: auto;
 
-    img {
-      width: 100vw;
-      height: auto;
-      transition: transform 0.3s ease;
+    .image-wrapper {
+      img {
+        // %로 하면 하나의 이미지로만 표현되지 않고 전체 이미지가 한 영역에 보이게 됨
+        max-width: 100vw; // 줄일 수록 주변 이미지가 보임
+        max-height: 100vh;
+      }
+    }
+
+    button {
+      position: fixed;
+    }
+
+    .prev {
+      left: 0;
+    }
+
+    .next {
+      right: 0;
     }
   }
 }

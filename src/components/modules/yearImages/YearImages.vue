@@ -20,8 +20,10 @@
     <!-- 캐러셀 -->
     <image-carousel
       v-if="showingCarousel"
+      :visible="showingCarousel"
       :selectedIndex="currentIndex"
       :images="imageOptions"
+      @outside-click="closeCarousel"
     >
     </image-carousel>
   </div>
