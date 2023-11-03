@@ -39,7 +39,9 @@
         v-for="(imageSrc, index) in imageOptions"
         :key="`image-${index}`"
       >
-        <img :src="imageSrc" />
+        <div class="swiper-zoom-container">
+          <img :src="imageSrc" />
+        </div>
       </swiper-slide>
     </swiper>
   </div>
