@@ -150,6 +150,16 @@ export default defineComponent({
     };
 
     const checkUserAgent = (event: Event) => {
+      const imgWrapper = event.currentTarget as HTMLElement;
+      imgWrapper.classList.add('animate-click');
+      imgWrapper.addEventListener(
+        'animationend',
+        () => {
+          imgWrapper.classList.remove('animate-click');
+        },
+        { once: true },
+      );
+
       if (!isiOS && !isAndroid) {
         alert('이 기능은 모바일 장치에서만 사용할 수 있습니다.');
         event?.preventDefault();
@@ -176,6 +186,13 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+::v-deep .animate-click {
+  animation: clickAnimation 0.3s ease;
+  -webkit-animation: clickAnimation 0.3s ease;
+}
+</style>
 
 <style lang="scss" scoped>
 .fadeIn {
@@ -297,6 +314,7 @@ export default defineComponent({
                 flex: 0.8 1 0%;
 
                 .img-wrapper {
+                  -webkit-tap-highlight-color: transparent;
                   margin-left: 20px;
                   width: 30px;
                   height: 30px;

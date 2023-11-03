@@ -455,7 +455,7 @@ export default defineComponent({
     transform: scale(1);
   }
   50% {
-    transform: scale(0.5);
+    transform: scale(0.6);
   }
   100% {
     transform: scale(1);
