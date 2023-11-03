@@ -37,19 +37,71 @@ export default defineComponent({
     },
     visible: {
       type: Boolean,
-      defalut: false,
+      default: false,
     },
   },
   setup(props, { emit }) {
     const state = reactive({
       scrollPosition: 0,
+      touchStartX: 0,
+      touchCurrentX: 0,
       isAnimating: false,
+      scrollStart: 0,
     });
     const carousel = ref<HTMLElement | null>(null);
 
     onMounted(() => {
       moveToSelectedImage();
+      setEventListener();
     });
+
+    // 처음 화면에 들어왔을 때 클릭한 이미지를 화면에 보여준다.
+    const moveToSelectedImage = () => {
+      if (carousel.value) {
+        const imageWidth = carousel.value.offsetWidth; // carousel-wrapper의 width
+        state.scrollPosition = imageWidth * props.selectedIndex; // 선택된 이미지 까지 이동할 거리
+        carousel.value.scrollLeft = state.scrollPosition;
+      }
+    };
+
+    // 터치 이벤트리스너 등록
+    const setEventListener = () => {
+      const carouselElement = carousel.value;
+      if (carouselElement) {
+        carouselElement.addEventListener('touchstart', onTouchStart);
+        carouselElement.addEventListener('touchmove', onTouchMove);
+        carouselElement.addEventListener('touchend', onTouchEnd);
+      }
+    };
+
+    const onTouchStart = (event: TouchEvent) => {
+      state.touchStartX = event.touches[0].clientX;
+      state.scrollStart = carousel.value ? carousel.value.scrollLeft : 0;
+    };
+
+    const onTouchMove = (event: TouchEvent) => {
+      state.touchCurrentX = event.touches[0].clientX;
+      const dx = state.touchStartX - state.touchCurrentX;
+      if (carousel.value) {
+        carousel.value.scrollLeft = state.scrollStart + dx;
+      }
+    };
+
+    const onTouchEnd = () => {
+      const dx = state.touchStartX - state.touchCurrentX;
+
+      if (Math.abs(dx) > 30) {
+        const direction = dx > 0 ? 1 : -1;
+        move(direction);
+      } else {
+        if (carousel.value) {
+          carousel.value.scrollTo({
+            left: state.scrollStart,
+            behavior: 'smooth',
+          });
+        }
+      }
+    };
 
     // carousel-wrapper 영역 바깥 클릭하면 화면 닫기
     const handleOutsideClick = (event: Event) => {
@@ -57,14 +109,6 @@ export default defineComponent({
 
       if (carousel.value && !carousel.value.contains(event.target as Node)) {
         emit('outside-click');
-      }
-    };
-
-    const moveToSelectedImage = () => {
-      if (carousel.value) {
-        const imageWidth = carousel.value.offsetWidth; // carousel-wrapper의 width
-        state.scrollPosition = imageWidth * props.selectedIndex; // 선택된 이미지 까지 이동할 거리
-        carousel.value.scrollLeft = state.scrollPosition;
       }
     };
 
