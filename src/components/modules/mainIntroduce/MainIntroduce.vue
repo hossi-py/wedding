@@ -65,13 +65,13 @@
                     <a
                       class="img-wrapper"
                       :href="`tel:${item.call}`"
-                      @click.prevent="checkUserAgent"
+                      @click="checkUserAgent"
                       ><img :src="callImage" alt="Image"
                     /></a>
                     <a
                       class="img-wrapper"
                       :href="`sms:${item.message}`"
-                      @click.prevent="checkUserAgent"
+                      @click="checkUserAgent"
                       ><img :src="messageImage" alt="Image"
                     /></a>
                   </div>
@@ -149,9 +149,10 @@ export default defineComponent({
       }
     };
 
-    const checkUserAgent = () => {
+    const checkUserAgent = (event: Event) => {
       if (!isiOS && !isAndroid) {
         alert('이 기능은 모바일 장치에서만 사용할 수 있습니다.');
+        event?.preventDefault();
       } else {
         //
       }

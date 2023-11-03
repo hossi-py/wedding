@@ -7,19 +7,19 @@
     </div>
     <div id="map" class="map"></div>
     <div class="map-wrapper">
-      <a :href="naverMapURL" @click.prevent="checkUserAgent">
+      <a :href="naverMapURL" @click="checkUserAgent">
         <div class="image">
           <img src="~@/assets/images/naver.png" alt="" />
         </div>
         <div class="map-name">네이버지도</div>
       </a>
-      <a :href="kakaoMapURL" @click.prevent="checkUserAgent">
+      <a :href="kakaoMapURL" @click="checkUserAgent">
         <div class="image">
           <img src="~@/assets/images/kakao.png" alt="" />
         </div>
         <div class="map-name">카카오맵</div>
       </a>
-      <a :href="TMapURL" @click.prevent="checkUserAgent">
+      <a :href="TMapURL" @click="checkUserAgent">
         <div class="image">
           <img src="~@/assets/images/tmap.svg" alt="" />
         </div>
@@ -81,9 +81,10 @@ export default defineComponent({
 
     const TMapURL = 'tmap://search?name=' + TMAPLocationName;
 
-    const checkUserAgent = () => {
+    const checkUserAgent = (event: Event) => {
       if (!isiOS && !isAndroid) {
         alert('이 기능은 모바일 장치에서만 사용할 수 있습니다.');
+        event?.preventDefault();
       } else {
         //
       }
