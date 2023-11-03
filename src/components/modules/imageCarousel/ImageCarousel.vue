@@ -23,7 +23,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue';
+import {
+  defineComponent,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
+  toRefs,
+} from 'vue';
 
 export default defineComponent({
   props: {
@@ -53,7 +60,21 @@ export default defineComponent({
     onMounted(() => {
       moveToSelectedImage();
       setEventListener();
+      window.addEventListener('resize', handleResize);
     });
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', handleResize);
+    });
+
+    // 화면 크기가 변경되었을 때 이미지 크기 조절
+    const handleResize = () => {
+      if (carousel.value) {
+        const imageWidth = carousel.value.offsetWidth;
+        carousel.value.scrollLeft =
+          Math.round(carousel.value.scrollLeft / imageWidth) * imageWidth;
+      }
+    };
 
     // 처음 화면에 들어왔을 때 클릭한 이미지를 화면에 보여준다.
     const moveToSelectedImage = () => {
@@ -81,6 +102,7 @@ export default defineComponent({
     };
 
     const onTouchMove = (event: TouchEvent) => {
+      if (state.isAnimating) return;
       state.touchCurrentX = event.touches[0].clientX;
       const dx = state.touchStartX - state.touchCurrentX;
       if (carousel.value) {
@@ -107,7 +129,6 @@ export default defineComponent({
 
     // carousel-wrapper 영역 바깥 클릭하면 화면 닫기
     const handleOutsideClick = (event: Event) => {
-      if (state.isAnimating) return;
       event.stopPropagation();
 
       if (carousel.value && !carousel.value.contains(event.target as Node)) {
@@ -230,6 +251,7 @@ export default defineComponent({
         // %로 하면 하나의 이미지로만 표현되지 않고 전체 이미지가 한 영역에 보이게 됨
         max-width: 100vw; // 줄일 수록 주변 이미지가 보임
         max-height: 100vh;
+        object-fit: cover;
       }
     }
 
