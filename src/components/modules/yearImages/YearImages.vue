@@ -17,15 +17,21 @@
       </div>
     </div>
 
-    <!-- 캐러셀 -->
-    <image-carousel
+    <swiper
       v-if="showingCarousel"
-      :visible="showingCarousel"
-      :selectedIndex="currentIndex"
-      :images="imageOptions"
-      @outside-click="closeCarousel"
+      navigation
+      :initialSlide="currentIndex"
+      :modules="modules"
+      :speed="speed"
+      @swiper="onSwiper"
     >
-    </image-carousel>
+      <swiper-slide
+        v-for="(imageSrc, index) in imageOptions"
+        :key="`image-${index}`"
+      >
+        <img :src="imageSrc" />
+      </swiper-slide>
+    </swiper>
   </div>
 </template>
 
@@ -35,9 +41,16 @@ import {
   onBeforeUnmount,
   onMounted,
   reactive,
+  ref,
   toRefs,
 } from 'vue';
-import ImageCarousel from '../imageCarousel/ImageCarousel.vue';
+
+import { Swiper as SwiperClass } from 'swiper/types';
+import { Navigation, Zoom } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/zoom';
 
 export default defineComponent({
   props: {
@@ -46,13 +59,18 @@ export default defineComponent({
       required: true,
     },
   },
-  components: { ImageCarousel },
+  components: {
+    Swiper,
+    SwiperSlide,
+  },
   setup(props, { emit }) {
     const state = reactive({
       imageOptions: [] as string[],
       showingCarousel: false,
       currentIndex: 0,
     });
+
+    const swiperInstance = ref<SwiperClass>();
 
     const generateImagePathsForYear = (year: number, count: number) => {
       const baseImagePath = `/wedding/gallery`;
@@ -77,6 +95,10 @@ export default defineComponent({
 
     const closeCarousel = () => {
       state.showingCarousel = false;
+    };
+
+    const onSwiper = (swiper: SwiperClass) => {
+      swiperInstance.value = swiper;
     };
 
     // 컴포넌트가 마운트 될 때 스크롤 잠금 (뒷 이미지가 깨지기 때문)
@@ -118,6 +140,9 @@ export default defineComponent({
       closePopup,
       showCarousel,
       closeCarousel,
+      onSwiper,
+      modules: [Navigation, Zoom],
+      speed: 1200,
     };
   },
 });
@@ -176,6 +201,31 @@ export default defineComponent({
             object-fit: cover;
           }
         }
+      }
+    }
+  }
+
+  .swiper {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .swiper-slide {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      img {
+        max-width: 100vw;
+        max-height: 100vh;
+        object-fit: cover;
       }
     }
   }
