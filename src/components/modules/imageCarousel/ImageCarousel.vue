@@ -136,16 +136,42 @@ export default defineComponent({
       }
     };
 
+    const delayAnimating = () => {
+      setTimeout(() => {
+        state.isAnimating = false;
+      }, 300);
+    };
+
     // overflow-x 가 있다는 전제
     const move = (direction: number) => {
-      if (carousel.value) {
-        state.isAnimating = true;
-        const imageWidth = carousel.value.offsetWidth; // carousel-wrapper의 width
-        // 현재 스크롤 위치에 direction을 곱한 imageWidth 값을 더하여 이동할 위치를 정한다.
-        const newScrollPosition =
+      if (state.isAnimating) return;
+
+      if (carousel.value && props.images.length > 0) {
+        state.isAnimating = true; // 애니메이션 상태 시작
+        const imageWidth = carousel.value.offsetWidth;
+        const numImages = props.images.length;
+        let newScrollPosition =
           carousel.value.scrollLeft + imageWidth * direction;
 
-        customScrollBehavior(carousel.value, newScrollPosition, 850);
+        // 첫 번째 이미지에서 'prev' 버튼을 누르면 마지막 이미지로 바로 이동
+        if (direction === -1 && carousel.value.scrollLeft === 0) {
+          newScrollPosition = imageWidth * (numImages - 1);
+          carousel.value.scrollLeft = newScrollPosition; // 스크롤 위치 갱신
+          delayAnimating();
+        }
+        // 마지막 이미지에서 'next' 버튼을 누르면 첫 번째 이미지로 바로 이동
+        else if (
+          direction === 1 &&
+          carousel.value.scrollLeft >= imageWidth * (numImages - 1)
+        ) {
+          newScrollPosition = 0;
+          carousel.value.scrollLeft = newScrollPosition; // 스크롤 위치 갱신
+          delayAnimating();
+        }
+        // 나머지 경우에는 애니메이션 사용
+        else {
+          customScrollBehavior(carousel.value, newScrollPosition, 850);
+        }
       }
     };
 
@@ -205,7 +231,7 @@ export default defineComponent({
           requestAnimationFrame(animation);
         } else {
           element.scrollLeft = endPosition; // 애니메이션의 종료 지점 설정
-          state.isAnimating = false;
+          delayAnimating();
         }
       };
 
