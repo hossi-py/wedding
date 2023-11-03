@@ -335,6 +335,7 @@ export default defineComponent({
         height: 40px;
         border: 1px solid #ccc;
         border-radius: 6px;
+        -webkit-tap-highlight-color: transparent;
 
         .call-contents {
           display: flex;
