@@ -84,7 +84,7 @@ export default defineComponent({
 
     const naverMapURL = `https://m.map.naver.com/map.naver?lat=${state.latitude}&lng=${state.longitude}&pinTitle=${locationName}`;
     const kakaoMapURL = `https://m.map.kakao.com/actions/detailMapView?locName=${locationName}&urlY=${state.latitude}&urlX=${state.longitude}`;
-    const TMapURL = `https://www.tmap.co.kr/tmap2/mobile/route.jsp?appKey=${process.env.VUE_APP_TMAP_API_KEY}&lat=${state.latitude}&lon=${state.longitude}&name=${TMAPLocationName}`;
+    // const TMapURL = `https://www.tmap.co.kr/tmap2/mobile/route.jsp?appKey=${process.env.VUE_APP_TMAP_API_KEY}&lat=${state.latitude}&lon=${state.longitude}&name=${TMAPLocationName}`;
 
     // const naverMapURL = `https://map.naver.com/v5/search/${locationName}`;
     // const kakaoMapURL = `https://map.kakao.com/link/search/${locationName}`;
@@ -97,15 +97,37 @@ export default defineComponent({
 
     // const kakaoMapURL = 'kakaomap://search?q=' + locationName;
 
-    // const TMapURL = 'tmap://search?name=' + TMAPLocationName;
+    const TMapURL =
+      'tmap://search?name=' + encodeURIComponent(TMAPLocationName);
+    const TMapStoreAndroid =
+      'https://play.google.com/store/apps/details?id=com.skt.tmap.ku&pli=1';
+    const TMapStoreiOS = 'https://apps.apple.com/app/id431589174';
 
     const checkUserAgent = (event: Event) => {
-      if (!isiOS && !isAndroid) {
+      // 사용자의 UserAgent를 통해 iOS 또는 Android 여부를 판별합니다.
+      if (isAndroid) {
+        // Android 장치일 때
+        tryToOpenApp(TMapURL, TMapStoreAndroid);
+      } else if (isiOS) {
+        // iOS 장치일 때
+        tryToOpenApp(TMapURL, TMapStoreiOS);
+      } else {
+        // 모바일 장치가 아닐 때
         alert('이 기능은 모바일 장치에서만 사용할 수 있습니다.');
         event.preventDefault();
-      } else {
-        //
       }
+    };
+
+    const tryToOpenApp = (appURL: any, storeURL: any) => {
+      // 앱을 열 시도합니다.
+      window.location = appURL;
+      // 만약 앱이 열리지 않는다면 앱 스토어로 유도하기 위한 타임아웃을 설정합니다.
+      setTimeout(() => {
+        // 현재 페이지를 떠나지 않았다면 앱 스토어로 유도합니다.
+        if (!document.hidden) {
+          window.location = storeURL;
+        }
+      }, 2500); // 앱이 열리는데 대략 2~3초 정도 걸릴 수 있으므로 그 시간 내에 체크합니다.
     };
 
     // 마커로 이동
