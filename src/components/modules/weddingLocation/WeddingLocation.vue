@@ -125,19 +125,18 @@ export default defineComponent({
     };
 
     const tryToOpenApp = (appURL: string, storeURL: string) => {
-      state.isLoading = true; // 스피너 작동
-
-      // 앱을 열 시도합니다.
       window.location.href = appURL;
-      // 만약 앱이 열리지 않는다면 앱 스토어로 유도하기 위한 타임아웃을 설정합니다.
-      setTimeout(() => {
-        state.isLoading = false; // 스피너 숨김
 
-        // 현재 페이지를 떠나지 않았다면 앱 스토어로 유도합니다.
+      setTimeout(() => {
+        // 현재 페이지가 백그라운드에 있다면 로딩 스테이트를 변경하지 않습니다.
         if (!document.hidden) {
-          window.location.href = storeURL;
+          state.isLoading = true; // 앱이 열리지 않았을 때 로딩 시작
+          setTimeout(() => {
+            state.isLoading = false; // 로딩 종료
+            window.location.href = storeURL; // 앱 스토어로 이동
+          }, 1800);
         }
-      }, 1800); // 앱이 열리는데 대략 2~3초 정도 걸릴 수 있으므로 그 시간 내에 체크합니다.
+      }, 250); // 앱이 바로 열리는 경우를 대비해 짧은 지연 시간 설정
     };
 
     // 마커로 이동
