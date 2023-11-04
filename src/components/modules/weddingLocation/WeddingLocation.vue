@@ -11,7 +11,7 @@
           @click="resetLocation"
         >
           <img src="~@/assets/images/marker.png" />
-          <!-- <span class="reset">마커로 이동</span> -->
+          <span class="reset">마커로 이동</span>
         </span>
       </p>
     </div>
@@ -153,17 +153,21 @@ export default defineComponent({
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
 
       .road-name {
-        position: relative;
         font-size: 0.7rem;
         font-weight: 600;
         opacity: 0.7;
       }
       .reset-area {
         display: flex;
+        align-items: center;
         position: absolute;
-        right: 5%;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
         cursor: pointer;
         -webkit-tap-highlight-color: transparent;
 
@@ -179,8 +183,8 @@ export default defineComponent({
         }
       }
       .reset-area.active {
-        animation: jelly 500ms;
-        -webkit-animation: jelly 500ms;
+        // animation: bounce 500ms;
+        // -webkit-animation: bounce 500ms;
       }
     }
   }

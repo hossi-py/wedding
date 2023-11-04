@@ -4,8 +4,8 @@
     <main-contents v-intersect class="fade-enter"></main-contents>
     <main-introduce v-intersect class="fade-enter"></main-introduce>
     <wedding-calendar v-intersect class="fade-enter"></wedding-calendar>
-    <year-gallery v-intersect class="fade-enter"></year-gallery>
     <wedding-location v-intersect class="fade-enter"></wedding-location>
+    <year-gallery v-intersect class="fade-enter"></year-gallery>
   </div>
 </template>
 
@@ -16,8 +16,8 @@ import {
   MainContents,
   MainIntroduce,
   WeddingCalendar,
-  YearGallery,
   WeddingLocation,
+  YearGallery,
 } from '@/components';
 
 export default defineComponent({
@@ -27,8 +27,8 @@ export default defineComponent({
     MainContents,
     MainIntroduce,
     WeddingCalendar,
-    YearGallery,
     WeddingLocation,
+    YearGallery,
   },
   setup() {
     return {};
