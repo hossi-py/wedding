@@ -1,5 +1,5 @@
 <template>
-  <div class="spinner" v-show="visible">
+  <div class="spinner" v-if="visible">
     <div class="loading">
       <p class="loading-text">
         앱이 설치되어있지 않은 경우<br />앱 다운로드 화면으로 이동합니다.
@@ -15,13 +15,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  onBeforeUnmount,
-  onMounted,
-  reactive,
-  toRefs,
-} from 'vue';
+import { defineComponent, reactive, toRefs, watch } from 'vue';
 
 export default defineComponent({
   props: {
@@ -30,7 +24,7 @@ export default defineComponent({
       default: false,
     },
   },
-  setup() {
+  setup(props) {
     const state = reactive({
       dotCount: 0,
       intervalId: 0,
@@ -41,27 +35,21 @@ export default defineComponent({
     //   state.dotCount = (state.dotCount + 1) % 4;
     // }
 
-    onMounted(() => {
-      document.body.classList.add('no-scroll');
-      // state.intervalId = setInterval(updateDots, 500);
-    });
-
-    onBeforeUnmount(() => {
-      document.body.classList.remove('no-scroll');
-      // clearInterval(state.intervalId);
-    });
+    watch(
+      () => props.visible,
+      (visible) => {
+        if (visible) {
+          document.body.classList.add('no-scroll');
+        } else {
+          document.body.classList.remove('no-scroll');
+        }
+      },
+    );
 
     return { ...toRefs(state) };
   },
 });
 </script>
-
-<style scoped>
-.no-scroll {
-  overflow: hidden;
-  height: 100%;
-}
-</style>
 
 <style lang="scss" scoped>
 .spinner {

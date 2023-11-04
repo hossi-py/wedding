@@ -37,6 +37,11 @@ export default defineComponent({
 </script>
 
 <style>
+.no-scroll {
+  overflow: hidden;
+  height: 100%;
+}
+
 @import '@/assets/styles/base.css';
 .fade-enter {
   opacity: 0;

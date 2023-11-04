@@ -167,13 +167,6 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.no-scroll {
-  overflow: hidden;
-  height: 100%;
-}
-</style>
-
 <style lang="scss" scoped>
 .wedding-location-container {
   margin-top: 50px;
