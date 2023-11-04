@@ -137,7 +137,7 @@ export default defineComponent({
         if (!document.hidden) {
           window.location.href = storeURL;
         }
-      }, 2500); // 앱이 열리는데 대략 2~3초 정도 걸릴 수 있으므로 그 시간 내에 체크합니다.
+      }, 1800); // 앱이 열리는데 대략 2~3초 정도 걸릴 수 있으므로 그 시간 내에 체크합니다.
     };
 
     // 마커로 이동
@@ -167,6 +167,13 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.no-scroll {
+  overflow: hidden;
+  height: 100%;
+}
+</style>
 
 <style lang="scss" scoped>
 .wedding-location-container {

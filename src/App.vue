@@ -60,11 +60,6 @@ export default defineComponent({
   animation: fadeIn 1s forwards;
 }
 
-.no-scroll {
-  overflow: hidden;
-  height: 100%;
-}
-
 @-webkit-keyframes fillBar {
   from {
     width: 0;

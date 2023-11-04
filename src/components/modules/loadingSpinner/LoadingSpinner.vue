@@ -43,13 +43,11 @@ export default defineComponent({
 
     onMounted(() => {
       document.body.classList.add('no-scroll');
-
       // state.intervalId = setInterval(updateDots, 500);
     });
 
     onBeforeUnmount(() => {
       document.body.classList.remove('no-scroll');
-
       // clearInterval(state.intervalId);
     });
 
@@ -57,6 +55,13 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.no-scroll {
+  overflow: hidden;
+  height: 100%;
+}
+</style>
 
 <style lang="scss" scoped>
 .spinner {
@@ -107,8 +112,8 @@ export default defineComponent({
       );
       border-radius: 5px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      animation: fillBar 2.5s linear forwards;
-      -webkit-animation: fillBar 2.5s linear forwards;
+      animation: fillBar 1.8s linear forwards;
+      -webkit-animation: fillBar 1.8s linear forwards;
     }
   }
 }
