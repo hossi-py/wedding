@@ -17,13 +17,13 @@
     </div>
     <div id="map" class="map"></div>
     <div class="map-wrapper">
-      <a :href="naverMapURL" @click="checkUserAgent">
+      <a :href="naverMapURL">
         <div class="image">
           <img src="~@/assets/images/naver.png" alt="" />
         </div>
         <div class="map-name">네이버지도</div>
       </a>
-      <a :href="kakaoMapURL" @click="checkUserAgent">
+      <a :href="kakaoMapURL">
         <div class="image">
           <img src="~@/assets/images/kakao.png" alt="" />
         </div>
@@ -79,27 +79,30 @@ export default defineComponent({
       };
     });
 
-    const locationName = encodeURIComponent('연세대학교 동문회관 예식장');
+    const locationName = encodeURIComponent('연세동문회관예식장');
     const TMAPLocationName = encodeURIComponent('연세동문회관');
 
-    // 모웹으로 열 때
-    // const naverMapUrl = `https://map.naver.com/v5/search/${locationName}`;
-    //  const kakaoMapUrl = `https://map.kakao.com/link/search/${locationName}`;
+    const naverMapURL = `https://m.map.naver.com/map.naver?lat=${state.latitude}&lng=${state.longitude}&pinTitle=${locationName}`;
+    const kakaoMapURL = `https://m.map.kakao.com/actions/detailMapView?locName=${locationName}&urlY=${state.latitude}&urlX=${state.longitude}`;
+    const TMapURL = `https://www.tmap.co.kr/tmap2/mobile/route.jsp?appKey=${process.env.VUE_APP_TMAP_API_KEY}&lat=${state.latitude}&lon=${state.longitude}&name=${TMAPLocationName}`;
+
+    // const naverMapURL = `https://map.naver.com/v5/search/${locationName}`;
+    // const kakaoMapURL = `https://map.kakao.com/link/search/${locationName}`;
     // window.open(, '_blank');
 
-    const naverMapURL =
-      'nmap://search?query=' +
-      locationName +
-      '&appname=hossi-py.github.io/wedding';
+    // const naverMapURL =
+    //   'nmap://search?query=' +
+    //   locationName +
+    //   '&appname=hossi-py.github.io/wedding';
 
-    const kakaoMapURL = 'kakaomap://search?q=' + locationName;
+    // const kakaoMapURL = 'kakaomap://search?q=' + locationName;
 
-    const TMapURL = 'tmap://search?name=' + TMAPLocationName;
+    // const TMapURL = 'tmap://search?name=' + TMAPLocationName;
 
     const checkUserAgent = (event: Event) => {
       if (!isiOS && !isAndroid) {
         alert('이 기능은 모바일 장치에서만 사용할 수 있습니다.');
-        event?.preventDefault();
+        event.preventDefault();
       } else {
         //
       }
@@ -126,8 +129,8 @@ export default defineComponent({
       naverMapURL,
       kakaoMapURL,
       TMapURL,
-      checkUserAgent,
       resetLocation,
+      checkUserAgent,
     };
   },
 });
