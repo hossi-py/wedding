@@ -65,6 +65,24 @@ export default defineComponent({
   height: 100%;
 }
 
+@-webkit-keyframes fillBar {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes fillBar {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
 @-webkit-keyframes fadeIn {
   0% {
     opacity: 0;

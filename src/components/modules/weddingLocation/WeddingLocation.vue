@@ -36,19 +36,25 @@
         <div class="map-name">티맵</div>
       </a>
     </div>
+    <loading-spinner :visible="isLoading"></loading-spinner>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue';
 import { isiOS, isAndroid } from '@/utils';
+import { LoadingSpinner } from '../loadingSpinner';
 
 export default defineComponent({
+  components: {
+    LoadingSpinner,
+  },
   setup() {
     const state = reactive({
       latitude: 37.56298958928777,
       longitude: 126.94236631907835,
       isClick: false,
+      isLoading: false,
     });
 
     const mapRef = ref(null) as any;
@@ -118,14 +124,18 @@ export default defineComponent({
       }
     };
 
-    const tryToOpenApp = (appURL: any, storeURL: any) => {
+    const tryToOpenApp = (appURL: string, storeURL: string) => {
+      state.isLoading = true; // 스피너 작동
+
       // 앱을 열 시도합니다.
-      window.location = appURL;
+      window.location.href = appURL;
       // 만약 앱이 열리지 않는다면 앱 스토어로 유도하기 위한 타임아웃을 설정합니다.
       setTimeout(() => {
+        state.isLoading = false; // 스피너 숨김
+
         // 현재 페이지를 떠나지 않았다면 앱 스토어로 유도합니다.
         if (!document.hidden) {
-          window.location = storeURL;
+          window.location.href = storeURL;
         }
       }, 2500); // 앱이 열리는데 대략 2~3초 정도 걸릴 수 있으므로 그 시간 내에 체크합니다.
     };

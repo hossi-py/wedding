@@ -4,6 +4,7 @@ export * from './mainContents';
 export * from './mainIntroduce';
 export * from './flowerLeaf';
 export * from './imageCarousel';
+export * from './loadingSpinner';
 export * from './pageSeparator';
 export * from './photoGallery';
 export * from './selectBox';
