@@ -55,12 +55,20 @@
       <div class="day">29</div>
     </div>
 
-    <div class="footer">예식까지 시간 남은 시간</div>
+    <div class="footer">예식까지 남은 시간</div>
 
     <div class="countdown-wrapper">
+      <div class="d-day">
+        D-
+        <div v-for="(digit, dayIndex) in splitNumber(daysLeft)" :key="dayIndex">
+          <transition :name="'flip-transition-' + index" mode="out-in">
+            <div class="digit" :key="digit">{{ digit }}</div>
+          </transition>
+        </div>
+      </div>
       <div class="wedding-countdown">
         <div class="countdown-label">
-          <div class="label">DAY</div>
+          <!-- <div class="label">DAY</div> -->
           <div class="label">HOUR</div>
           <div class="label">MIN</div>
           <div class="label">SEC</div>
@@ -109,7 +117,7 @@ export default defineComponent({
 
     const timeUnits = computed(() => {
       return {
-        days: daysLeft.value,
+        // days: daysLeft.value,
         hours: hoursLeft.value,
         minutes: minutesLeft.value,
         seconds: secondsLeft.value,
@@ -242,14 +250,28 @@ export default defineComponent({
   }
 
   .countdown-wrapper {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
 
+    .d-day {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      left: 70px;
+      top: 66%;
+      color: #4e4c4b;
+      font-size: 0.9rem;
+      font-weight: 600;
+      min-width: 12.5px;
+    }
+
     .wedding-countdown {
-      width: 50%;
+      width: 40%;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
 
       .countdown-label,
       .countdown-number {
