@@ -46,6 +46,7 @@
       <div>
         <div class="section call-wrapper">
           <div
+            v-if="showCallBook"
             class="call-book"
             :class="{ fadeIn: showCallBook, fadeOut: !showCallBook }"
             ref="callBookRef"
