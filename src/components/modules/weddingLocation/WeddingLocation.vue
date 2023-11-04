@@ -138,7 +138,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .wedding-location-container {
-  margin-top: 80px;
+  margin-top: 50px;
 
   .header {
     font-size: 0.8rem;

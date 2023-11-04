@@ -256,19 +256,20 @@ export default defineComponent({
     align-items: center;
 
     .d-day {
+      margin-top: 10px;
       position: absolute;
       display: flex;
       align-items: center;
       justify-content: center;
-      left: 70px;
-      top: 66%;
+      top: 0;
       color: #4e4c4b;
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: 600;
       min-width: 12.5px;
     }
 
     .wedding-countdown {
+      margin-top: 20px;
       width: 40%;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
