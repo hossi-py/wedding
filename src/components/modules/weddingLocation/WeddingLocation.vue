@@ -36,8 +36,89 @@
         <div class="map-name">티맵</div>
       </a>
     </div>
-    <loading-spinner :visible="isLoading"></loading-spinner>
+    <div class="public-transport">
+      <div class="subway-info">
+        <div class="transport">지하철</div>
+        <ul>
+          <li>
+            <span class="text-highlight"
+              ><span style="color: #33a23d">2호선 이대역</span> 4번 출구</span
+            >
+            50m 직진 → 742번, 7017번 탑승 → 이대부중 하차
+          </li>
+          <li>
+            <span class="text-highlight"
+              ><span style="color: #ef7c1c">3호선 독립문역</span> 4번 출구</span
+            >
+            → 사거리에서 우회전 → 극동아파트 정류장에서 버스 승차 470, 601,
+            750A, 750B, 7737번 → 이대 후문 하차
+          </li>
+          <li>
+            <span class="text-highlight"
+              ><span style="color: #ef7c1c">3호선 경복궁역</span> 1번 출구</span
+            >
+            → 100m 직진 → 272, 606 탑승 → 이대부중 하차
+          </li>
+        </ul>
+      </div>
+      <div class="bus-info">
+        <div class="transport">버스</div>
+        <ul>
+          <li>
+            <span class="text-highlight" style="color: #0072bc"
+              >간선버스(파랑)</span
+            >
+            : 272, 470, 601, 606, 607, 672, 700, 707, 710, 750A, 750B, 742번
+            버스(이대 후문 또는 이대부중 하차)
+          </li>
+          <li>
+            <span class="text-highlight" style="color: #197b30"
+              >지선버스(초록)</span
+            >
+            : 6714, 7017, 7024, 7737번 버스(이대 후문 또는 이대부중 하차)
+          </li>
+          <li>
+            <span class="text-highlight" style="color: #e7291a">광역버스</span>
+            : M7106, M7111, M7119, M7154(이대 후문 하차)
+          </li>
+          <li>
+            <span class="text-highlight">직행버스</span> : G7111(이대 후문 하차)
+          </li>
+        </ul>
+      </div>
+      <div class="car">
+        <div class="transport">승용차</div>
+        <ul>
+          <li>
+            <span class="text-highlight">동문회관 주차장 이용</span>
+            : 2시간 무료, 연세대학교 정문 방향에서 오시는 분은 금화터널 고가도로
+            밑에서 유턴하시면 됩니다.
+          </li>
+          <li>
+            <span class="text-highlight">내비게이션 이용시</span>
+            : "연세동문회관" 또는 "연세대학교동문회관" 입력하세요
+          </li>
+        </ul>
+      </div>
+      <div class="shuttle-bus">
+        <div class="transport">셔틀버스 운행</div>
+        <ul>
+          <li>
+            <span class="text-highlight">2호선 이대역 3번 출구앞</span>
+            ↔ <span class="text-highlight">동문회관</span><br />
+            17:20 / 17:40
+          </li>
+          <li>
+            <span class="text-highlight">동문회관</span>
+            ↔ <span class="text-highlight">2호선 이대역 3번 출구앞</span><br />
+            19:10 / 19:30
+          </li>
+          <li>상기 시간은 교통 상황에 따라 변동될 수도 있습니다.</li>
+        </ul>
+      </div>
+    </div>
   </div>
+  <loading-spinner :visible="isLoading"></loading-spinner>
 </template>
 
 <script lang="ts">
@@ -293,6 +374,33 @@ export default defineComponent({
 
     a:active::before {
       opacity: 1;
+    }
+  }
+
+  .public-transport {
+    .shuttle-bus {
+      .sub {
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .transport {
+    text-align: left;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 20px 0 0 20px;
+    // color: rgb(230, 140, 0);
+  }
+
+  ul > li {
+    text-align: left;
+    font-size: 0.85rem;
+    line-height: 1.5rem;
+
+    .text-highlight {
+      font-weight: 600;
     }
   }
 }
