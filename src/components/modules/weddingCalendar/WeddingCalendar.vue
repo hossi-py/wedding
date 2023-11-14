@@ -61,7 +61,7 @@
       <div class="d-day">
         D-
         <div v-for="(digit, dayIndex) in splitNumber(daysLeft)" :key="dayIndex">
-          <transition :name="'flip-transition-' + index" mode="out-in">
+          <transition :name="'flip-transition-' + dayIndex" mode="out-in">
             <div class="digit" :key="digit">{{ digit }}</div>
           </transition>
         </div>
@@ -97,7 +97,7 @@
 import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue';
 
 export default defineComponent({
-  name: 'WeddingCountdown',
+  name: 'WeddingCalendar',
 
   setup() {
     const daysLeft = ref(0);

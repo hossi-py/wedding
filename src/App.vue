@@ -6,12 +6,14 @@
     <wedding-calendar v-intersect class="fade-enter"></wedding-calendar>
     <wedding-location v-intersect class="fade-enter"></wedding-location>
     <year-gallery v-intersect class="fade-enter"></year-gallery>
+    <account-info v-intersect class="fade-enter"></account-info>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import {
+  AccountInfo,
   FallingLeaf,
   MainContents,
   MainIntroduce,
@@ -23,6 +25,7 @@ import {
 export default defineComponent({
   name: 'App',
   components: {
+    AccountInfo,
     FallingLeaf,
     MainContents,
     MainIntroduce,
@@ -408,6 +411,42 @@ export default defineComponent({
   }
   60% {
     transform: translateY(-10px);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(3deg);
+  }
+  50% {
+    transform: rotate(0);
+  }
+  75% {
+    transform: rotate(-3deg);
+  }
+}
+
+@-webkit-keyframes shake {
+  0%,
+  100% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(3deg);
+    -webkit-transform: rotate(3deg);
+  }
+  50% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+  }
+  75% {
+    transform: rotate(-3deg);
+    -webkit-transform: rotate(-3deg);
   }
 }
 

@@ -1,3 +1,4 @@
+export * from './accountInfo';
 export * from './fallingLeaf';
 export * from './fireCracker';
 export * from './mainContents';
