@@ -45,7 +45,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 #toast {
   visibility: hidden;
-  border: 1px solid transparent;
+  border: 1px solid rgba(255, 165, 0, 0.5);
   border-radius: 15px;
   background-color: #fff;
   width: 300px;
@@ -53,9 +53,9 @@ export default defineComponent({
   z-index: 10;
   position: fixed;
   left: 50%;
-  top: 5%;
-  transform: translate(-50%, -5%);
-  -webkit-transform: translate(-50%, -5%);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
