@@ -9,6 +9,7 @@ export * from './loadingSpinner';
 export * from './pageSeparator';
 export * from './photoGallery';
 export * from './selectBox';
+export * from './toastPopup';
 export * from './weddingCalendar';
 export * from './weddingLocation';
 export * from './yearCard';

@@ -231,10 +231,12 @@
       </div>
     </div>
   </div>
+  <toast-popup :message="toastMessage" :showToast="showToast"></toast-popup>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue';
+import ToastPopup from '../toastPopup/ToastPopup.vue';
 
 type AccountsType = {
   groom: string;
@@ -246,6 +248,9 @@ type AccountsType = {
 };
 
 export default defineComponent({
+  components: {
+    ToastPopup,
+  },
   setup() {
     const state = reactive({
       accountItems: {
@@ -266,6 +271,9 @@ export default defineComponent({
       },
 
       isAnimating: false,
+
+      showToast: false,
+      toastMessage: '',
 
       showGroomInfo: false, // 신랑측 정보 열기
       showBrideInfo: false, // 신부측 정보 열기
@@ -540,7 +548,12 @@ export default defineComponent({
       navigator.clipboard
         .writeText(state.accounts[type as keyof AccountsType])
         .then(() => {
-          alert('복사');
+          state.showToast = true;
+          state.toastMessage = '계좌번호가 복사되었습니다.';
+
+          setTimeout(() => {
+            state.showToast = false;
+          }, 1700);
         });
     };
 
