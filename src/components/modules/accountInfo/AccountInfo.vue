@@ -36,7 +36,11 @@
               >
                 <div>{{ accountItems.groom }}</div>
                 <div class="copy-button">
-                  <button class="copy" type="button">
+                  <button
+                    class="copy"
+                    type="button"
+                    @click="copyToClipboard('groom')"
+                  >
                     <img src="~@/assets/images/copy.png" alt="" />
                     <span class="text">계좌번호 복사</span>
                   </button>
@@ -65,7 +69,11 @@
               >
                 <div>{{ accountItems.groomFather }}</div>
                 <div class="copy-button">
-                  <button class="copy" type="button">
+                  <button
+                    class="copy"
+                    type="button"
+                    @click="copyToClipboard('groomFather')"
+                  >
                     <img src="~@/assets/images/copy.png" alt="" />
                     <span class="text">계좌번호 복사</span>
                   </button>
@@ -94,7 +102,11 @@
               >
                 <div>{{ accountItems.groomMother }}</div>
                 <div class="copy-button">
-                  <button class="copy" type="button">
+                  <button
+                    class="copy"
+                    type="button"
+                    @click="copyToClipboard('groomMother')"
+                  >
                     <img src="~@/assets/images/copy.png" alt="" />
                     <span class="text">계좌번호 복사</span>
                   </button>
@@ -117,21 +129,102 @@
           <div class="family-wrapper">
             <div
               class="button-shape shape-bride"
+              :class="{
+                'shake-button': isBrideShake,
+                fall: isBrideFall,
+                up: isBrideFatherShrink || isBrideMotherShrink,
+                'size-grow': isBrideGrow,
+                'size-shrink': isBrideShrink,
+              }"
               @click="handleButtonClick('bride', $event)"
             >
-              신부
+              <div v-if="!showBrideAccount">신부</div>
+              <div
+                v-else
+                class="contents"
+                :class="{
+                  'fade-in-content': showBrideAccount,
+                  'fade-out-content': !showBrideAccount,
+                }"
+              >
+                <div>{{ accountItems.bride }}</div>
+                <div class="copy-button">
+                  <button
+                    class="copy"
+                    type="button"
+                    @click="copyToClipboard('bride')"
+                  >
+                    <img src="~@/assets/images/copy.png" alt="" />
+                    <span class="text">계좌번호 복사</span>
+                  </button>
+                </div>
+              </div>
             </div>
             <div
               class="button-shape shape-bride"
+              :class="{
+                'shake-button': isBrideFatherShake,
+                fall: isBrideFatherFall,
+                up: isBrideShrink || isBrideMotherShrink,
+                'size-grow': isBrideFatherGrow,
+                'size-shrink': isBrideFatherShrink,
+              }"
               @click="handleButtonClick('bride-f', $event)"
             >
-              신부 아버지
+              <div v-if="!showBrideFatherAccount">신부 아버지</div>
+              <div
+                v-else
+                class="contents"
+                :class="{
+                  'fade-in-content': showBrideFatherAccount,
+                  'fade-out-content': !showBrideFatherAccount,
+                }"
+              >
+                <div>{{ accountItems.brideFather }}</div>
+                <div class="copy-button">
+                  <button
+                    class="copy"
+                    type="button"
+                    @click="copyToClipboard('brideFather')"
+                  >
+                    <img src="~@/assets/images/copy.png" alt="" />
+                    <span class="text">계좌번호 복사</span>
+                  </button>
+                </div>
+              </div>
             </div>
             <div
               class="button-shape shape-bride"
+              :class="{
+                'shake-button': isBrideMotherShake,
+                fall: isBrideMotherFall,
+                up: isBrideShrink || isBrideFatherShrink,
+                'size-grow': isBrideMotherGrow,
+                'size-shrink': isBrideMotherShrink,
+              }"
               @click="handleButtonClick('bride-m', $event)"
             >
-              신부 어머니
+              <div v-if="!showBrideMotherAccount">신부 어머니</div>
+              <div
+                v-else
+                class="contents"
+                :class="{
+                  'fade-in-content': showBrideMotherAccount,
+                  'fade-out-content': !showBrideMotherAccount,
+                }"
+              >
+                <div>{{ accountItems.brideMother }}</div>
+                <div class="copy-button">
+                  <button
+                    class="copy"
+                    type="button"
+                    @click="copyToClipboard('brideMother')"
+                  >
+                    <img src="~@/assets/images/copy.png" alt="" />
+                    <span class="text">계좌번호 복사</span>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -143,6 +236,15 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue';
 
+type AccountsType = {
+  groom: string;
+  groomFather: string;
+  groomMother: string;
+  bride: string;
+  brideFather: string;
+  brideMother: string;
+};
+
 export default defineComponent({
   setup() {
     const state = reactive({
@@ -150,6 +252,17 @@ export default defineComponent({
         groom: '황태환 · 카카오뱅크 1111-11-1111111',
         groomFather: '황남현 · 카카오뱅크 1111-11-1111111',
         groomMother: '박경화 · 카카오뱅크 1111-11-1111111',
+        bride: '김유라 · 카카오뱅크 1111-11-1111111',
+        brideFather: '김한광 · 카카오뱅크 1111-11-1111111',
+        brideMother: '이미혜 · 카카오뱅크 1111-11-1111111',
+      },
+      accounts: {
+        groom: '1111-11-1111111',
+        groomFather: '2222-22-2222222',
+        groomMother: '3333-33-3333333',
+        bride: '1212-12-12121212',
+        brideFather: '1313-13-13131313',
+        brideMother: '2424-24-24242424',
       },
 
       isAnimating: false,
@@ -177,12 +290,30 @@ export default defineComponent({
       isGroomMotherGrow: false,
       isGroomMotherShrink: false,
       showGroomMotherAccount: false,
+
+      // 신부
+      isBrideShake: false,
+      isBrideFall: false,
+      isBrideGrow: false,
+      isBrideShrink: false,
+      showBrideAccount: false,
+      // 신부 아버지
+      isBrideFatherShake: false,
+      isBrideFatherFall: false,
+      isBrideFatherGrow: false,
+      isBrideFatherShrink: false,
+      showBrideFatherAccount: false,
+
+      // 신부 어머니
+      isBrideMotherShake: false,
+      isBrideMotherFall: false,
+      isBrideMotherGrow: false,
+      isBrideMotherShrink: false,
+      showBrideMotherAccount: false,
     });
 
     const openAccountInfo = (type: string) => {
       if (state.isAnimating) return;
-
-      state.isAnimating = true;
 
       if (type === 'groom') {
         if (
@@ -190,6 +321,8 @@ export default defineComponent({
           state.isGroomFatherGrow ||
           state.isGroomMotherGrow
         ) {
+          state.isAnimating = true;
+
           // 신랑 버튼이 확장되어 있을 경우
           if (state.isGroomGrow) {
             state.showGroomAccount = false; // 내용물 복구
@@ -235,7 +368,51 @@ export default defineComponent({
 
       // 신부
       else {
-        //
+        if (
+          state.isBrideGrow ||
+          state.isBrideFatherGrow ||
+          state.isBrideMotherGrow
+        ) {
+          state.isAnimating = true;
+
+          if (state.isBrideGrow) {
+            state.showBrideAccount = false;
+            state.isBrideShrink = true;
+            state.isBrideGrow = false;
+
+            setTimeout(() => {
+              state.isBrideShrink = false;
+              state.isBrideFatherFall = false;
+              state.isBrideMotherFall = false;
+            }, 1000);
+          }
+
+          if (state.isBrideFatherGrow) {
+            state.showBrideFatherAccount = false;
+            state.isBrideFatherShrink = true;
+            state.isBrideFatherGrow = false;
+
+            setTimeout(() => {
+              state.isBrideFatherShrink = false;
+              state.isBrideFall = false;
+              state.isBrideMotherFall = false;
+            }, 1000);
+          }
+
+          if (state.isBrideMotherGrow) {
+            state.showBrideMotherAccount = false;
+            state.isBrideMotherShrink = true;
+            state.isBrideMotherGrow = false;
+
+            setTimeout(() => {
+              state.isBrideMotherShrink = false;
+              state.isBrideFall = false;
+              state.isBrideFatherFall = false;
+            }, 1000);
+          }
+        } else {
+          state.showBrideInfo = !state.showBrideInfo;
+        }
       }
       setTimeout(() => {
         state.isAnimating = false;
@@ -302,10 +479,55 @@ export default defineComponent({
           }, 1000);
           break;
         case 'bride':
+          state.isBrideFatherShake = true;
+          state.isBrideMotherShake = true;
+
+          setTimeout(() => {
+            state.isBrideFatherShake = false;
+            state.isBrideMotherShake = false;
+
+            state.isBrideFatherFall = true;
+            state.isBrideMotherFall = true;
+          }, 500);
+
+          setTimeout(() => {
+            state.isBrideGrow = true;
+            state.showBrideAccount = true;
+          }, 1000);
           break;
         case 'bride-f':
+          state.isBrideShake = true;
+          state.isBrideMotherShake = true;
+
+          setTimeout(() => {
+            state.isBrideShake = false;
+            state.isBrideMotherShake = false;
+
+            state.isBrideFall = true;
+            state.isBrideMotherFall = true;
+          }, 500);
+
+          setTimeout(() => {
+            state.isBrideFatherGrow = true;
+            state.showBrideFatherAccount = true;
+          }, 1000);
           break;
         case 'bride-m':
+          state.isBrideShake = true;
+          state.isBrideFatherShake = true;
+
+          setTimeout(() => {
+            state.isBrideShake = false;
+            state.isBrideFatherShake = false;
+
+            state.isBrideFall = true;
+            state.isBrideFatherFall = true;
+          }, 500);
+
+          setTimeout(() => {
+            state.isBrideMotherGrow = true;
+            state.showBrideMotherAccount = true;
+          }, 1000);
           break;
       }
 
@@ -314,10 +536,19 @@ export default defineComponent({
       }, 1000);
     };
 
+    const copyToClipboard = (type: string) => {
+      navigator.clipboard
+        .writeText(state.accounts[type as keyof AccountsType])
+        .then(() => {
+          alert('복사');
+        });
+    };
+
     return {
       ...toRefs(state),
       openAccountInfo,
       handleButtonClick,
+      copyToClipboard,
     };
   },
 });
