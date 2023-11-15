@@ -117,8 +117,8 @@
         </ul>
       </div>
     </div>
+    <loading-spinner :visible="isLoading"></loading-spinner>
   </div>
-  <loading-spinner :visible="isLoading"></loading-spinner>
 </template>
 
 <script lang="ts">

@@ -230,8 +230,8 @@
         </div>
       </div>
     </div>
+    <toast-popup :message="toastMessage" :showToast="showToast"></toast-popup>
   </div>
-  <toast-popup :message="toastMessage" :showToast="showToast"></toast-popup>
 </template>
 
 <script lang="ts">
