@@ -394,6 +394,10 @@ export default defineComponent({
     // color: rgb(230, 140, 0);
   }
 
+  ul {
+    padding: 0 30px 0 40px;
+  }
+
   ul > li {
     text-align: left;
     font-size: 0.85rem;
