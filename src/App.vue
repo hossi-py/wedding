@@ -526,7 +526,6 @@ export default defineComponent({
   to {
     transform: translateY(100px);
     opacity: 0;
-    display: none;
   }
 }
 @-webkit-keyframes fall {
@@ -534,7 +533,6 @@ export default defineComponent({
     transform: translateY(100px);
     -webkit-transform: translateY(100px);
     opacity: 0;
-    display: none;
   }
 }
 

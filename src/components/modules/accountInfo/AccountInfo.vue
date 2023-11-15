@@ -23,6 +23,7 @@
                 'size-grow': isGroomGrow,
                 'size-shrink': isGroomShrink,
               }"
+              :style="{ display: groomStyle }"
               @click="handleButtonClick('groom', $event)"
             >
               <div v-if="!showGroomAccount">신랑</div>
@@ -56,6 +57,7 @@
                 'size-grow': isGroomFatherGrow,
                 'size-shrink': isGroomFatherShrink,
               }"
+              :style="{ display: groomFatherStyle }"
               @click="handleButtonClick('groom-f', $event)"
             >
               <div v-if="!showGroomFatherAccount">신랑 아버지</div>
@@ -89,6 +91,7 @@
                 'size-grow': isGroomMotherGrow,
                 'size-shrink': isGroomMotherShrink,
               }"
+              :style="{ display: groomMotherStyle }"
               @click="handleButtonClick('groom-m', $event)"
             >
               <div v-if="!showGroomMotherAccount">신랑 어머니</div>
@@ -136,6 +139,7 @@
                 'size-grow': isBrideGrow,
                 'size-shrink': isBrideShrink,
               }"
+              :style="{ display: brideStyle }"
               @click="handleButtonClick('bride', $event)"
             >
               <div v-if="!showBrideAccount">신부</div>
@@ -169,6 +173,7 @@
                 'size-grow': isBrideFatherGrow,
                 'size-shrink': isBrideFatherShrink,
               }"
+              :style="{ display: brideFatherStyle }"
               @click="handleButtonClick('bride-f', $event)"
             >
               <div v-if="!showBrideFatherAccount">신부 아버지</div>
@@ -202,6 +207,7 @@
                 'size-grow': isBrideMotherGrow,
                 'size-shrink': isBrideMotherShrink,
               }"
+              :style="{ display: brideMotherStyle }"
               @click="handleButtonClick('bride-m', $event)"
             >
               <div v-if="!showBrideMotherAccount">신부 어머니</div>
@@ -235,7 +241,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue';
+import { defineComponent, ref, Ref, reactive, toRefs, watch } from 'vue';
 import ToastPopup from '../toastPopup/ToastPopup.vue';
 
 type AccountsType = {
@@ -319,6 +325,37 @@ export default defineComponent({
       isBrideMotherShrink: false,
       showBrideMotherAccount: false,
     });
+
+    // 스타일을 ref로 선언
+    const groomStyle = ref('flex');
+    const groomFatherStyle = ref('flex');
+    const groomMotherStyle = ref('flex');
+    const brideStyle = ref('flex');
+    const brideFatherStyle = ref('flex');
+    const brideMotherStyle = ref('flex');
+
+    // fall animation 시 display: none 처리
+    function setupStyleWatcher(
+      watchSource: () => boolean,
+      styleProperty: Ref<string>,
+    ) {
+      watch(watchSource, (newVal) => {
+        if (newVal) {
+          setTimeout(() => {
+            styleProperty.value = 'none';
+          }, 500);
+        } else {
+          styleProperty.value = 'flex';
+        }
+      });
+    }
+
+    setupStyleWatcher(() => state.isGroomFall, groomStyle);
+    setupStyleWatcher(() => state.isGroomFatherFall, groomFatherStyle);
+    setupStyleWatcher(() => state.isGroomMotherFall, groomMotherStyle);
+    setupStyleWatcher(() => state.isBrideFall, brideStyle);
+    setupStyleWatcher(() => state.isBrideFatherFall, brideFatherStyle);
+    setupStyleWatcher(() => state.isBrideMotherFall, brideMotherStyle);
 
     const openAccountInfo = (type: string) => {
       if (state.isAnimating) return;
@@ -562,6 +599,12 @@ export default defineComponent({
       openAccountInfo,
       handleButtonClick,
       copyToClipboard,
+      groomStyle,
+      groomFatherStyle,
+      groomMotherStyle,
+      brideStyle,
+      brideFatherStyle,
+      brideMotherStyle,
     };
   },
 });
