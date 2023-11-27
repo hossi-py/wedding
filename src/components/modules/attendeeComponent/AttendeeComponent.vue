@@ -1,6 +1,14 @@
 <template>
   <div class="attendee-component-container">
-    <div class="header">참석 여부</div>
+    <div class="header">참석 의사</div>
+
+    <p>신랑, 신부에게 참석 의사를 전달할 수 있어요.</p>
+    <div class="button-area">
+      <div class="button" @click="handleClickButton">
+        <p class="button-text">참석 의사 전달하기</p>
+      </div>
+    </div>
+
     <input v-model="name" type="text" placeholder="이름" />
     <input
       v-model="phoneNumber"
@@ -19,6 +27,7 @@
       <label for="notAttending">불참</label>
     </div>
     <button @click="addOrUpdateAttendee">추가</button>
+    <attendee-list v-if="showPopup" @close="closePopup"></attendee-list>
     <toast-popup :message="toastMessage" :showToast="showToast"></toast-popup>
   </div>
 </template>
@@ -29,6 +38,7 @@ import { database } from '@/firebaseConfig';
 import { onValue, ref, update, push } from 'firebase/database';
 import { formatPhoneNumber } from '@/utils';
 import ToastPopup from '../toastPopup/ToastPopup.vue';
+import AttendeeList from '../attendeeList/AttendeeList.vue';
 
 interface Attendee {
   name: string;
@@ -40,9 +50,11 @@ export default defineComponent({
   name: 'AttendeeComponent',
   components: {
     ToastPopup,
+    AttendeeList,
   },
   setup() {
     const state = reactive({
+      showPopup: false,
       name: '',
       phoneNumber: '',
       attending: true,
@@ -51,6 +63,14 @@ export default defineComponent({
       showToast: false,
       toastMessage: '',
     });
+
+    const handleClickButton = () => {
+      state.showPopup = true;
+    };
+
+    const closePopup = () => {
+      state.showPopup = false;
+    };
 
     watch(
       () => state.phoneNumber,
@@ -156,6 +176,8 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
+      handleClickButton,
+      closePopup,
       addOrUpdateAttendee,
       checkDuplicateAttendee,
     };
@@ -166,5 +188,29 @@ export default defineComponent({
 <style lang="scss" scoped>
 .attendee-component-container {
   margin-top: 80px;
+  p {
+    font-size: 0.85rem;
+  }
+
+  .button-area {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .button {
+      border: 1px solid #eeeeee;
+      background-color: #fff;
+      width: 215px;
+      height: 48px;
+      border-radius: 15px;
+
+      .button-text {
+        font-weight: bold;
+        font-size: 0.85rem;
+        color: #404040;
+      }
+    }
+  }
 }
 </style>
