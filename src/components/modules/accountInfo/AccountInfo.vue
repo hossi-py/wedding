@@ -260,20 +260,20 @@ export default defineComponent({
   setup() {
     const state = reactive({
       accountItems: {
-        groom: '황태환 · 카카오뱅크 1111-11-1111111',
-        groomFather: '황남현 · 카카오뱅크 1111-11-1111111',
-        groomMother: '박경화 · 카카오뱅크 1111-11-1111111',
-        bride: '김유라 · 카카오뱅크 1111-11-1111111',
-        brideFather: '김한광 · 카카오뱅크 1111-11-1111111',
-        brideMother: '이미혜 · 카카오뱅크 1111-11-1111111',
+        groom: '황태환 · 하나은행 810-16-110498-707',
+        groomFather: '황남현 · 농협은행 183-12-180111',
+        groomMother: '박경화 · 국민은행 841502-04-204344',
+        bride: '김유라 · 하나은행 235-910087-61107',
+        brideFather: '김한광 · 신한은행 110-083-403-522',
+        brideMother: '이미혜 · 하나은행 235-910028-81708',
       },
       accounts: {
-        groom: '1111-11-1111111',
-        groomFather: '2222-22-2222222',
-        groomMother: '3333-33-3333333',
-        bride: '1212-12-12121212',
-        brideFather: '1313-13-13131313',
-        brideMother: '2424-24-24242424',
+        groom: '810-16-110498-707',
+        groomFather: '183-12-180111',
+        groomMother: '841502-04-204344',
+        bride: '235-910087-61107',
+        brideFather: '110-083-403-522',
+        brideMother: '235-910028-81708',
       },
 
       isAnimating: false,

@@ -11,25 +11,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref as vueRef } from 'vue';
+import { defineComponent, onMounted, reactive, toRefs } from 'vue';
 import { database } from '@/firebaseConfig';
 import { ref as firebaseRef, onValue } from 'firebase/database';
 
 export default defineComponent({
   setup() {
-    const attendees = vueRef([]);
+    const state = reactive({
+      attendees: [],
+    });
 
     onMounted(() => {
       const attendeesRef = firebaseRef(database, 'attendees');
       onValue(attendeesRef, (snapshot) => {
         const data = snapshot.val();
         if (data) {
-          attendees.value = Object.values(data);
+          state.attendees = Object.values(data);
         }
       });
     });
 
-    return { attendees };
+    return { ...toRefs(state) };
   },
 });
 </script>
