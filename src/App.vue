@@ -7,8 +7,8 @@
     <wedding-location v-intersect class="fade-enter"></wedding-location>
     <year-gallery v-intersect class="fade-enter"></year-gallery>
     <account-info v-intersect class="fade-enter"></account-info>
-    <attendee-component></attendee-component>
-    <attendee-list></attendee-list>
+    <attendee-component v-intersect class="fade-enter"></attendee-component>
+    <!-- <attendee-list></attendee-list> -->
   </div>
 </template>
 
@@ -17,7 +17,7 @@ import { defineComponent } from 'vue';
 import {
   AccountInfo,
   AttendeeComponent,
-  AttendeeList,
+  // AttendeeList,
   FallingLeaf,
   MainContents,
   MainIntroduce,
@@ -31,7 +31,7 @@ export default defineComponent({
   components: {
     AccountInfo,
     AttendeeComponent,
-    AttendeeList,
+    // AttendeeList,
     FallingLeaf,
     MainContents,
     MainIntroduce,
@@ -49,6 +49,12 @@ export default defineComponent({
 .no-scroll {
   overflow: hidden;
   height: 100%;
+}
+
+.header {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
 @import '@/assets/styles/base.css';

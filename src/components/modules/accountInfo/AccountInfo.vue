@@ -661,12 +661,6 @@ export default defineComponent({
 .account-info-container {
   margin-top: 80px;
 
-  .header {
-    font-size: 0.8rem;
-    font-weight: 600;
-    margin-bottom: 20px;
-  }
-
   .account-info-wrapper {
     .groom-family,
     .bride-family {

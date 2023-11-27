@@ -252,12 +252,6 @@ export default defineComponent({
 .wedding-location-container {
   margin-top: 50px;
 
-  .header {
-    font-size: 0.8rem;
-    font-weight: 600;
-    margin-bottom: 20px;
-  }
-
   .location-wrapper {
     .location {
       font-size: 0.85rem;

@@ -166,12 +166,6 @@ export default defineComponent({
 .calendar-container {
   margin-top: 80px;
 
-  .header {
-    font-size: 0.8rem;
-    font-weight: 600;
-    margin-bottom: 20px;
-  }
-
   .date-highlight {
     display: flex;
     justify-content: center;

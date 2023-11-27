@@ -57,12 +57,6 @@ export default defineComponent({
 .year-gallery-container {
   margin-top: 80px;
 
-  .header {
-    font-size: 0.8rem;
-    font-weight: 600;
-    margin-bottom: 20px;
-  }
-
   .year-gallery {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

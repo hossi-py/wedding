@@ -1,5 +1,6 @@
 <template>
   <div class="attendee-component-container">
+    <div class="header">참석 여부</div>
     <input v-model="name" type="text" placeholder="이름" />
     <input
       v-model="phoneNumber"
@@ -162,4 +163,8 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.attendee-component-container {
+  margin-top: 80px;
+}
+</style>
