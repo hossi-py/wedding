@@ -17,15 +17,9 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref as vueRef,
-  watch,
-  onMounted,
-  computed,
-} from 'vue';
+import { defineComponent, watch, onMounted, reactive, toRefs } from 'vue';
 import { database } from '@/firebaseConfig';
-import { ref, push, onValue, remove, child } from 'firebase/database';
+import { onValue, ref, remove, set, push } from 'firebase/database';
 import { formatPhoneNumber } from '@/utils';
 
 interface Attendee {
@@ -37,98 +31,105 @@ interface Attendee {
 export default defineComponent({
   name: 'AttendeeComponent',
   setup() {
-    const name = vueRef('');
-    const phoneNumber = vueRef('');
-    const formattedPhoneNumber = computed(() =>
-      formatPhoneNumber(phoneNumber.value),
-    );
-    const attending = vueRef('true');
-    const attendees = vueRef<Record<string, Attendee>>({});
-    const isDuplicate = vueRef(false);
-
-    watch(phoneNumber, (newValue) => {
-      phoneNumber.value = formatPhoneNumber(newValue);
+    const state = reactive({
+      name: '',
+      phoneNumber: '',
+      attending: false,
+      isDuplicate: false,
+      attendees: {} as Record<string, Attendee>,
     });
 
-    // Firebase에서 참석자 목록을 불러오는 함수
+    watch(
+      () => state.phoneNumber,
+      (newValue) => {
+        state.phoneNumber = formatPhoneNumber(newValue);
+      },
+    );
+
+    /**
+     * Firebase에서 참석자 목록을 불러오는 함수
+     *
+     * onValue를 통해 실시간 데이터 감지 및 자동 UI 업데이트 시킴
+     */
     const loadAttendees = () => {
       const attendeesRef = ref(database, 'attendees');
+
       onValue(attendeesRef, (snapshot) => {
-        attendees.value = snapshot.val() || {};
+        state.attendees = snapshot.val() || {};
       });
-    };
-
-    // 이름과 전화번호가 중복되는지 검사하는 함수
-    const checkDuplicate = () => {
-      isDuplicate.value = false; // 기본적으로 중복이 아님
-
-      for (const [, attendee] of Object.entries(attendees.value)) {
-        if (
-          attendee.name === name.value &&
-          attendee.phoneNumber === phoneNumber.value
-        ) {
-          if (attendee.attending.toString() === attending.value) {
-            isDuplicate.value = true; // 중복이며 참석 여부도 같으면 중복으로 설정
-            break;
-          }
-        }
-      }
     };
 
     // 참석자 추가 또는 업데이트 함수
     const addOrUpdateAttendee = async () => {
-      if (isDuplicate.value) return; // 중복이면 추가하지 않음
+      state.isDuplicate = await checkDuplicateAttendee();
 
-      const attendeesRef = ref(database, 'attendees');
-      let duplicateKey = null;
+      if (state.isDuplicate) {
+        const attendeeRef = ref(database, `attendees/${state.phoneNumber}`);
 
-      // 기존 데이터 검사 및 키 찾기
-      for (const [key, attendee] of Object.entries(attendees.value)) {
-        if (
-          attendee.name === name.value &&
-          attendee.phoneNumber === phoneNumber.value
-        ) {
-          duplicateKey = key; // 중복된 키 저장
-          break;
+        await set(attendeeRef, {
+          name: state.name,
+          phoneNumber: state.phoneNumber,
+          attending: state.attending,
+        });
+        // 로컬 상태 업데이트
+        state.attendees[state.phoneNumber] = {
+          name: state.name,
+          phoneNumber: state.phoneNumber,
+          attending: state.attending,
+        };
+      } else {
+        const attendeesRef = ref(database, 'attendees');
+
+        const newAttendeeRef = await push(attendeesRef, {
+          name: state.name,
+          phoneNumber: state.phoneNumber,
+          attending: state.attending,
+        });
+        // 로컬 상태 업데이트
+        const newAttendeeKey = newAttendeeRef.key;
+
+        if (newAttendeeKey) {
+          state.attendees[newAttendeeKey] = {
+            name: state.name,
+            phoneNumber: state.phoneNumber,
+            attending: state.attending,
+          };
+        }
+      }
+    };
+
+    // 참석자 중복 확인하는 함수
+    const checkDuplicateAttendee = async () => {
+      const attendee = state.attendees[state.phoneNumber];
+
+      console.log(attendee);
+
+      if (attendee && attendee.name === state.name) {
+        if (attendee.attending === state.attending) {
+          // 완전히 일치하는 경우 데이터 업데이트 없음
+          return true;
+        } else {
+          // 이름과 전화번호가 일치하지만 참석 여부만 다른 경우
+          // 기존 데이터 삭제 후 새로운 데이터 추가
+          const attendeeRef = ref(database, `attendees/${state.phoneNumber}`);
+          await remove(attendeeRef);
+          return false;
         }
       }
 
-      // 중복된 데이터가 있으면 삭제
-      if (duplicateKey !== null) {
-        await remove(child(attendeesRef, duplicateKey));
-      }
-
-      // 새 데이터 추가
-      push(attendeesRef, {
-        name: name.value,
-        phoneNumber: phoneNumber.value,
-        attending: attending.value === 'true',
-      });
-
-      name.value = '';
-      phoneNumber.value = '';
-      attending.value = 'true';
+      return false;
     };
 
     // 데이터베이스에서 참석자 목록을 불러옴
     onMounted(loadAttendees);
 
-    // 중복 검사
-    watch([name, phoneNumber, attending], checkDuplicate);
-
     return {
-      name,
-      phoneNumber,
-      formattedPhoneNumber,
-      attending,
+      ...toRefs(state),
       addOrUpdateAttendee,
-      isDuplicate,
+      checkDuplicateAttendee,
     };
   },
 });
 </script>
 
-<style lang="scss" scoped>
-.attendee-component-container {
-}
-</style>
+<style lang="scss" scoped></style>
