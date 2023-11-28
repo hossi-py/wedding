@@ -1,8 +1,16 @@
 <template>
-  <div class="main-contents-container" v-if="imageLoaded">
+  <div class="main-contents-container">
     <div class="main-contents">
-      <div class="image">
-        <img :src="'/wedding/gallery/main-image.jpg'" alt="Image" />
+      <div
+        class="image"
+        :style="{ height: skeletonHeight + 'px', background: '#fffdf9' }"
+      >
+        <img
+          v-show="imageLoaded"
+          :src="'/wedding/gallery/main-image.jpg'"
+          alt="Image"
+          @load="handleImageLoad"
+        />
       </div>
       <div class="wedding-info">
         <div class="married-couple">
@@ -20,21 +28,46 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, ref, watch } from 'vue';
 
 export default defineComponent({
-  setup() {
+  setup(_, { emit }) {
     const imageLoaded = ref(false);
+    const skeletonHeight = ref(0);
+
+    const calculateHeight = () => {
+      const imageElement = document.querySelector('.image');
+      if (imageElement) {
+        const width = imageElement.clientWidth;
+        skeletonHeight.value = width * (7200 / 10800);
+      }
+    };
 
     onMounted(() => {
-      const image = new Image();
-      image.onload = () => {
-        imageLoaded.value = true;
-      };
-      image.src = '/wedding/gallery/main-image.jpg';
+      calculateHeight();
+      window.addEventListener('resize', calculateHeight);
     });
 
-    return { imageLoaded };
+    watch(
+      () => imageLoaded.value,
+      (newValue) => {
+        if (newValue) {
+          window.removeEventListener('resize', calculateHeight);
+        }
+      },
+    );
+
+    const handleImageLoad = () => {
+      imageLoaded.value = true;
+      emit('loadPage');
+    };
+
+    return {
+      imageLoaded,
+      skeletonHeight,
+      calculateHeight,
+      handleImageLoad,
+    };
   },
 });
 </script>
@@ -48,6 +81,13 @@ export default defineComponent({
   .main-contents {
     .image {
       overflow: hidden;
+
+      // .image-skeleton {
+      //   width: 100%;
+      //   height: 0;
+      //   // padding-top: 56.25%; /* 예시: 16:9 비율 */
+      //   background-color: #ccc; /* 스켈레톤 배경색 */
+      // }
 
       img {
         width: 100%;

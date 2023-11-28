@@ -1,7 +1,11 @@
 <template>
   <falling-leaf></falling-leaf>
-  <div id="app">
-    <main-contents v-intersect class="fade-enter"></main-contents>
+  <main-contents
+    @loadPage="imageLoaded"
+    v-intersect
+    class="fade-enter"
+  ></main-contents>
+  <div id="app" v-if="isLoadPage">
     <main-introduce v-intersect class="fade-enter"></main-introduce>
     <wedding-calendar v-intersect class="fade-enter"></wedding-calendar>
     <wedding-location v-intersect class="fade-enter"></wedding-location>
@@ -13,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import {
   AccountInfo,
   AttendeeComponent,
@@ -40,7 +44,13 @@ export default defineComponent({
     YearGallery,
   },
   setup() {
-    return {};
+    const isLoadPage = ref(false);
+
+    const imageLoaded = () => {
+      console.log('dkdk');
+      isLoadPage.value = true;
+    };
+    return { isLoadPage, imageLoaded };
   },
 });
 </script>
