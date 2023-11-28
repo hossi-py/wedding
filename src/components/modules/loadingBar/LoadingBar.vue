@@ -1,5 +1,5 @@
 <template>
-  <div class="spinner" v-if="visible && loadingDuration >= 800">
+  <div class="spinner" v-if="visible">
     <div class="loading">
       <p class="loading-text">
         <span>우리의 행복한 날을 함께할 준비를 하고 있어요!</span>
@@ -41,7 +41,9 @@ export default defineComponent({
           state.loadingProgress += 1;
         } else {
           clearInterval(timer);
-          emit('loading-complete');
+          setTimeout(() => {
+            emit('loading-complete');
+          }, 1500);
         }
       }, interval);
     };
@@ -66,7 +68,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .spinner {
-  z-index: 999;
+  z-index: 1000;
   position: fixed;
   top: 0;
   left: 0;
