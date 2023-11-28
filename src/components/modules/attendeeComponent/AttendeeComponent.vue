@@ -9,13 +9,13 @@
       </div>
     </div>
 
-    <input v-model="name" type="text" placeholder="이름" />
+    <!-- <input v-model="name" type="text" placeholder="이름" />
     <input
       v-model="phoneNumber"
       type="tel"
       placeholder="휴대폰 번호 (숫자만 입력)"
-    />
-    <div>
+    /> -->
+    <!-- <div>
       <input type="radio" id="attending" :value="true" v-model="attending" />
       <label for="attending">참석</label>
       <input
@@ -25,8 +25,8 @@
         v-model="attending"
       />
       <label for="notAttending">불참</label>
-    </div>
-    <button @click="addOrUpdateAttendee">추가</button>
+    </div> -->
+    <!-- <button @click="addOrUpdateAttendee">추가</button> -->
     <attendee-list v-if="showPopup" @close="closePopup"></attendee-list>
     <toast-popup :message="toastMessage" :showToast="showToast"></toast-popup>
   </div>
