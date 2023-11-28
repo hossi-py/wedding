@@ -16,7 +16,6 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 // const db = getFirestore(firebaseApp);
 const database = getDatabase(firebaseApp);
-console.log('데이터 베이스' + database);
 
 // export { db, database };
 export { database };

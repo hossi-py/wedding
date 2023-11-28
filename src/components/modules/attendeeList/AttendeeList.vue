@@ -35,6 +35,7 @@
           <span class="text">성함<b class="spot"></b></span>
         </span>
         <input
+          v-model="name"
           id="name"
           type="text"
           placeholder="성함을 입력해주세요."
@@ -47,11 +48,10 @@
           <span class="text">연락처<b class="spot"></b></span>
         </span>
         <input
+          v-model="phoneNumber"
           id="contact"
-          type="text"
-          placeholder="휴대폰번호를 입력해주세요. (숫자만)"
-          autocomplete="off"
-          maxlength="30"
+          type="tel"
+          placeholder="휴대폰번호를 입력해주세요. (숫자만 입력)"
         />
       </div>
     </div>
@@ -66,23 +66,35 @@
         항목: 성함, 연락처 · 보유기간: 결혼식 익일까지
       </p>
       <div class="checkbox">
-        <input id="agree" type="checkbox" />
+        <input id="agree" type="checkbox" v-model="agree" />
         <label for="agree">동의합니다</label>
       </div>
     </div>
 
-    <div class="button" @click="handleClickButton">참석 의사 전달하기</div>
+    <div class="button" @click="handleSubmit">참석 의사 전달하기</div>
   </div>
+  <toast-popup :message="toastMessage" :showToast="showToast"></toast-popup>
 </template>
 
 <script lang="ts">
+import { formatPhoneNumber } from '@/utils';
 import {
   defineComponent,
   onBeforeUnmount,
   onMounted,
   reactive,
   toRefs,
+  watch,
 } from 'vue';
+import { database } from '@/firebaseConfig';
+import { onValue, ref, update, push } from 'firebase/database';
+import { ToastPopup } from '../toastPopup';
+
+interface Attendee {
+  name: string;
+  phoneNumber: string;
+  attending: boolean;
+}
 
 export default defineComponent({
   props: {
@@ -91,12 +103,22 @@ export default defineComponent({
       default: false,
     },
   },
+  emits: ['close'],
+  components: { ToastPopup },
   setup(props, { emit }) {
     const state = reactive({
+      name: '',
+      phoneNumber: '',
       attending: true,
+      isDuplicate: false,
+      attendees: {} as Record<string, Attendee>,
+      showToast: false,
+      toastMessage: '',
+      agree: false,
     });
 
     onMounted(() => {
+      loadAttendees();
       document.body.classList.add('no-scroll');
     });
 
@@ -104,16 +126,118 @@ export default defineComponent({
       document.body.classList.remove('no-scroll');
     });
 
+    watch(
+      () => state.phoneNumber,
+      (newValue) => {
+        state.phoneNumber = formatPhoneNumber(newValue);
+      },
+    );
+
+    const setToastMessage = (message: string) => {
+      state.toastMessage = message;
+      state.showToast = true;
+      setTimeout(() => {
+        state.showToast = false;
+      }, 1000);
+    };
+
     const closePopup = () => {
       emit('close');
       document.body.classList.remove('no-scroll');
     };
 
-    const handleClickButton = () => {
-      //
+    /**
+     * Firebase에서 참석자 목록을 불러오는 함수
+     *
+     * onValue를 통해 실시간 데이터 감지 및 자동 UI 업데이트 시킴
+     */
+    const loadAttendees = () => {
+      const attendeesRef = ref(database, 'attendees');
+
+      onValue(attendeesRef, (snapshot) => {
+        state.attendees = snapshot.val() || {};
+      });
     };
 
-    return { ...toRefs(state), closePopup, handleClickButton };
+    const handleSubmit = async () => {
+      if (!state.name) {
+        setToastMessage('성함을 입력해주세요.');
+        return;
+      } else if (!state.phoneNumber) {
+        setToastMessage('연락처를 입력해주세요.');
+        return;
+      } else if (!state.agree) {
+        setToastMessage('개인정보 수집 및 이용에 동의해주세요.');
+        return;
+      }
+
+      const isDuplicate = await checkDuplicateAttendee();
+
+      if (isDuplicate) {
+        return;
+      } else {
+        // 기존 데이터 삭제 후 새로운 데이터 추가 로직
+        const attendeesRef = ref(database, 'attendees');
+        const newAttendeeRef = await push(attendeesRef, {
+          name: state.name,
+          phoneNumber: state.phoneNumber,
+          attending: state.attending,
+        });
+        // 로컬 상태 업데이트
+        if (newAttendeeRef.key) {
+          updateLocalAttendees(newAttendeeRef.key);
+        }
+      }
+    };
+
+    const checkDuplicateAttendee = async () => {
+      for (const key in state.attendees) {
+        const attendee = state.attendees[key];
+        if (attendee.phoneNumber === state.phoneNumber) {
+          if (attendee.name === state.name) {
+            const attendeeRef = ref(database, `attendees/${key}`);
+            if (attendee.attending !== state.attending) {
+              if (
+                window.confirm(
+                  `이미 참석 여부를 등록하셨습니다.\n참석 여부를 변경하시겠습니까?`,
+                )
+              ) {
+                // TODO 기존에 remove대신 update를 사용 (remove를 하면 key가 꼬이는 거 같음)
+                await update(attendeeRef, { attending: state.attending }); // 참석 여부만 업데이트
+                updateLocalAttendees(key); // 로컬 상태 업데이트
+                setToastMessage('참석 여부가 수정되었습니다.');
+                return true;
+              } else {
+                return true;
+              }
+            } else {
+              setToastMessage('이미 참석 여부를 등록하셨습니다.');
+              return true;
+            }
+          }
+        }
+      }
+      setToastMessage('등록되었습니다.');
+      return false;
+    };
+
+    // 로컬 상태 업데이트 함수
+    const updateLocalAttendees = (key: string) => {
+      if (key) {
+        state.attendees[key] = {
+          ...state.attendees[key],
+          attending: state.attending,
+        };
+      }
+    };
+
+    return {
+      ...toRefs(state),
+      setToastMessage,
+      closePopup,
+      handleSubmit,
+      checkDuplicateAttendee,
+    };
   },
 });
 </script>
@@ -253,6 +377,7 @@ export default defineComponent({
 
       input::placeholder {
         font-size: 0.75rem;
+        letter-spacing: -1px;
         color: #aaa;
       }
     }

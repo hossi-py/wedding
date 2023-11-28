@@ -50,7 +50,7 @@ export default defineComponent({
   background-color: #fff;
   width: 300px;
   height: 70px;
-  z-index: 10;
+  z-index: 10000;
   position: fixed;
   left: 50%;
   top: 50%;
@@ -101,8 +101,8 @@ export default defineComponent({
       rgba(255, 165, 0, 1)
     );
     border-radius: 5px;
-    animation: fillBar 1.5s linear forwards;
-    -webkit-animation: fillBar 1.5s linear forwards;
+    animation: fillBar 1s linear forwards;
+    -webkit-animation: fillBar 1s linear forwards;
   }
 }
 </style>

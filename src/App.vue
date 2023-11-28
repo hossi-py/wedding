@@ -47,7 +47,6 @@ export default defineComponent({
     const isLoadPage = ref(false);
 
     const imageLoaded = () => {
-      console.log('dkdk');
       isLoadPage.value = true;
     };
     return { isLoadPage, imageLoaded };
