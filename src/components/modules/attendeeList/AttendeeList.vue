@@ -133,11 +133,15 @@ export default defineComponent({
       },
     );
 
-    const setToastMessage = (message: string) => {
+    const setToastMessage = (message: string, close?: boolean) => {
       state.toastMessage = message;
       state.showToast = true;
       setTimeout(() => {
         state.showToast = false;
+
+        if (close) {
+          closePopup();
+        }
       }, 1000);
     };
 
@@ -205,7 +209,7 @@ export default defineComponent({
                 // TODO 기존에 remove대신 update를 사용 (remove를 하면 key가 꼬이는 거 같음)
                 await update(attendeeRef, { attending: state.attending }); // 참석 여부만 업데이트
                 updateLocalAttendees(key); // 로컬 상태 업데이트
-                setToastMessage('참석 여부가 수정되었습니다.');
+                setToastMessage('참석 여부가 수정되었습니다.', true);
                 return true;
               } else {
                 return true;
@@ -217,7 +221,7 @@ export default defineComponent({
           }
         }
       }
-      setToastMessage('등록되었습니다.');
+      setToastMessage('등록되었습니다.', true);
       return false;
     };
 
