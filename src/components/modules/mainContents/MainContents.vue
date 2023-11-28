@@ -12,7 +12,7 @@
           @load="handleImageLoad"
         />
       </div>
-      <div class="wedding-info">
+      <div class="wedding-info" v-show="imageLoaded">
         <div class="married-couple">
           <div class="groom">황태환</div>
           <div class="vertical-line"></div>
@@ -24,32 +24,48 @@
         </div>
       </div>
     </div>
+    <loading-bar
+      :visible="isVisibleLoadingBar"
+      :loadingDuration="loadingDuration"
+      @loading-complete="isVisibleLoadingBar = false"
+    ></loading-bar>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from 'vue';
+import { defineComponent, onMounted, reactive, toRefs, watch } from 'vue';
+import LoadingBar from '../loadingBar/LoadingBar.vue';
 
 export default defineComponent({
+  components: {
+    LoadingBar,
+  },
   setup(_, { emit }) {
-    const imageLoaded = ref(false);
-    const skeletonHeight = ref(0);
+    const state = reactive({
+      imageLoaded: false,
+      skeletonHeight: 0,
+      loadingStartTime: 0,
+      loadingDuration: 0,
+      isVisibleLoadingBar: false,
+    });
 
     const calculateHeight = () => {
       const imageElement = document.querySelector('.image');
       if (imageElement) {
         const width = imageElement.clientWidth;
-        skeletonHeight.value = width * (7200 / 10800);
+        state.skeletonHeight = width * (7200 / 10800);
       }
     };
 
     onMounted(() => {
+      state.isVisibleLoadingBar = true;
+      state.loadingStartTime = Date.now(); // 로딩 시작 시간 저장
       calculateHeight();
       window.addEventListener('resize', calculateHeight);
     });
 
     watch(
-      () => imageLoaded.value,
+      () => state.imageLoaded,
       (newValue) => {
         if (newValue) {
           window.removeEventListener('resize', calculateHeight);
@@ -58,13 +74,15 @@ export default defineComponent({
     );
 
     const handleImageLoad = () => {
-      imageLoaded.value = true;
+      state.imageLoaded = true;
+
+      const loadingEndTime = Date.now();
+      state.loadingDuration = loadingEndTime - state.loadingStartTime; // 로딩 시간 계산
       emit('loadPage');
     };
 
     return {
-      imageLoaded,
-      skeletonHeight,
+      ...toRefs(state),
       calculateHeight,
       handleImageLoad,
     };

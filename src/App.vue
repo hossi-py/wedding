@@ -12,7 +12,6 @@
     <year-gallery v-intersect class="fade-enter"></year-gallery>
     <account-info v-intersect class="fade-enter"></account-info>
     <attendee-component v-intersect class="fade-enter"></attendee-component>
-    <!-- <attendee-list></attendee-list> -->
   </div>
 </template>
 
@@ -21,7 +20,6 @@ import { defineComponent, ref } from 'vue';
 import {
   AccountInfo,
   AttendeeComponent,
-  // AttendeeList,
   FallingLeaf,
   MainContents,
   MainIntroduce,
@@ -35,7 +33,6 @@ export default defineComponent({
   components: {
     AccountInfo,
     AttendeeComponent,
-    // AttendeeList,
     FallingLeaf,
     MainContents,
     MainIntroduce,

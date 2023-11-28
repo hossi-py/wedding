@@ -7,6 +7,7 @@ export * from './mainContents';
 export * from './mainIntroduce';
 export * from './flowerLeaf';
 export * from './imageCarousel';
+export * from './loadingBar';
 export * from './loadingSpinner';
 export * from './pageSeparator';
 export * from './photoGallery';
