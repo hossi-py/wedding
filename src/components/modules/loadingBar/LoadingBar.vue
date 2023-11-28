@@ -43,7 +43,7 @@ export default defineComponent({
           clearInterval(timer);
           setTimeout(() => {
             emit('loading-complete');
-          }, 1500);
+          }, 500);
         }
       }, interval);
     };
