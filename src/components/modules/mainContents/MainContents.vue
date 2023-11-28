@@ -1,5 +1,5 @@
 <template>
-  <div class="main-contents-container">
+  <div class="main-contents-container" v-if="imageLoaded">
     <div class="main-contents">
       <div class="image">
         <img :src="'/wedding/gallery/main-image.jpg'" alt="Image" />
@@ -20,11 +20,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 
 export default defineComponent({
   setup() {
-    return;
+    const imageLoaded = ref(false);
+
+    onMounted(() => {
+      const image = new Image();
+      image.onload = () => {
+        imageLoaded.value = true;
+      };
+      image.src = '/wedding/gallery/main-image.jpg';
+    });
+
+    return { imageLoaded };
   },
 });
 </script>
