@@ -125,13 +125,15 @@ export default defineComponent({
   left: 50%;
   transform: translate(-50%, -50%);
   width: 80%;
-  height: 80vh;
+  max-height: 80vh;
+  height: auto;
   max-width: 500px;
   background-color: #f9f9f9;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   padding: 20px;
   border-radius: 10px;
   z-index: 1000;
+  overflow: auto;
 
   .header {
     display: flex;
