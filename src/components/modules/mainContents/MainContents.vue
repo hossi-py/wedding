@@ -6,7 +6,6 @@
         :style="{ height: skeletonHeight + 'px', background: '#fffdf9' }"
       >
         <img
-          v-show="imageLoaded"
           :src="'/wedding/gallery/main-image.jpg'"
           alt="Image"
           @load="handleImageLoad"
