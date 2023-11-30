@@ -78,9 +78,7 @@ export default defineComponent({
       const loadingEndTime = Date.now();
       state.loadingDuration = loadingEndTime - state.loadingStartTime; // 로딩 시간 계산
 
-      requestAnimationFrame(() => {
-        emit('loadPage');
-      });
+      emit('loadPage');
     };
 
     const handleLoadingComplete = () => {
