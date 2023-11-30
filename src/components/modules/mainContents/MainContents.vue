@@ -72,13 +72,28 @@ export default defineComponent({
       },
     );
 
-    const handleImageLoad = () => {
+    const rendered = () => {
       state.imageLoaded = true;
 
       const loadingEndTime = Date.now();
       state.loadingDuration = loadingEndTime - state.loadingStartTime; // 로딩 시간 계산
 
       emit('loadPage');
+    };
+
+    const startRender = () => {
+      requestAnimationFrame(rendered);
+    };
+
+    const handleImageLoad = () => {
+      requestAnimationFrame(startRender);
+
+      // state.imageLoaded = true;
+
+      // const loadingEndTime = Date.now();
+      // state.loadingDuration = loadingEndTime - state.loadingStartTime; // 로딩 시간 계산
+
+      // emit('loadPage');
     };
 
     const handleLoadingComplete = () => {

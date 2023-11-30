@@ -34,8 +34,8 @@ export default defineComponent({
     });
 
     const updateLoadingProgress = () => {
-      const interval = 1500 / 100;
-      // const interval = props.loadingDuration / 100;
+      // const interval = 1500 / 100;
+      const interval = props.loadingDuration / 100;
 
       const timer = setInterval(() => {
         if (state.loadingProgress < 100) {
@@ -43,9 +43,7 @@ export default defineComponent({
         } else {
           clearInterval(timer);
 
-          setTimeout(() => {
-            emit('loading-complete');
-          }, 500);
+          emit('loading-complete');
         }
       }, interval);
     };
