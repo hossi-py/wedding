@@ -41,9 +41,7 @@ export default defineComponent({
           state.loadingProgress += 1;
         } else {
           clearInterval(timer);
-          setTimeout(() => {
-            emit('loading-complete');
-          }, 500);
+          emit('loading-complete');
         }
       }, interval);
     };

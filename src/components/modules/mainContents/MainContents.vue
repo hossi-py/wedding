@@ -27,7 +27,7 @@
     <loading-bar
       :visible="isVisibleLoadingBar"
       :loadingDuration="loadingDuration"
-      @loading-complete="isVisibleLoadingBar = false"
+      @loading-complete="handleLoadingComplete"
     ></loading-bar>
   </div>
 </template>
@@ -78,6 +78,12 @@ export default defineComponent({
 
       const loadingEndTime = Date.now();
       state.loadingDuration = loadingEndTime - state.loadingStartTime; // 로딩 시간 계산
+    };
+
+    const handleLoadingComplete = () => {
+      // 로딩바 종료
+      state.isVisibleLoadingBar = false;
+      // App에 이벤트 전달
       emit('loadPage');
     };
 
@@ -85,6 +91,7 @@ export default defineComponent({
       ...toRefs(state),
       calculateHeight,
       handleImageLoad,
+      handleLoadingComplete,
     };
   },
 });
