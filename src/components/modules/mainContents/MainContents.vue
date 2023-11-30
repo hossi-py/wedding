@@ -78,13 +78,15 @@ export default defineComponent({
 
       const loadingEndTime = Date.now();
       state.loadingDuration = loadingEndTime - state.loadingStartTime; // 로딩 시간 계산
+
+      requestAnimationFrame(() => {
+        emit('loadPage');
+      });
     };
 
     const handleLoadingComplete = () => {
       // 로딩바 종료
       state.isVisibleLoadingBar = false;
-      // App에 이벤트 전달
-      emit('loadPage');
     };
 
     return {
