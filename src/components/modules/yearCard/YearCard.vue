@@ -32,7 +32,7 @@ export default defineComponent({
 
     // TODO 실제 이미지로 변경
     const yearImageMap = ref({
-      2014: '/wedding/gallery/thumbnail/thumbnail-2014.jpg',
+      2014: '/wedding/gallery/2014/2014-6.jpg',
       // 2015: '/wedding/gallery/thumbnail/thumbnail-2015.jpg',
       // 2016: '/wedding/gallery/thumbnail/thumbnail-2016.jpg',
       // 2017: '/wedding/gallery/thumbnail/thumbnail-2017.jpg',

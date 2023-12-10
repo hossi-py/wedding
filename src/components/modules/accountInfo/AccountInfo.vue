@@ -148,16 +148,15 @@ export default defineComponent({
     bottom: 50%;
     transform: translateX(-50%) translateY(50%);
     -webkit-transform: translateX(-50%) translateY(50%);
-    min-width: 350px;
-    min-height: 200px;
     background-color: white;
     padding: 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     z-index: 1000;
+    width: 80%;
 
     .close-button {
-      width: 350px;
+      width: 90%;
       height: 40px;
     }
   }
