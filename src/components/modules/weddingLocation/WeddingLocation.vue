@@ -2,19 +2,19 @@
   <div class="wedding-location-container">
     <div class="header">오시는 길</div>
     <div class="location-wrapper">
-      <p class="location text-medium">연세대학교 동문회관 예식장</p>
+      <p class="location text-medium">연세대학교 동문회관 3층 그랜드볼룸</p>
       <p class="road-name-wrapper">
         <span class="road-name text-small"
           >서울특별시 서대문구 연세로 50 (신촌동)</span
         >
-        <span
+        <!-- <span
           class="reset-area"
           :class="{ active: isClick }"
           @click="resetLocation"
         >
           <img src="~@/assets/images/marker.png" />
           <span class="reset">마커로 이동</span>
-        </span>
+        </span> -->
       </p>
     </div>
     <div id="map" class="map"></div>
