@@ -26,7 +26,7 @@ import YearImages from '../yearImages/YearImages.vue';
 export default defineComponent({
   components: { YearCard, YearImages },
   setup() {
-    const years = ref(Array.from({ length: 11 }, (_, i) => 2014 + i));
+    const years = ref(Array.from({ length: 1 }, (_, i) => 2014 + i));
     const showYearImagesPopup = ref(false);
     const selectedYear = ref<number | null>(null);
 

@@ -6,7 +6,7 @@
       @click="selectYear"
     >
       <img class="thumbnail" :src="yearImageMap[year]" alt="Year Thumbnail" />
-      <div class="year-label">{{ year }}</div>
+      <!-- <div class="year-label">{{ year }}</div> -->
     </div>
   </div>
 </template>
@@ -33,16 +33,16 @@ export default defineComponent({
     // TODO 실제 이미지로 변경
     const yearImageMap = ref({
       2014: '/wedding/gallery/thumbnail/thumbnail-2014.jpg',
-      2015: '/wedding/gallery/thumbnail/thumbnail-2015.jpg',
-      2016: '/wedding/gallery/thumbnail/thumbnail-2016.jpg',
-      2017: '/wedding/gallery/thumbnail/thumbnail-2017.jpg',
-      2018: '/wedding/gallery/thumbnail/thumbnail-2018.jpg',
-      2019: '/wedding/gallery/thumbnail/thumbnail-2019.jpg',
-      2020: '/wedding/gallery/thumbnail/thumbnail-2020.jpg',
-      2021: '/wedding/gallery/thumbnail/thumbnail-2014.jpg',
-      2022: '/wedding/gallery/thumbnail/thumbnail-2015.jpg',
-      2023: '/wedding/gallery/thumbnail/thumbnail-2016.jpg',
-      2024: '/wedding/gallery/thumbnail/thumbnail-2019.jpg',
+      // 2015: '/wedding/gallery/thumbnail/thumbnail-2015.jpg',
+      // 2016: '/wedding/gallery/thumbnail/thumbnail-2016.jpg',
+      // 2017: '/wedding/gallery/thumbnail/thumbnail-2017.jpg',
+      // 2018: '/wedding/gallery/thumbnail/thumbnail-2018.jpg',
+      // 2019: '/wedding/gallery/thumbnail/thumbnail-2019.jpg',
+      // 2020: '/wedding/gallery/thumbnail/thumbnail-2020.jpg',
+      // 2021: '/wedding/gallery/thumbnail/thumbnail-2014.jpg',
+      // 2022: '/wedding/gallery/thumbnail/thumbnail-2015.jpg',
+      // 2023: '/wedding/gallery/thumbnail/thumbnail-2016.jpg',
+      // 2024: '/wedding/gallery/thumbnail/thumbnail-2019.jpg',
     });
 
     const selectYear = (e: Event) => {

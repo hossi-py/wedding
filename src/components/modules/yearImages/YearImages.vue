@@ -1,6 +1,6 @@
 <template>
   <div class="year-images-container" @scroll="handleScroll">
-    <span class="title">{{ year }}년, 우리</span>
+    <!-- <span class="title">{{ year }}년, 우리</span> -->
     <button class="close-button" v-if="!showingCarousel" @click="closePopup">
       X
     </button>
@@ -210,39 +210,74 @@ export default defineComponent({
   }
 
   .image-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    padding: 50px 20px 20px 20px;
-    box-sizing: border-box; // 전체 너비가 줄어도 padding 유지
-
+    padding: 50px;
     .image-wrapper {
-      grid-template-columns: repeat(2, 1fr);
       display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 10px;
+    }
 
-      // 이미지 홀수개 => 공간 2개 차지
-      .image-item:nth-last-child(odd):last-child {
+    .image-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1; /* 이미지 아이템이 가능한 공간을 채우도록 함 */
+      overflow: hidden;
+
+      &:nth-last-child(odd):last-child {
         grid-column: span 2;
       }
 
-      .image-item {
-        .image {
-          width: auto;
-          height: 270px;
-          overflow: hidden;
+      .image {
+        display: flex; /* Flexbox를 사용하여 이미지를 가운데 정렬 */
+        justify-content: center;
+        align-items: center;
+        max-width: 100%; /* 컨테이너 너비에 맞춤 */
+        max-height: 100%; /* 컨테이너 높이에 맞춤 */
 
-          img {
-            width: 100%;
-            height: 100%;
-            border-radius: 6px;
-            object-fit: cover;
-          }
+        img {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain; /* 이미지가 컨테이너에 맞춰지도록 함 */
         }
       }
     }
   }
+
+  // .image-container {
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   z-index: 100;
+  //   padding: 50px 20px 20px 20px;
+  //   box-sizing: border-box; // 전체 너비가 줄어도 padding 유지
+
+  //   .image-wrapper {
+  //     grid-template-columns: repeat(2, 1fr);
+  //     display: grid;
+  //     gap: 10px;
+
+  //     // 이미지 홀수개 => 공간 2개 차지
+  //     .image-item:nth-last-child(odd):last-child {
+  //       grid-column: span 2;
+  //     }
+
+  //     .image-item {
+  //       .image {
+  //         width: auto;
+  //         height: 270px;
+  //         overflow: hidden;
+
+  //         img {
+  //           width: 100%;
+  //           height: 100%;
+  //           border-radius: 6px;
+  //           object-fit: cover;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   .swiper {
     overflow: hidden;
