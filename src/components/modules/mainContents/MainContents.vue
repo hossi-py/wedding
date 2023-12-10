@@ -19,7 +19,7 @@
         </div>
         <div class="wedding-info-detail">
           <p class="wedding-time">2024.02.03 Sat 6:00PM</p>
-          <p class="wedding-place">연세대학교 동문회관 예식장</p>
+          <p class="wedding-place">연세대학교 동문회관 3층 그랜드볼룸</p>
         </div>
       </div>
     </div>
@@ -149,7 +149,7 @@ export default defineComponent({
 
       .groom,
       .bride {
-        font-size: 1rem;
+        font-size: 1.1rem;
         font-weight: 600;
         letter-spacing: 5px;
       }
@@ -170,7 +170,7 @@ export default defineComponent({
 
       .wedding-time,
       .wedding-place {
-        font-size: 0.75rem;
+        font-size: 0.95rem;
         font-weight: 600;
         letter-spacing: 2px;
       }

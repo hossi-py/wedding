@@ -2,9 +2,11 @@
   <div class="wedding-location-container">
     <div class="header">오시는 길</div>
     <div class="location-wrapper">
-      <p class="location">연세대학교 동문회관 예식장</p>
+      <p class="location text-medium">연세대학교 동문회관 예식장</p>
       <p class="road-name-wrapper">
-        <span class="road-name">서울특별시 서대문구 연세로 50 (신촌동)</span>
+        <span class="road-name text-small"
+          >서울특별시 서대문구 연세로 50 (신촌동)</span
+        >
         <span
           class="reset-area"
           :class="{ active: isClick }"
@@ -21,19 +23,19 @@
         <div class="image">
           <img src="~@/assets/images/naver.png" alt="" />
         </div>
-        <div class="map-name">네이버지도</div>
+        <div class="map-name text-small">네이버지도</div>
       </a>
       <a :href="kakaoMapURL">
         <div class="image">
           <img src="~@/assets/images/kakao.png" alt="" />
         </div>
-        <div class="map-name">카카오맵</div>
+        <div class="map-name text-small">카카오맵</div>
       </a>
       <a :href="TMapURL" @click="checkUserAgent">
         <div class="image">
           <img src="~@/assets/images/tmap.svg" alt="" />
         </div>
-        <div class="map-name">티맵</div>
+        <div class="map-name text-small">티맵</div>
       </a>
     </div>
     <div class="public-transport">
@@ -254,7 +256,6 @@ export default defineComponent({
 
   .location-wrapper {
     .location {
-      font-size: 0.85rem;
       font-weight: 600;
       line-height: 0.5rem;
     }
@@ -265,7 +266,6 @@ export default defineComponent({
       position: relative;
 
       .road-name {
-        font-size: 0.7rem;
         font-weight: 600;
         opacity: 0.7;
       }
@@ -339,7 +339,6 @@ export default defineComponent({
       }
 
       .map-name {
-        font-size: 0.8rem;
         color: #000000;
       }
     }
@@ -394,7 +393,7 @@ export default defineComponent({
 
   ul > li {
     text-align: left;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     line-height: 1.5rem;
 
     .text-highlight {

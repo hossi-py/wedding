@@ -2,10 +2,10 @@
   <div class="attendee-component-container">
     <div class="header">참석 의사</div>
 
-    <p>신랑, 신부에게 참석 의사를 전달할 수 있어요.</p>
+    <p class="text-medium">신랑, 신부에게 참석 의사를 전달할 수 있어요.</p>
     <div class="button-area">
       <div class="button" @click="handleClickButton">
-        <p class="button-text">참석 의사 전달하기</p>
+        <p class="button-text text-medium">참석 의사 전달하기</p>
       </div>
     </div>
     <attendee-list v-if="showPopup" @close="closePopup"></attendee-list>
@@ -48,7 +48,6 @@ export default defineComponent({
 .attendee-component-container {
   margin-top: 80px;
   p {
-    font-size: 0.85rem;
   }
 
   .button-area {
@@ -66,7 +65,6 @@ export default defineComponent({
 
       .button-text {
         font-weight: bold;
-        font-size: 0.85rem;
         color: #404040;
       }
     }

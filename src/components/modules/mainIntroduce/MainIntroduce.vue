@@ -5,20 +5,20 @@
       <img src="~@/assets/images/holding-hands.png" />
     </div>
     <div class="introduce-wrapper">
-      <div>
+      <div class="text-medium">
         <p>2014년 여름,</p>
         <p>우리가 처음 만나 사랑을 시작한 곳에서</p>
       </div>
-      <div class="section">
+      <div class="section text-medium">
         <p>2024년 겨울,</p>
         <p>사랑의 결실을 맺으려합니다.</p>
       </div>
-      <div class="section">
+      <div class="section text-medium">
         <p>저희 두 사람의 10주년, 그리고 결혼식에 오셔서</p>
         <p>따뜻하게 축복해주시면 감사하겠습니다.</p>
       </div>
       <div class="section">
-        <div class="family">
+        <div class="family text-medium">
           <span class="name">황남현</span>
           <span class="dot">·</span>
           <span class="name">박경화</span>
@@ -30,7 +30,7 @@
             </span>
           </div>
         </div>
-        <div class="family">
+        <div class="family text-medium">
           <span class="name">김한광</span>
           <span class="dot">·</span>
           <span class="name">이미혜</span>
@@ -246,14 +246,10 @@ export default defineComponent({
   }
 
   .introduce-wrapper {
-    p {
-      font-size: 0.85rem;
-    }
     font-weight: 500;
     .section {
       margin-top: 50px;
       .family {
-        font-size: 0.85rem;
         padding-top: 10px;
         display: flex;
         justify-content: center;
@@ -271,7 +267,7 @@ export default defineComponent({
 
       .sub {
         margin-left: 5px;
-        font-size: 0.7rem;
+        font-size: 0.8rem;
       }
 
       .couple-info {
@@ -317,7 +313,7 @@ export default defineComponent({
             border-bottom-left-radius: 5px;
             border-bottom-right-radius: 5px;
             padding-top: 20px;
-            font-size: 0.9rem;
+            font-size: 1rem;
 
             .content-items {
               display: flex;
@@ -386,7 +382,7 @@ export default defineComponent({
         }
 
         .text {
-          font-size: 0.8rem;
+          font-size: 0.9rem;
         }
         .back {
           // color: #fff;

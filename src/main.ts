@@ -5,6 +5,7 @@ import VueLazyload from 'vue3-lazyload';
 import 'core-js/stable';
 // Intersection Observer API => 컵포넌트 각각 fade 효과 적용
 import intersectDirective from './directives/intersect';
+import './global.css';
 
 const app = createApp(App);
 

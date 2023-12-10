@@ -4,7 +4,7 @@
       <div class="toast-icon">
         <img src="~@/assets/images/circle_check.png" alt="" />
       </div>
-      <span>{{ message }}</span>
+      <span class="text-medium">{{ message }}</span>
     </div>
     <div class="toast-timer" :class="{ loading: localShowToast }"></div>
   </div>
@@ -83,7 +83,6 @@ export default defineComponent({
 
     span {
       margin-left: 25px;
-      font-size: 0.85rem;
     }
   }
 

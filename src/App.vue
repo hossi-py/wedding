@@ -1,5 +1,5 @@
 <template>
-  <falling-leaf></falling-leaf>
+  <!-- <falling-leaf></falling-leaf> -->
   <main-contents
     @loadPage="imageLoaded"
     v-intersect
@@ -8,10 +8,10 @@
   <div id="app" v-if="isLoadPage">
     <main-introduce v-intersect class="fade-enter"></main-introduce>
     <wedding-calendar v-intersect class="fade-enter"></wedding-calendar>
-    <wedding-location v-intersect class="fade-enter"></wedding-location>
     <year-gallery v-intersect class="fade-enter"></year-gallery>
     <account-info v-intersect class="fade-enter"></account-info>
     <attendee-component v-intersect class="fade-enter"></attendee-component>
+    <wedding-location v-intersect class="fade-enter"></wedding-location>
   </div>
 </template>
 
@@ -20,7 +20,7 @@ import { defineComponent, ref } from 'vue';
 import {
   AccountInfo,
   AttendeeComponent,
-  FallingLeaf,
+  // FallingLeaf,
   MainContents,
   MainIntroduce,
   WeddingCalendar,
@@ -33,7 +33,7 @@ export default defineComponent({
   components: {
     AccountInfo,
     AttendeeComponent,
-    FallingLeaf,
+    // FallingLeaf,
     MainContents,
     MainIntroduce,
     WeddingCalendar,
@@ -58,7 +58,7 @@ export default defineComponent({
 }
 
 .header {
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 20px;
 }

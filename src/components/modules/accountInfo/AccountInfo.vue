@@ -5,7 +5,7 @@
       <div class="groom-family" @click="openAccountInfo('groom')">
         <div class="image-wrapper">
           <div><img src="~@/assets/images/groom.png" /></div>
-          <div class="account-title groom">신랑측</div>
+          <div class="text-medium groom">신랑측</div>
         </div>
         <div
           v-if="showGroomInfo"
@@ -15,7 +15,7 @@
           <div class="family-wrapper">
             <!-- 신랑 영역 -->
             <div
-              class="button-shape shape-groom"
+              class="button-shape text-medium shape-groom"
               :class="{
                 'shake-button': isGroomShake,
                 fall: isGroomFall,
@@ -49,7 +49,7 @@
               </div>
             </div>
             <div
-              class="button-shape shape-groom"
+              class="button-shape text-medium shape-groom"
               :class="{
                 'shake-button': isGroomFatherShake,
                 fall: isGroomFatherFall,
@@ -122,7 +122,7 @@
       <div class="bride-family" @click="openAccountInfo('bride')">
         <div class="image-wrapper">
           <div><img src="~@/assets/images/bride.png" /></div>
-          <div class="account-title bride">신부측</div>
+          <div class="text-medium bride">신부측</div>
         </div>
         <div
           class="info-wrapper"
@@ -687,9 +687,6 @@ export default defineComponent({
       -webkit-transform: translateY(30%);
       padding-left: 10px;
 
-      .account-title {
-        font-size: 0.85rem;
-      }
       .groom {
         color: #6a6e4f;
       }
@@ -727,7 +724,6 @@ export default defineComponent({
           border-radius: 10px;
           width: 90px;
           height: 40px;
-          font-size: 0.85rem;
         }
 
         .shape-groom {

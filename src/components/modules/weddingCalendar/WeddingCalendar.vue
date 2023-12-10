@@ -8,7 +8,7 @@
       <span class="next-date blur">3</span>
       <span class="next-date more-blur">4</span>
     </div>
-    <div class="full-date">
+    <div class="full-date text-medium">
       2024년 02월 03일 토요일<br />
       오후 6시
     </div>
@@ -55,7 +55,7 @@
       <div class="day">29</div>
     </div>
 
-    <div class="footer">예식까지 남은 시간</div>
+    <div class="footer text-small">예식까지 남은 시간</div>
 
     <div class="countdown-wrapper">
       <div class="d-day">
@@ -193,7 +193,6 @@ export default defineComponent({
 
   .full-date {
     margin: 20px 0;
-    font-size: 0.8rem;
     line-height: 25px;
     font-weight: 600;
   }
@@ -277,7 +276,7 @@ export default defineComponent({
         .label {
           padding-top: 20px;
           padding-bottom: 5px;
-          font-size: 0.5rem;
+          font-size: 0.7rem;
           font-weight: 600;
         }
       }
@@ -300,7 +299,6 @@ export default defineComponent({
 
   .footer {
     margin-top: 20px;
-    font-size: 0.7rem;
     font-weight: 600;
   }
 }
