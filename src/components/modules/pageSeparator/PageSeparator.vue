@@ -1,6 +1,6 @@
 <template>
   <div class="page-separator">
-    <img src="~@/assets/images/page-separator.png" />
+    <!-- <img src="~@/assets/images/page-separator.png" /> -->
   </div>
 </template>
 
