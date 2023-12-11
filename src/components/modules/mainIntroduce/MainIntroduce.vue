@@ -7,7 +7,7 @@
     <div class="introduce-wrapper">
       <div class="text-medium">
         <p>2014년 여름,</p>
-        <p>우리가 처음 만나 사랑을 시작한 곳에서</p>
+        <p>처음 만나 사랑을 시작한 곳에서</p>
       </div>
       <div class="section text-medium">
         <p>2024년 겨울,</p>
@@ -16,6 +16,9 @@
       <div class="section text-medium">
         <p>저희 두 사람의 10주년, 그리고 결혼식에 오셔서</p>
         <p>따뜻하게 축복해주시면 감사하겠습니다.</p>
+      </div>
+      <div class="section text-medium">
+        <p>화환은 정중히 사양합니다.</p>
       </div>
       <div class="section">
         <div class="family text-medium">

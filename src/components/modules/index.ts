@@ -16,5 +16,6 @@ export * from './toastPopup';
 export * from './weddingCalendar';
 export * from './weddingLocation';
 export * from './yearCard';
+export * from './gridGallery';
 export * from './yearGallery';
 export * from './yearImages';

@@ -6,7 +6,7 @@
         :style="{ height: skeletonHeight + 'px', background: '#fffdf9' }"
       >
         <img
-          :src="'/wedding/gallery/main-image.jpg'"
+          :src="'/wedding/gallery/2014/2014-0.jpg'"
           alt="Image"
           @load="handleImageLoad"
         />

@@ -6,12 +6,13 @@
     class="fade-enter"
   ></main-contents>
   <div id="app" v-if="isLoadPage">
-    <main-introduce v-intersect class="fade-enter"></main-introduce>
-    <wedding-calendar v-intersect class="fade-enter"></wedding-calendar>
-    <year-gallery v-intersect class="fade-enter"></year-gallery>
-    <account-info v-intersect class="fade-enter"></account-info>
-    <attendee-component v-intersect class="fade-enter"></attendee-component>
-    <wedding-location v-intersect class="fade-enter"></wedding-location>
+    <main-introduce v-intersect class="fade-enter" />
+    <wedding-calendar v-intersect class="fade-enter" />
+    <grid-gallery v-intersect class="fade-enter" />
+    <!-- <year-gallery v-intersect class="fade-enter"></year-gallery> -->
+    <account-info v-intersect class="fade-enter" />
+    <attendee-component v-intersect class="fade-enter" />
+    <wedding-location v-intersect class="fade-enter" />
   </div>
 </template>
 
@@ -25,7 +26,8 @@ import {
   MainIntroduce,
   WeddingCalendar,
   WeddingLocation,
-  YearGallery,
+  // YearGallery,
+  GridGallery,
 } from '@/components';
 
 export default defineComponent({
@@ -38,7 +40,8 @@ export default defineComponent({
     MainIntroduce,
     WeddingCalendar,
     WeddingLocation,
-    YearGallery,
+    // YearGallery,
+    GridGallery,
   },
   setup() {
     const isLoadPage = ref(false);
