@@ -1,6 +1,7 @@
 export * from './accountInfo';
 export * from './attendeeComponent';
 export * from './attendeeList';
+export * from './circleSpinner';
 export * from './fallingLeaf';
 export * from './fireCracker';
 export * from './mainContents';

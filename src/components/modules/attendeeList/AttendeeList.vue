@@ -63,7 +63,9 @@
       <p class="description">
         참석여부 확인을 위한 개인정보 수집 및 이용에 동의해주세요.
         <br />
-        항목: 성함, 연락처 · 보유기간: 결혼식 익일까지
+        항목: 성함, 연락처, IP주소 · 보유기간: 결혼식 익일까지
+        <br />
+        IP주소는 무분별한 데이터 수정을 방지하기 위해 수집됩니다.
       </p>
       <div class="checkbox">
         <input id="agree" type="checkbox" v-model="agree" />
@@ -71,9 +73,12 @@
       </div>
     </div>
 
-    <div class="button" @click="handleSubmit">참석 의사 전달하기</div>
+    <button class="button" :disabled="isLoading" @click="handleSubmit">
+      참석 의사 전달하기
+    </button>
   </div>
   <toast-popup :message="toastMessage" :showToast="showToast"></toast-popup>
+  <circle-spinner :isLoading="isLoading"></circle-spinner>
 </template>
 
 <script lang="ts">
@@ -89,6 +94,8 @@ import {
 import { database } from '@/firebaseConfig';
 import { onValue, ref, update, push } from 'firebase/database';
 import { ToastPopup } from '../toastPopup';
+import { CircleSpinner } from '../circleSpinner';
+import { limitFirebaseRequest } from '@/api';
 
 interface Attendee {
   name: string;
@@ -104,7 +111,7 @@ export default defineComponent({
     },
   },
   emits: ['close'],
-  components: { ToastPopup },
+  components: { ToastPopup, CircleSpinner },
   setup(props, { emit }) {
     const state = reactive({
       name: '',
@@ -115,6 +122,7 @@ export default defineComponent({
       showToast: false,
       toastMessage: '',
       agree: false,
+      isLoading: false,
     });
 
     onMounted(() => {
@@ -163,6 +171,21 @@ export default defineComponent({
       });
     };
 
+    const limitCheck = async () => {
+      try {
+        state.isLoading = true;
+        const {
+          data: { remainingRequests, message },
+        } = await limitFirebaseRequest();
+        return { remainingRequests, message };
+      } catch (error) {
+        state.isLoading = false;
+        return { remainingRequests: null, message: 'error' };
+      } finally {
+        state.isLoading = false;
+      }
+    };
+
     const handleSubmit = async () => {
       if (!state.name) {
         setToastMessage('성함을 입력해주세요.');
@@ -187,6 +210,7 @@ export default defineComponent({
           phoneNumber: state.phoneNumber,
           attending: state.attending,
         });
+
         // 로컬 상태 업데이트
         if (newAttendeeRef.key) {
           updateLocalAttendees(newAttendeeRef.key);
@@ -206,22 +230,40 @@ export default defineComponent({
                   `이미 참석 여부를 등록하셨습니다.\n참석 여부를 변경하시겠습니까?`,
                 )
               ) {
+                const { remainingRequests } = await limitCheck();
+
+                if (remainingRequests === 0) {
+                  setToastMessage(`더 이상 수정할 수 없습니다.`, false);
+                  return true;
+                }
                 // TODO 기존에 remove대신 update를 사용 (remove를 하면 key가 꼬이는 거 같음)
                 await update(attendeeRef, { attending: state.attending }); // 참석 여부만 업데이트
                 updateLocalAttendees(key); // 로컬 상태 업데이트
-                setToastMessage('참석 여부가 수정되었습니다.', true);
+                setToastMessage(
+                  `참석 여부가 수정되었습니다. 남은 수정 횟수 ${remainingRequests}회`,
+                  true,
+                );
                 return true;
               } else {
                 return true;
               }
             } else {
+              const { remainingRequests } = await limitCheck();
+              if (remainingRequests === 0) {
+                setToastMessage(`더 이상 수정할 수 없습니다.`, false);
+                return true;
+              }
               setToastMessage('이미 참석 여부를 등록하셨습니다.');
               return true;
             }
           }
         }
       }
-      setToastMessage('등록되었습니다.', true);
+      const { remainingRequests } = await limitCheck();
+      setToastMessage(
+        `등록되었습니다. 남은 수정 횟수 ${remainingRequests}회`,
+        true,
+      );
       return false;
     };
 
@@ -239,6 +281,7 @@ export default defineComponent({
       ...toRefs(state),
       setToastMessage,
       closePopup,
+      limitCheck,
       handleSubmit,
       checkDuplicateAttendee,
     };
@@ -467,6 +510,8 @@ export default defineComponent({
   }
 
   .button {
+    width: 100%;
+    background-color: transparent;
     font-size: 0.9rem;
     font-weight: bold;
     border: 1px solid rgba(255, 165, 0, 0.2);
