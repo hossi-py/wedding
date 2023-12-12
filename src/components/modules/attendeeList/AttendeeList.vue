@@ -232,7 +232,7 @@ export default defineComponent({
               ) {
                 const { remainingRequests } = await limitCheck();
 
-                if (remainingRequests === 0) {
+                if (remainingRequests === 0 || !remainingRequests) {
                   setToastMessage(`더 이상 수정할 수 없습니다.`, false);
                   return true;
                 }
@@ -249,7 +249,7 @@ export default defineComponent({
               }
             } else {
               const { remainingRequests } = await limitCheck();
-              if (remainingRequests === 0) {
+              if (remainingRequests === 0 || !remainingRequests) {
                 setToastMessage(`더 이상 수정할 수 없습니다.`, false);
                 return true;
               }
